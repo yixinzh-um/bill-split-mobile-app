@@ -1,33 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import firebaseConfig from './Secrets';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function App() {
   const [image, setImage] = useState();
   const [result, setResult] = useState({});
-  const onTakePhoto = () => launchCamera({ mediaType: 'image' }, onImageSelect);
-  const onSelectImagePress = () => launchImageLibrary({ mediaType: 'image' }, onImageSelect);
-  const onImageSelect = async (media) => {
-    if (!media.didCancel) {
-      setImage(media.uri);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  // const onTakePhoto = () => launchCamera({ mediaType: 'image' }, onImageSelect);
+
+  const onPickImage = async () => {
+    let pickedImage = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!pickedImage.cancelled) {
+      setImage(pickedImage.uri);
       const processingResult = await ml().cloudDocumentTextRecognizerProcessImage(media.uri);
       console.log(processingResult);
       setResult(processingResult);
     }
+
   };
+
   return (
     <ScrollView contentContainerStyle={styles.screen}>
       <Text style={styles.title}>Text Recognition</Text>
       <View>
-        <TouchableOpacity style={styles.button} onPress={onTakePhoto}>
+        {/* <TouchableOpacity style={styles.button} onPress={onTakePhoto}>
           <Text style={styles.buttonText}>Take Photo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onSelectImagePress}>
+        </TouchableOpacity> */}
+        {<TouchableOpacity style={styles.button} onPress={onPickImage}>
           <Text style={styles.buttonText}>Pick a Photo</Text>
-        </TouchableOpacity>
-        <Image source={{uri: image}} style={styles.image} resizeMode="contain" />
+        </TouchableOpacity>}
+        { <Image source={{uri: image}} style={styles.image} resizeMode="contain" /> }
       </View>
       <View style={{marginTop: 30}}>
         <Text style={{fontSize: 30}}>{result.text}</Text>
