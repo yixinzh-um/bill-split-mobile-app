@@ -1,5 +1,5 @@
 import {initializeApp, getApps } from "firebase/app";
-import firebaseConfig from "./Secrets";
+import firebaseConfig from "../../Secrets";
 import { 
     initializeFirestore, collection,  
     onSnapshot, query, getDocs,

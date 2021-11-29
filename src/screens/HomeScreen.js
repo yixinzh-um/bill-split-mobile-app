@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getDataModel } from "./DataModel"
+import { getDataModel } from "../models/DataModel"
 import { getAuth, signOut } from "firebase/auth";
 
 const dataModel = getDataModel();

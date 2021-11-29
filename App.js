@@ -6,8 +6,8 @@ import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'rea
 import { useState, useEffect } from 'react';
 import firebaseConfig from './Secrets';
 import { Camera } from 'expo-camera';
-import LoginScreen from './LoginScreen';
-import HomeScreen from "./HomeScreen";
+import LoginScreen from './src/screens/LoginScreen';
+import HomeScreen from "./src/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
