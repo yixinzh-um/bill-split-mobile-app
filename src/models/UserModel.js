@@ -8,7 +8,7 @@ import {
 
 import React, { useEffect, useState } from 'react';
 
-let app, dataModel;
+let app, userModel;
 if (getApps().length == 0){
     app = initializeApp(firebaseConfig);
 } 
@@ -18,7 +18,7 @@ const db = initializeFirestore(app, {
 
 const userInfo = collection(db, "userInfo");
 
-class DataModel{
+class UserModel{
     constructor(){
         this.userList = [];
         this.userInfo = {}
@@ -50,9 +50,9 @@ class DataModel{
     }
 };
 
-export function getDataModel(){
-    if(!dataModel){
-        dataModel = new DataModel();
+export function getUserModel(){
+    if(!userModel){
+        userModel = new UserModel();
     }
-    return dataModel;
+    return userModel;
 };

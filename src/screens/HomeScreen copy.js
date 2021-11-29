@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getDataModel } from "../models/DataModel"
+import { getUserModel } from "../models/UserModel"
 
-const dataModel = getDataModel();
+const userModel = getUserModel();
 
 function HomeScreen({navigation}){
     return (
