@@ -2,8 +2,8 @@ import {initializeApp, getApps } from "firebase/app";
 import firebaseConfig from "./Secrets";
 import { 
     initializeFirestore, collection,  
-    onSnapshot, query,
-    doc, addDoc, setDoc, updateDoc
+    onSnapshot, query, getDocs,
+    doc, addDoc, setDoc, updateDoc, where, getDoc
   } from "firebase/firestore";
 
 import React, { useEffect, useState } from 'react';
@@ -16,23 +16,13 @@ const db = initializeFirestore(app, {
     useFetchStreams: false
 });
 
+const userInfo = collection(db, "userInfo");
+
 class DataModel{
     constructor(){
         this.userList = [];
+        this.userInfo = {}
         this.subscribers = [];
-    }
-
-    updateUserList(){
-        const query = collection(db, 'users');
-        onSnapshot(query, qSnap => {
-            this.userList = [];
-            qSnap.forEach(docSnap => {
-                let u = docSnap.data();
-                u.key = docSnap.id;
-                this.userList.push(u);
-            });
-            console.log(this.userList);
-        });
     }
 
     async logIn(){
@@ -42,10 +32,25 @@ class DataModel{
     async signIn(email, password){
         await signInWithEmailAndPassword(auth, email, password);
     }
+
+    async updateUserName(email, userName){
+        const q = query(userInfo, where("email", "==", email));
+        const querySnapShot = await getDocs(q);
+        const docRef = doc(db, "userInfo", email);
+        if(userName!=undefined){
+            console.log(userName);
+            if(querySnapShot.size==0){
+                await setDoc(docRef, {email: email, "userName": userName});
+            }
+            else{ 
+                await updateDoc(docRef, {email: email, "userName": userName});
+            }
+        }
+        this.userInfo[email] = {email:email, "userName": userName};
+    }
 };
 
 export function getDataModel(){
-    const q = query(collection(db, "ListMaker3000"));
     if(!dataModel){
         dataModel = new DataModel();
     }

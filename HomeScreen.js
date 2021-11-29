@@ -9,20 +9,39 @@ const dataModel = getDataModel();
 const auth = getAuth();
 
 export default function HomeScreen({navigation, route}){
-    console.log(route.params.email);
-    console.log(route.params);
+    const email = route.params.email;
+    const [userName, setUserName] = useState(dataModel.userInfo[email]);
+    useEffect(()=>{
+        dataModel.updateUserName(email, userName);
+    }, [userName]);
+
     return (
         <View style={styles.container}>
-          <Text style={styles.paragraph}>
-            Change code in the editor and watch it change on your phone! Save to get a shareable url.
-          </Text>
-          <Button title='Sign Out' onPress={
-              ()=>{
-                    signOut(auth)
-                    console.log("sign out");
-                    navigation.goBack();
-              }
-            }/>
+            <Text style={styles.paragraph}>
+                Email: {email}
+            </Text>
+            <View style={styles.loginRow}>
+                <View style={styles.loginLabelContainer}>
+                    <Text style={styles.loginLabelText}>Name: </Text>
+                </View>
+                <View style={styles.loginInputContainer}>
+                    <TextInput 
+                    style={styles.loginInputBox}
+                    value={userName==undefined?email:userName}
+                    onChangeText={(text)=>{setUserName(text);}}
+                    />
+                </View>
+            </View>
+            <Button title='Create Group' onPress={
+                ()=>{}
+                }/>
+            <Button title='Sign Out' onPress={
+                ()=>{
+                        signOut(auth)
+                        console.log("sign out");
+                        navigation.goBack();
+                }
+                }/>
         </View>
       );
 }
@@ -39,5 +58,33 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    loginRow: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '100%',
+    },
+    loginLabelContainer: {
+        flex: 0.4,
+        justifyContent: 'center',
+        alignItems: 'flex-end'
+    },
+    loginLabelText: {
+        fontSize: 18
+    },
+    loginInputContainer: {
+        flex: 0.6,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '100%'
+    },
+    loginInputBox: {
+        width: '100%',
+        borderColor: 'lightgray',
+        borderWidth: 1,
+        borderRadius: 6,
+        fontSize: 18,
+        padding: '2%'
     },
   });

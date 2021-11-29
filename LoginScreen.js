@@ -14,11 +14,9 @@ const dataModel = getDataModel();
 export default function LoginScreen({navigation}){
     const [mode, setMode] = useState('login');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [displayName, setDisplayName] = useState('');    
+    const [password, setPassword] = useState(''); 
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
-            console.log(user);
             if(user)navigation.navigate('HomeScreen', {email: user.email});
         })
     }, []);
@@ -27,102 +25,81 @@ export default function LoginScreen({navigation}){
         <View style={styles.container}>      
         <View style={styles.loginContainer}>
             <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>
-                Login:
-            </Text>
+                <Text style={styles.sectionHeaderText}>
+                    Login:
+                </Text>
             </View>
-            <View style={styles.loginRow}>
-            <View style={styles.loginLabelContainer}>
-                <Text style={styles.loginLabelText}>Email: </Text>
-            </View>
-            <View style={styles.loginInputContainer}>
-                <TextInput 
-                style={styles.loginInputBox}
-                placeholder='enter email address' 
-                autoCapitalize='none'
-                spellCheck={false}
-                value={email}
-                onChangeText={(text)=>{setEmail(text)}}
-                />
-            </View>
-            </View>
-    
-            <View style={styles.loginRow}>
-            <View style={styles.loginLabelContainer}>
-                <Text style={styles.loginLabelText}>Password: </Text>
-            </View>
-            <View style={styles.loginInputContainer}>
-                <TextInput 
-                style={styles.loginInputBox}
-                placeholder='enter password' 
-                secureTextEntry={true}
-                value={password}
-                onChangeText={(text)=>{setPassword(text)}}
-                />
-            </View>
-            </View>
-    
-            {mode === 'signup' ? 
             <View style={styles.loginRow}>
                 <View style={styles.loginLabelContainer}>
-                <Text style={styles.loginLabelText}>Display Name: </Text>
+                    <Text style={styles.loginLabelText}>Email: </Text>
                 </View>
                 <View style={styles.loginInputContainer}>
-                <TextInput 
+                    <TextInput 
                     style={styles.loginInputBox}
-                    placeholder='enter display name' 
+                    placeholder='enter email address' 
                     autoCapitalize='none'
                     spellCheck={false}
-                    value={displayName}
-                    onChangeText={(text)=>{setDisplayName(text)}}
-                />
+                    value={email}
+                    onChangeText={(text)=>{setEmail(text)}}
+                    />
                 </View>
             </View>
-            :
-            <View>{/* Empty view, show nothing */}</View> 
-            }
     
+            <View style={styles.loginRow}>
+                <View style={styles.loginLabelContainer}>
+                    <Text style={styles.loginLabelText}>Password: </Text>
+                </View>
+                <View style={styles.loginInputContainer}>
+                    <TextInput 
+                    style={styles.loginInputBox}
+                    placeholder='enter password' 
+                    secureTextEntry={true}
+                    value={password}
+                    onChangeText={(text)=>{setPassword(text)}}
+                    />
+                </View>
+            </View>
+
             <View style={styles.modeSwitchContainer}>
-            {mode === 'login' ?
-                <Text>New user? 
-                <Text 
-                    onPress={()=>{setMode('signup')}} 
-                    style={{color: 'blue'}}> Sign up </Text> 
-                instead!</Text>
-            :
-                <Text>Existing user? 
-                <Text 
-                onPress={()=>{setMode('login')}} 
-                style={{color: 'blue'}}> Log In </Text> 
-                instead!</Text>
-            }
+                {mode === 'login' ?
+                    <Text>New user? 
+                    <Text 
+                        onPress={()=>{setMode('signup')}} 
+                        style={{color: 'blue'}}> Sign up </Text> 
+                    instead!</Text>
+                :
+                    <Text>Existing user? 
+                    <Text 
+                    onPress={()=>{setMode('login')}} 
+                    style={{color: 'blue'}}> Log In </Text> 
+                    instead!</Text>}
             </View>
     
             <View style={styles.loginButtonRow}>
-            <Button
-                title={mode==='login'?'Log in':'Sign up'}
-                onPress={async ()=>{ 
-                    if (mode === 'login') {
-                        try {
-                            await signInWithEmailAndPassword(auth, email, password);
-                            console.log('logged in user', email);
-                        } catch(error) {
-                            console.log("Sign Up Error", error.message,[{ text: "OK" }]);
-                            Alert.alert("Log in Error", error.message,[{ text: "OK" }]);
+                <Button
+                    title={mode==='login'?'Log in':'Sign up'}
+                    onPress={async ()=>{ 
+                        if (mode === 'login') {
+                            try {
+                                await signInWithEmailAndPassword(auth, email, password);
+                                console.log('logged in user', email);
+                            } catch(error) {
+                                console.log("Sign Up Error", error.message,[{ text: "OK" }]);
+                                Alert.alert("Log in Error", error.message,[{ text: "OK" }]);
+                            }
+                        } 
+                        else {
+                            try {
+                                await createUserWithEmailAndPassword(auth, email, password);  
+                                console.log('created user', email);
+                            } catch(error) {
+                                console.log("Sign Up Error", error.message,[{ text: "OK" }]);
+                                Alert.alert("Sign Up Error", error.message,[{ text: "OK" }]);
+                            }
                         }
-                    } 
-                    else {
-                        try {
-                            await createUserWithEmailAndPassword(auth, email, password);  
-                            console.log('created user', email);
-                        } catch(error) {
-                            console.log("Sign Up Error", error.message,[{ text: "OK" }]);
-                            Alert.alert("Sign Up Error", error.message,[{ text: "OK" }]);
-                        }
-                    }
-                    setEmail('');
-                    setPassword('');
-            }}/>
+                        setEmail('');
+                        setPassword('');
+                }}/>
             </View>
         </View>
         </View>
