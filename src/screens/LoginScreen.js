@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert ,Text, TextInput, View,
 } from 'react-native';
-import { getDataModel } from "./DataModel";
+import { getUserModel } from "../models/UserModel";
 import { getAuth, onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword
 } from "firebase/auth";
 
 const auth = getAuth();
-const dataModel = getDataModel();
+const userModel = getUserModel();
 
 export default function LoginScreen({navigation}){
     const [mode, setMode] = useState('login');

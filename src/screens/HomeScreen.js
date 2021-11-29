@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getDataModel } from "./DataModel"
+import { getUserModel } from "../models/UserModel"
 import { getAuth, signOut } from "firebase/auth";
 
-const dataModel = getDataModel();
+const userModel = getUserModel();
 const auth = getAuth();
 
 export default function HomeScreen({navigation, route}){
     const email = route.params.email;
-    const [userName, setUserName] = useState(dataModel.userInfo[email]);
+    const [userName, setUserName] = useState(userModel.userInfo[email]);
     useEffect(()=>{
-        dataModel.updateUserName(email, userName);
+        userModel.updateUserName(email, userName);
     }, [userName]);
 
     return (
