@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getDataModel } from "./DataModel"
+import { getUserModel } from "../models/UserModel"
 import { getAuth, signOut } from "firebase/auth";
 
-const dataModel = getDataModel();
+const userModel = getUserModel();
 const auth = getAuth();
 
 export default function HomeScreen({navigation, route}){
@@ -14,7 +14,7 @@ export default function HomeScreen({navigation, route}){
         dataModel.userInfo[email]==undefined ? undefined : dataModel.userInfo[email]["userName"]
     );
     useEffect(()=>{
-        dataModel.updateUserName(email, userName);
+        userModel.updateUserName(email, userName);
     }, [userName]);
 
     return (
