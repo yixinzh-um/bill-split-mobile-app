@@ -5,10 +5,13 @@ import {
 import { getUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
 import { getGroupList, resetGroupList } from "./GroupList";
+import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
+import headerStyles from './headerStyles'
 
 const userModel = getUserModel();
 const auth = getAuth();
 const groupList = getGroupList();
+console.log(headerStyles);
 
 export default function HomeScreen({navigation, route}){
   const email = route.params.email;
@@ -27,6 +30,24 @@ export default function HomeScreen({navigation, route}){
 
   return (
     <View style={styles.container}>
+      <View style={headerStyles.header}>
+        <Ionicons
+          name="settings-outline" size={30} color="black"
+          onPress={()=>{
+            navigation.navigate("UserProfileScreen", {email: email});
+          }}/>
+
+        <View style={{flex: 0.9}}>
+          <Text style={headerStyles.title}>Hi, {userName}</Text>
+        </View>
+        <View style={{flex: 0.1}}>
+          <Ionicons 
+            name="search-outline" size={30} color="black"
+            onPress={()=>{
+              setIsVisible(true);
+            }}/>
+        </View>
+      </View>
       <Text style={styles.paragraph}>
         Email: {email}
       </Text>
@@ -81,7 +102,7 @@ export default function HomeScreen({navigation, route}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '#ecf0f1',
     padding: 8,
   },
