@@ -16,6 +16,15 @@ class UserModel{
   constructor(){
     this.userList = [];
     this.userInfo = {}
+    this.subscribers = [];
+  }
+  
+  updateSubscribers(){
+    for(let sub of this.subscribers)sub();
+  }
+
+  addSubscribers(sub){
+    this.subscribers.push(sub);
   }
 
   async logIn(){
@@ -30,15 +39,14 @@ class UserModel{
     const q = query(userInfo, where("email", "==", email));
     const querySnapShot = await getDocs(q);
     const docRef = doc(db, "userInfo", email);
-    if(userName!=undefined){
-      if(querySnapShot.size==0){
-        await setDoc(docRef, {email: email, "userName": userName});
-      }
-      else{ 
-        await updateDoc(docRef, {email: email, "userName": userName});
-      }
+    if(querySnapShot.size==0){
+      await setDoc(docRef, {email: email, "userName": email});
     }
-    this.userInfo[email] = {email:email, "userName": userName};
+    else if(userName!="")await updateDoc(docRef, {email: email, "userName": userName});
+    const data = (await getDoc(docRef)).data();
+    this.userInfo[email] = {email:email, "userName": data.userName};
+    console.log(this.userInfo);
+    this.updateSubscribers();
   }
 };
 
@@ -48,3 +56,7 @@ export function getUserModel(){
   }
   return userModel;
 };
+
+export function resetUserModel(){
+  userModel = undefined;
+}

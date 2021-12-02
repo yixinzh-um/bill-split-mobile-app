@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getUserModel } from "./UserModel"
+import { getUserModel, resetUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
 import { getGroupList, resetGroupList } from "./GroupList";
 import { useFocusEffect } from '@react-navigation/native';
@@ -12,18 +12,16 @@ const groupList = getGroupList();
 
 export default function HomeScreen({navigation, route}){
   const email = route.params.email;
-  const [userName, setUserName] = useState(
-    userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
-  );
+  const [userName, setUserName] = useState("");
   const [groups, setGroups] = useState([]);
-
   useEffect(async ()=>{
-    userModel.updateUserName(email, userName);
+    userModel.addSubscribers(()=>{setUserName(userModel.userInfo[email].userName);});
     groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
+    await userModel.updateUserName(email, userName);
     await groupList.load(email);
-    console.log(groups);
-    return resetGroupList;
-  }, []);
+
+    return () => {resetGroupList(); resetUserModel();};
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -36,11 +34,14 @@ export default function HomeScreen({navigation, route}){
         </View>
         <View style={styles.loginInputContainer}>
           <TextInput 
-          style={styles.loginInputBox}
-          value={userName==undefined?email:userName}
-          onChangeText={(text)=>{setUserName(text);}}
+            style={styles.loginInputBox}
+            value={userName}
+            onChangeText={(text)=>setUserName(text)}
           />
         </View>
+        <Button title='Set New Name' onPress={
+          ()=>{userModel.updateUserName(email, userName);}
+        }/>
       </View>
       <Button title='Sign Out' onPress={
         ()=>{
