@@ -4,17 +4,26 @@ import {
 } from 'react-native';
 import { getUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
+import { getGroupList, resetGroupList } from "./GroupList";
+
 const userModel = getUserModel();
 const auth = getAuth();
+const groupList = getGroupList();
 
 export default function HomeScreen({navigation, route}){
     const email = route.params.email;
     const [userName, setUserName] = useState(
         userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
     );
-    useEffect(()=>{
+    const [groups, setGroups] = useState([]);
+
+    useEffect(async ()=>{
         userModel.updateUserName(email, userName);
-    }, [userName]);
+        groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
+        await groupList.load(email);
+        console.log(groups);
+        return resetGroupList;
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -33,20 +42,38 @@ export default function HomeScreen({navigation, route}){
                     />
                 </View>
             </View>
-            <Button title='Create Group' onPress={()=>{
-                console.log("create");
-                navigation.navigate("CreateGroupScreen", {email: email});
-            }}/>
-            {/* <Button title='Test' onPress={
-                async ()=>{setGroupList(loadGroups(email));}
-                }/> */}
             <Button title='Sign Out' onPress={
                 ()=>{
-                        signOut(auth)
+                        signOut(auth);
                         console.log("sign out");
                         navigation.goBack();
                 }
                 }/>
+            <Button title='Create Group' onPress={()=>{
+                navigation.navigate("CreateGroupScreen", {email: email});
+            }}/>
+            <View style={styles.userListContainer}>
+                <View style={styles.userList}>
+                    <FlatList
+                    data={groups}
+                    renderItem={({item}) => {
+                        return (
+                        <View style={styles.userItem}>
+                            <Text>
+                                Name: {item.name} 
+                            </Text>
+                            <Text>
+                                Purpose: {item.purpose}
+                            </Text>
+                            <Button title='Enter !' onPress={()=>{
+                                navigation.navigate("BillSplitScreen", {email: email, groupId: item.groupId});
+                            }}/>
+                        </View>
+                        );
+                    }}
+                    />
+                </View>
+            </View>
         </View>
       );
 }
@@ -92,4 +119,20 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: '2%'
     },
+    userListContainer: {
+        flex: 0.3, 
+        backgroundColor: '#ccc',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%', 
+    },
+    userList: {
+        flex:0.7,
+    },
+    userItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        flex: 1,
+    }
   });

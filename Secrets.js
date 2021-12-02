@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyBIfCfMr5yvRoGebeeUCzxi2umlaXqFsyw",
-  authDomain: "si669-final-project-sprucebook.firebaseapp.com",
-  projectId: "si669-final-project-sprucebook",
-  storageBucket: "si669-final-project-sprucebook.appspot.com",
-  messagingSenderId: "599340763132",
-  appId: "1:599340763132:web:ee128b04e83fb55c7a5479"
+  apiKey: "AIzaSyAqPAszhvu7iS6eimW9tPAz_gYfXToPK7M",
+  authDomain: "pandapcd-listmaker.firebaseapp.com",
+  projectId: "pandapcd-listmaker",
+  storageBucket: "pandapcd-listmaker.appspot.com",
+  messagingSenderId: "995359598406",
+  appId: "1:995359598406:web:4caad0ae76127664e82747"
 };
   
 export default firebaseConfig;

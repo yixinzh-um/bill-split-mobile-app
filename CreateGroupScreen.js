@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
+import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 const auth = getAuth();
 
 export default function CreateGroupScreen({navigation, route}){
@@ -17,74 +17,73 @@ export default function CreateGroupScreen({navigation, route}){
 
     useEffect(()=>{
         groupUserList.addSubscribers(()=>{setUserList(groupUserList.getUserList());});
-        return resetGroupUserList;
+        return ()=>{resetGroupUserList()};
     },[]);
 
     return (
         <View style={styles.container}>
             <View style={styles.loginRow}>
-                <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Group Name:</Text>
+                <View style={styles.loginLabelContainer}>
+                    <Text style={styles.loginLabelText}>Group Name:</Text>
                 </View>
-                <View style={styles.inputContainer}>
+                <View style={styles.loginInputContainer}>
                     <TextInput 
-                        style={styles.inputBox}
+                        style={styles.loginInputBox}
                         value={groupName}
                         onChangeText={(text)=>{setGroupName(text);}}
                         />
                 </View>
-                <View style={styles.labelContainer}>
-                    <Text style={styles.labelText}>Purpose:</Text>
+                <View style={styles.loginLabelContainer}>
+                    <Text style={styles.loginLabelText}>Purpose:</Text>
                 </View>
-                <View style={styles.inputContainer}>
+                <View style={styles.loginInputContainer}>
                     <TextInput 
-                    style={styles.inputBox}
+                    style={styles.loginInputBox}
                     value={purpose}
                     onChangeText={(text)=>{setPurpose(text);}}
                     />
                 </View>
             </View>
             <View style={styles.userListContainer}>
-                <View style={styles.userList}>
-                    <FlatList
-                    data={userList}
-                    renderItem={({item}) => {
-                        return (
-                        <View style={styles.userItem}>
-                            <Text>
-                                {item.email}
-                            </Text>
-                            <Ionicons
-                                name="trash-outline" size={24} color="black"
-                                onPress={()=>{
-                                    groupUserList.deleteUser(item.email);
-                                }}/>
-                        </View>
-                        );
-                    }}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <View style={styles.labelContainer}>
-                        <Text style={styles.labelText}>Email:</Text>
+                <FlatList
+                data={userList}
+                renderItem={({item}) => {
+                    return (
+                    <View>
+                        <Text>
+                            {item.email}
+                        </Text>
+                        <Button
+                            icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
+                            type="clear"
+                            onPress={()=>{
+                                groupUserList.deleteUser(item.email);
+                            }}/>
+                    </View>
+                    );
+                }}
+                />
+                <View style={styles.loginInputContainer}>
+                    <View style={styles.loginLabelContainer}>
+                        <Text style={styles.loginLabelText}>Email:</Text>
                     </View>
                     <TextInput 
-                        style={styles.inputBox}
+                        style={styles.loginInputBox}
                         value={userEmail}
                         onChangeText={(text)=>{setUserEmail(text);}}
                         />
-                    <Ionicons
-                        name="add-circle-outline" size={24} color="black"
+                    <Button
+                        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
+                        type="clear"
                         onPress={()=>{
                             groupUserList.addUser(userEmail);
                         }}/>
-                        
                 </View>
-            </View>
-            <Button title="Create" onPress={()=>{
+                <Button title='Create !' onPress={()=>{
                     groupUserList.upload(email, groupName, purpose);
                     navigation.navigate("HomeScreen", {email: email});
                 }}/>
+            </View>
             
         </View>
       );
@@ -105,25 +104,24 @@ const styles = StyleSheet.create({
     },
     loginRow: {
         justifyContent: 'flex-start',
-        flex:0.3,
         alignItems: 'center',
         width: '100%',
     },
-    labelContainer: {
-        flex: 0.8,
+    loginLabelContainer: {
+        flex: 0.4,
         justifyContent: 'center',
         alignItems: 'flex-end'
     },
-    labelText: {
+    loginLabelText: {
         fontSize: 18
     },
-    inputContainer: {
-        flex: 1,
+    loginInputContainer: {
+        flex: 0.6,
         justifyContent: 'center',
         alignItems: 'flex-start',
         width: '100%'
     },
-    inputBox: {
+    loginInputBox: {
         width: '100%',
         borderColor: 'lightgray',
         borderWidth: 1,
@@ -141,19 +139,10 @@ const styles = StyleSheet.create({
         fontSize: 36
     },
     userListContainer: {
-        flex: 0.3, 
+        flex: 0.7, 
         backgroundColor: '#ccc',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%', 
     },
-    userList: {
-        flex:0.7,
-    },
-    userItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems:'center',
-        flex: 1,
-    }
   });

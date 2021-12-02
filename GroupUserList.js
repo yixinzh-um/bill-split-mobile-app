@@ -15,7 +15,6 @@ class GroupUserList{
     }
 
     updateSubscribers(){
-        console.log(this.subscribers);
         for(let sub of this.subscribers)sub();
     }
 
@@ -52,16 +51,6 @@ class GroupUserList{
         loadMemberShip();
     }
 
-    async loadMemberShip(){ // Load all related user and their balance in this group
-        const q = query(memberShip, where("groupId", "==", this.groupId));
-        onSnapshot(q, qSnap => {
-            qSnap.forEach((doc)=>{
-                data = doc.data();
-                this.users[data["email"]] = data["balance"];
-            })
-        });
-    }
-
     getUserList(){
         let key = 0;
         let ret = [];
@@ -79,7 +68,7 @@ class GroupUserList{
     deleteUser(email){
         delete this.users[email];
         this.updateSubscribers();
-    }a
+    }
 };
 let groupUserList;
 
