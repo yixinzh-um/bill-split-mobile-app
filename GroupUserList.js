@@ -35,6 +35,7 @@ class GroupUserList{
       "balance": 0
     });
     for(const userEmail in this.users){
+      if(userEmail==email)continue;
       await addDoc(collection(db, "Membership"), {
         "email": userEmail,
         "groupId": groupId,

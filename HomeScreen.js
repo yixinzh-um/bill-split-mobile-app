@@ -14,13 +14,15 @@ export default function HomeScreen({navigation, route}){
   const email = route.params.email;
   const [userName, setUserName] = useState("");
   const [groups, setGroups] = useState([]);
-  useEffect(async ()=>{
-    userModel.addSubscribers(()=>{setUserName(userModel.userInfo[email].userName);});
-    groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
-    await userModel.updateUserName(email, userName);
-    await groupList.load(email);
-
-    return () => {resetGroupList(); resetUserModel();};
+  React.useEffect(() => {
+    const focus = navigation.addListener('focus', async () => {
+      userModel.addSubscribers(()=>{setUserName(userModel.userInfo[email].userName);});
+      groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
+      await userModel.updateUserName(email, userName);
+      await groupList.load(email);
+      return () => {resetGroupList(); resetUserModel();};
+    });
+    return focus;
   }, [navigation]);
 
   return (
@@ -59,12 +61,15 @@ export default function HomeScreen({navigation, route}){
           data={groups}
           renderItem={({item}) => {
             return (
-            <View style={styles.userItem}>
+            <View style={styles.groupItem}>
               <Text>
                 Name: {item.name} 
               </Text>
               <Text>
                 Purpose: {item.purpose}
+              </Text>
+              <Text>
+                Creator: {item.creator}
               </Text>
               <Button title='Enter !' onPress={()=>{
                 navigation.navigate("BillSplitScreen", {email: email, groupId: item.groupId});
@@ -130,8 +135,7 @@ const styles = StyleSheet.create({
   userList: {
     flex:0.7,
   },
-  userItem: {
-    flexDirection: 'row',
+  groupItem: {
     justifyContent: 'space-between',
     alignItems:'center',
     flex: 1,
