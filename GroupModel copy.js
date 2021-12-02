@@ -25,6 +25,16 @@ class GroupModel{
         this.name = undefined;
         this.purpose = undefined;
         this.groupId = undefined;
+        this.subscribers = [];
+    }
+
+    updateSubscribers(){
+        console.log(this.subscribers);
+        for(let sub of this.subscribers)sub();
+    }
+
+    addSubscribers(sub){
+        this.subscribers.push(sub);
     }
 
     async load(groupId){ // init basic infomation about the group
@@ -49,25 +59,29 @@ class GroupModel{
     getUserList(){
         let key = 0;
         let ret = [];
-        for(email in this.users){
+        for(const email in this.users){
             ret.push({"email":email, "key": key++});
         }
         return ret;
     }
 
     addUser(email){
-        console.log("add email");
         this.users[email] = {"email": email, "balance": 0};
-        console.log(this.user);
+        console.log("add user " + email);
+        this.updateSubscribers();
     }
 
     deleteUser(email){
         delete this.users[email];
+        this.updateSubscribers();
     }
 };
-
+let groupModel;
 export function getGroupModel(){
-    return new GroupModel()
+    if(!groupModel){
+        groupModel = new GroupModel();
+    }
+    return groupModel;
     // console.log("loadGroup");
     // const q = query(memberShip, where("email", "==", email));
     // const querySnapShot = await getDoc(q);

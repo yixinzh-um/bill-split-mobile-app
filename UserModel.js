@@ -1,5 +1,3 @@
-import {initializeApp, getApps } from "firebase/app";
-import firebaseConfig from "../../Secrets";
 import { 
     initializeFirestore, collection,  
     onSnapshot, query, getDocs,
@@ -7,14 +5,10 @@ import {
   } from "firebase/firestore";
 
 import React, { useEffect, useState } from 'react';
+import {getDB} from "./FirebaseApp";
 
-let app, userModel;
-if (getApps().length == 0){
-    app = initializeApp(firebaseConfig);
-} 
-const db = initializeFirestore(app, {
-    useFetchStreams: false
-});
+let userModel;
+const db = getDB();
 
 const userInfo = collection(db, "userInfo");
 

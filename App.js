@@ -2,9 +2,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'react-native';
-import LoginScreen from './src/screens/LoginScreen';
-import HomeScreen from "./src/screens/HomeScreen";
-import CreateGroupScreen from "./src/screens/CreateGroupScreen";
+import LoginScreen from './LoginScreen';
+import HomeScreen from "./HomeScreen";
+import CreateGroupScreen from "./CreateGroupScreen";
 
 const Stack = createNativeStackNavigator();
 

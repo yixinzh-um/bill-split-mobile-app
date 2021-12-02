@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getGroupModel } from "../models/GroupModel";
+import { getGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 const auth = getAuth();
@@ -12,13 +12,13 @@ export default function CreateGroupScreen({navigation, route}){
     const [groupName, setGroupName] = useState("");
     const [purpose, setPurpose] = useState("");
     const [userEmail, setUserEmail] = useState("");
-    const groupModel = getGroupModel();
+    const groupUserList = getGroupUserList();
     const [userList, setUserList] = useState([]);
+
     useEffect(()=>{
-        groupModel.name = groupName;
-        groupModel.purpose = purpose;
-        setUserList(groupModel.getUserList());
-    }, );
+        groupUserList.addSubscribers(
+            ()=>{setUserList(groupUserList.getUserList());}
+    );},[]);
 
     return (
         <View style={styles.container}>
@@ -57,7 +57,7 @@ export default function CreateGroupScreen({navigation, route}){
                             icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
                             type="clear"
                             onPress={()=>{
-                                groupModel.deleteUser(item.email);
+                                groupUserList.deleteUser(item.email);
                             }}/>
                     </View>
                     );
@@ -76,11 +76,13 @@ export default function CreateGroupScreen({navigation, route}){
                         icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
                         type="clear"
                         onPress={()=>{
-                            console.log("add");
-                            groupModel.addUser(userEmail);
+                            groupUserList.addUser(userEmail);
                         }}/>
                 </View>
-                <Button title='Create !' onPress={()=>{}}/>
+                <Button title='Create !' onPress={()=>{
+                    groupUserList.upload(email, groupName, purpose);
+                    navigation.navigate("HomeScreen", {email: email});
+                }}/>
             </View>
             
         </View>
