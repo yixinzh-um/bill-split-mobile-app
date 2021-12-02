@@ -1,7 +1,7 @@
 import { 
-    initializeFirestore, collection,  
-    onSnapshot, query, getDocs,
-    doc, addDoc, setDoc, updateDoc, where, getDoc
+  initializeFirestore, collection,  
+  onSnapshot, query, getDocs,
+  doc, addDoc, setDoc, updateDoc, where, getDoc
   } from "firebase/firestore";
 
 import React, { useEffect, useState } from 'react';
@@ -13,38 +13,38 @@ const db = getDB();
 const userInfo = collection(db, "userInfo");
 
 class UserModel{
-    constructor(){
-        this.userList = [];
-        this.userInfo = {}
-    }
+  constructor(){
+    this.userList = [];
+    this.userInfo = {}
+  }
 
-    async logIn(){
-        await createUserWithEmailAndPassword(auth, email, password);  
-    }
+  async logIn(){
+    await createUserWithEmailAndPassword(auth, email, password);  
+  }
 
-    async signIn(email, password){
-        await signInWithEmailAndPassword(auth, email, password);
-    }
+  async signIn(email, password){
+    await signInWithEmailAndPassword(auth, email, password);
+  }
 
-    async updateUserName(email, userName){
-        const q = query(userInfo, where("email", "==", email));
-        const querySnapShot = await getDocs(q);
-        const docRef = doc(db, "userInfo", email);
-        if(userName!=undefined){
-            if(querySnapShot.size==0){
-                await setDoc(docRef, {email: email, "userName": userName});
-            }
-            else{ 
-                await updateDoc(docRef, {email: email, "userName": userName});
-            }
-        }
-        this.userInfo[email] = {email:email, "userName": userName};
+  async updateUserName(email, userName){
+    const q = query(userInfo, where("email", "==", email));
+    const querySnapShot = await getDocs(q);
+    const docRef = doc(db, "userInfo", email);
+    if(userName!=undefined){
+      if(querySnapShot.size==0){
+        await setDoc(docRef, {email: email, "userName": userName});
+      }
+      else{ 
+        await updateDoc(docRef, {email: email, "userName": userName});
+      }
     }
+    this.userInfo[email] = {email:email, "userName": userName};
+  }
 };
 
 export function getUserModel(){
-    if(!userModel){
-        userModel = new UserModel();
-    }
-    return userModel;
+  if(!userModel){
+    userModel = new UserModel();
+  }
+  return userModel;
 };
