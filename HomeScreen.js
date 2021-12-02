@@ -7,18 +7,22 @@ import { getAuth, signOut } from "firebase/auth";
 import { getGroupList, resetGroupList } from "./GroupList";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
-import headerStyles from './headerStyles'
+import { headerStyles } from './globalStyles'
 
 const userModel = getUserModel();
 const auth = getAuth();
 const groupList = getGroupList();
-console.log(headerStyles);
 
 export default function HomeScreen({navigation, route}){
   const email = route.params.email;
+  const userModel = getUserModel();
+  const currentUser = userModel.getUser(email);
+
+  console.log("currentUser");
+  console.log(currentUser);
   const [userName, setUserName] = useState("");
   const [groups, setGroups] = useState([]);
-  React.useEffect(() => {
+  React.useEffect(() => { 
     const focus = navigation.addListener('focus', async () => {
       userModel.addSubscribers(()=>{setUserName(userModel.userInfo[email].userName);});
       groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
@@ -35,7 +39,7 @@ export default function HomeScreen({navigation, route}){
         <Ionicons
           name="settings-outline" size={30} color="black"
           onPress={()=>{
-            navigation.navigate("UserProfileScreen", {email: email});
+            navigation.navigate("UserProfileScreen", {user: currentUser});
           }}/>
 
         <View style={{flex: 0.9}}>
@@ -67,13 +71,6 @@ export default function HomeScreen({navigation, route}){
           ()=>{userModel.updateUserName(email, userName);}
         }/>
       </View>
-      <Button title='Sign Out' onPress={
-        ()=>{
-            signOut(auth);
-            console.log("sign out");
-            navigation.goBack();
-        }
-        }/>
       <Button title='Create Group' onPress={()=>{
         navigation.navigate("CreateGroupScreen", {email: email});
       }}/>
