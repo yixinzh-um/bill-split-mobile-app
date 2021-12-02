@@ -73,28 +73,23 @@ class GroupUserList{
 
     addUser(email){
         this.users[email] = {"email": email, "balance": 0};
-        console.log("add user " + email);
         this.updateSubscribers();
     }
 
     deleteUser(email){
         delete this.users[email];
         this.updateSubscribers();
-    }
+    }a
 };
 let groupUserList;
+
 export function getGroupUserList(){
     if(!groupUserList){
         groupUserList = new GroupUserList();
     }
     return groupUserList;
-    // console.log("loadGroup");
-    // const q = query(memberShip, where("email", "==", email));
-    // const querySnapShot = await getDoc(q);
-    // const groupIds = new Set();
-    // querySnapShot.forEach((doc)=>{
-    //     groupIds.add(doc.data().groupId);
-    // });
-    // const groups = Array.from(groupIds, groupId=>GroupUserList(groupId));
-    // return groups;
 };
+
+export function resetGroupUserList(){
+    groupUserList = undefined;
+}

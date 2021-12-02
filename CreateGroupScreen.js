@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getGroupUserList } from "./GroupUserList";
+import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 const auth = getAuth();
@@ -16,9 +16,9 @@ export default function CreateGroupScreen({navigation, route}){
     const [userList, setUserList] = useState([]);
 
     useEffect(()=>{
-        groupUserList.addSubscribers(
-            ()=>{setUserList(groupUserList.getUserList());}
-    );},[]);
+        groupUserList.addSubscribers(()=>{setUserList(groupUserList.getUserList());});
+        return resetGroupUserList;
+    },[]);
 
     return (
         <View style={styles.container}>
