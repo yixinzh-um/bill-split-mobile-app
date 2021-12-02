@@ -1,14 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'react-native';
-import { useState, useEffect } from 'react';
-import firebaseConfig from './Secrets';
-import { Camera } from 'expo-camera';
-import LoginScreen from './src/screens/LoginScreen';
-import HomeScreen from "./src/screens/HomeScreen";
-
+import LoginScreen from './LoginScreen';
+import HomeScreen from "./HomeScreen";
+import CreateGroupScreen from "./CreateGroupScreen";
+import BillSplitScreen from "./BillSplitScreen"
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component{
@@ -19,8 +16,10 @@ class App extends React.Component{
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="LoginScreen" component={LoginScreen}/>
-          <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="BillSplitScreen" component={BillSplitScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )

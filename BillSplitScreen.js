@@ -2,48 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getUserModel } from "../models/UserModel"
+import { getUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
 
-const userModel = getUserModel();
-const auth = getAuth();
-
-export default function HomeScreen({navigation, route}){
+export default function BillSplitScreen({navigation, route}){
     const email = route.params.email;
-    const [userName, setUserName] = useState(
-        userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
-    );
-    useEffect(()=>{
-        userModel.updateUserName(email, userName);
-    }, [userName]);
+    const groupId = route.params.groupId;
 
     return (
         <View style={styles.container}>
             <Text style={styles.paragraph}>
-                Email: {email}
+                Welcome to group {groupId}
             </Text>
-            <View style={styles.loginRow}>
-                <View style={styles.loginLabelContainer}>
-                    <Text style={styles.loginLabelText}>Name: </Text>
-                </View>
-                <View style={styles.loginInputContainer}>
-                    <TextInput 
-                    style={styles.loginInputBox}
-                    value={userName==undefined?email:userName}
-                    onChangeText={(text)=>{setUserName(text);}}
-                    />
-                </View>
-            </View>
-            <Button title='Create Group' onPress={
-                ()=>{}
-                }/>
-            <Button title='Sign Out' onPress={
-                ()=>{
-                        signOut(auth)
-                        console.log("sign out");
-                        navigation.goBack();
-                }
-                }/>
         </View>
       );
 }
@@ -89,4 +59,20 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: '2%'
     },
+    userListContainer: {
+        flex: 0.3, 
+        backgroundColor: '#ccc',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%', 
+    },
+    userList: {
+        flex:0.7,
+    },
+    userItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        flex: 1,
+    }
   });
