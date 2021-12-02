@@ -37,10 +37,7 @@ class UserModel{
         const q = query(userInfo, where("email", "==", email));
         const querySnapShot = await getDocs(q);
         const docRef = doc(db, "userInfo", email);
-        console.log(userName);
         if(userName!=undefined){
-            console.log(userName);
-            console.log(userName==undefined);
             if(querySnapShot.size==0){
                 await setDoc(docRef, {email: email, "userName": userName});
             }

@@ -4,50 +4,46 @@ import {
 } from 'react-native';
 import { getUserModel } from "../models/UserModel"
 import { getAuth, signOut } from "firebase/auth";
-import { loadGroups } from "../models/GroupModel";
 const userModel = getUserModel();
 const auth = getAuth();
 
-export default function HomeScreen({navigation, route}){
+export default function CreateGroupScreen({navigation, route}){
     const email = route.params.email;
-    const [userName, setUserName] = useState(
-        userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
-    );
-    useEffect(()=>{
-        userModel.updateUserName(email, userName);
-    }, [userName]);
+    const [groupName, setGroupName] = useState("");
+    const [purpose, setPurpose] = useState("");
+    const [groupList, setGroupList] = useState([]);
+    // useEffect(()=>{
+    //     userModel.updateUserName(email, userName);
+    // }, [userName]);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.paragraph}>
-                Email: {email}
-            </Text>
             <View style={styles.loginRow}>
                 <View style={styles.loginLabelContainer}>
-                    <Text style={styles.loginLabelText}>Name: </Text>
+                    <Text style={styles.loginLabelText}>Group Name:</Text>
                 </View>
                 <View style={styles.loginInputContainer}>
                     <TextInput 
                     style={styles.loginInputBox}
-                    value={userName==undefined?email:userName}
-                    onChangeText={(text)=>{setUserName(text);}}
+                    value={groupName}
+                    onChangeText={(text)=>{setGroupName(text);}}
+                    />
+                </View>
+                <View style={styles.loginLabelContainer}>
+                    <Text style={styles.loginLabelText}>Purpose:</Text>
+                </View>
+                <View style={styles.loginInputContainer}>
+                    <TextInput 
+                    style={styles.loginInputBox}
+                    value={purpose}
+                    onChangeText={(text)=>{setPurpose(text);}}
                     />
                 </View>
             </View>
-            <Button title='Create Group' onPress={()=>{
-                console.log("create");
-                navigation.navigate("CreateGroupScreen", {email: email});
-            }}/>
-            <Button title='Test' onPress={
-                async ()=>{setGroupList(loadGroups(email));}
+            <Button title='Create Group' onPress={
+                ()=>{}
                 }/>
-            <Button title='Sign Out' onPress={
-                ()=>{
-                        signOut(auth)
-                        console.log("sign out");
-                        navigation.goBack();
-                }
-                }/>
+            
         </View>
       );
 }
@@ -66,7 +62,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     loginRow: {
-        flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: '100%',
