@@ -3,11 +3,11 @@ import firebaseConfig from "./Secrets";
 import { initializeFirestore} from "firebase/firestore";
 let app;
 if (getApps().length == 0){
-    app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
 } 
 const db = initializeFirestore(app, {
-    useFetchStreams: false
+  useFetchStreams: false
 });
 export function getDB(){
-    return db;
+  return db;
 }

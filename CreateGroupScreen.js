@@ -81,10 +81,9 @@ export default function CreateGroupScreen({navigation, route}){
         </View>
         <Button title='Create !' onPress={()=>{
           groupUserList.upload(email, groupName, purpose);
-          navigation.navigate("HomeScreen", {email: email});
+          navigation.goBack();
         }}/>
       </View>
-      
     </View>
     );
 }

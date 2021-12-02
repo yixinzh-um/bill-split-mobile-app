@@ -25,7 +25,8 @@ class GroupUserList{
   async upload(email, name, purpose){
     const docRef = await addDoc(collection(db, "Group"), {
       "name": name,
-      "purpose": purpose
+      "purpose": purpose,
+      "creator": email
     });
     const groupId = docRef.id
     await addDoc(collection(db, "Membership"), {
@@ -34,21 +35,13 @@ class GroupUserList{
       "balance": 0
     });
     for(const userEmail in this.users){
+      if(userEmail==email)continue;
       await addDoc(collection(db, "Membership"), {
         "email": userEmail,
         "groupId": groupId,
         "balance": 0
       });
     }
-  }
-
-  async load(groupId){ // init basic infomation about the group
-    this.groupId = groupId
-    const docSnap = await getDoc(doc(db, "group", this.groupId));
-    const data = docSnap.data();
-    this.name = data.name;
-    this.purpose = data.purpose;
-    loadMemberShip();
   }
 
   getUserList(){
