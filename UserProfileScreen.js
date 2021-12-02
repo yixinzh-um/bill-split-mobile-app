@@ -61,7 +61,7 @@ export default function UserProfileScreen({navigation, route}){
         </View>
       </View>
 
-      <View style={{flex: 0.1}}>
+      <View style={styles.signOutContainer}>
         <TouchableOpacity 
           style={buttonStyles.container}
           onPress={() => {
@@ -70,7 +70,7 @@ export default function UserProfileScreen({navigation, route}){
             navigation.navigate("LoginScreen");
           }}
           >
-          <Text style={buttonStyles.text}>Log out!</Text>
+          <Text style={buttonStyles.text}>Log out</Text>
       </TouchableOpacity>
       </View>
       
@@ -86,7 +86,11 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   row: {
-    flex: 0.7,
+    flex: 0.5,
     width: '100%',
   },
-  });
+  signOutContainer: {
+    flex: 0.2,
+    alignItems: 'center',
+  }
+});

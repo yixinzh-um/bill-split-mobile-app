@@ -43,7 +43,7 @@ export default function HomeScreen({navigation, route}){
           }}/>
 
         <View style={{flex: 0.9}}>
-          <Text style={headerStyles.title}>Hi, {userName}</Text>
+          <Text style={headerStyles.title}>{userName}'s Groups</Text>
         </View>
         <View style={{flex: 0.1}}>
           <Ionicons 
@@ -53,9 +53,6 @@ export default function HomeScreen({navigation, route}){
             }}/>
         </View>
       </View>
-      <Text style={styles.paragraph}>
-        Email: {email}
-      </Text>
       <View style={styles.row}>
         <View style={styles.labelContainer}>
           <Text style={styles.labelText}>Name: </Text>

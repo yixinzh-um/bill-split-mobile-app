@@ -46,7 +46,7 @@ const buttonStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#84C6FF',
+    // backgroundColor: '#84C6FF',
     width: 100,
     height: 40,
     borderRadius:10,
@@ -54,6 +54,8 @@ const buttonStyles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
+    fontSize: 20,
+    color: '#006DCD'
   },
 })
 export {headerStyles, formStyles, detailStyles, buttonStyles};
