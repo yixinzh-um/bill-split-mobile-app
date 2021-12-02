@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { 
-    FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+import {
+    FlatList, Modal, StyleSheet, Button, Alert, Text, TextInput, View,
 } from 'react-native';
 import { getUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
 import { getGroupList, resetGroupList } from "./GroupList";
-
+import { useFocusEffect } from '@react-navigation/native';
 const userModel = getUserModel();
 const auth = getAuth();
 const groupList = getGroupList();
 
-export default function HomeScreen({navigation, route}){
+export default function HomeScreen({ navigation, route }) {
     const email = route.params.email;
     const [userName, setUserName] = useState(
-        userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
+        userModel.userInfo[email] == undefined ? undefined : userModel.userInfo[email]["userName"]
     );
-    const [groups, setGroups] = useState([]);
-
-    useEffect(async ()=>{
+    const [groups, setGroups] = useState(groupList.getGroupList());
+    useEffect(async () => {
         userModel.updateUserName(email, userName);
-        groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
+        groupList.addSubscribers(() => { setGroups(groupList.getGroupList()); });
         await groupList.load(email);
-        console.log(groups);
         return resetGroupList;
+    }, []);
+
+    useFocusEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            await groupList.load(email);
+            setGroups(groupList.getGroupList());
+            console.log(groups);
+        });
+        return unsubscribe;
     }, []);
 
     return (
@@ -35,61 +42,64 @@ export default function HomeScreen({navigation, route}){
                     <Text style={styles.loginLabelText}>Name: </Text>
                 </View>
                 <View style={styles.loginInputContainer}>
-                    <TextInput 
-                    style={styles.loginInputBox}
-                    value={userName==undefined?email:userName}
-                    onChangeText={(text)=>{setUserName(text);}}
+                    <TextInput
+                        style={styles.loginInputBox}
+                        value={userName == undefined ? email : userName}
+                        onChangeText={(text) => { setUserName(text); }}
                     />
                 </View>
             </View>
             <Button title='Sign Out' onPress={
-                ()=>{
-                        signOut(auth);
-                        console.log("sign out");
-                        navigation.goBack();
+                () => {
+                    signOut(auth);
+                    console.log("sign out");
+                    navigation.goBack();
                 }
-                }/>
-            <Button title='Create Group' onPress={()=>{
-                navigation.navigate("CreateGroupScreen", {email: email});
-            }}/>
+            } />
+            <Button title='Create Group' onPress={() => {
+                navigation.navigate("CreateGroupScreen", { email: email });
+            }} />
             <View style={styles.userListContainer}>
                 <View style={styles.userList}>
                     <FlatList
-                    data={groups}
-                    renderItem={({item}) => {
-                        return (
-                        <View style={styles.userItem}>
-                            <Text>
-                                Name: {item.name} 
-                            </Text>
-                            <Text>
-                                Purpose: {item.purpose}
-                            </Text>
-                            <Button title='Enter !' onPress={()=>{
-                                navigation.navigate("BillSplitScreen", {email: email, groupId: item.groupId});
-                            }}/>
-                        </View>
-                        );
-                    }}
+                        data={groups}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={styles.groupItem}>
+                                    <Text>
+                                        Name: {item.name}
+                                    </Text>
+                                    <Text>
+                                        Purpose: {item.purpose}
+                                    </Text>
+                                    <Text>
+                                        Creator Email: {item.creator}
+                                    </Text>
+                                    <Button title='Enter !' onPress={() => {
+                                        navigation.navigate("BillSplitScreen", { email: email, groupId: item.groupId });
+                                    }} />
+                                </View>
+                            );
+                        }}
                     />
                 </View>
             </View>
         </View>
-      );
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      backgroundColor: '#ecf0f1',
-      padding: 8,
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#ecf0f1',
+        padding: 8,
     },
     paragraph: {
-      margin: 24,
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center',
+        margin: 24,
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     loginRow: {
         flexDirection: 'row',
@@ -120,19 +130,18 @@ const styles = StyleSheet.create({
         padding: '2%'
     },
     userListContainer: {
-        flex: 0.3, 
+        flex: 0.3,
         backgroundColor: '#ccc',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%', 
+        width: '100%',
     },
     userList: {
-        flex:0.7,
+        flex: 0.7,
     },
-    userItem: {
-        flexDirection: 'row',
+    groupItem: {
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignItems: 'center',
         flex: 1,
     }
-  });
+});

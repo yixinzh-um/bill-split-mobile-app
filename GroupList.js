@@ -34,6 +34,7 @@ class GroupList{
         for(const groupId in this.groups){
             const docSnap = await getDoc(doc(db, "Group", groupId));
             const data = docSnap.data();
+            if(data==undefined)continue;
             this.groups[groupId] = data;
             this.groups[groupId].groupId = groupId;
         }
@@ -60,6 +61,7 @@ class GroupList{
                     "name": group.name, 
                     "purpose": group.purpose, 
                     "groupId": group.groupId, 
+                    "creator": group.creator,
                     "key": key++
                 });
         }

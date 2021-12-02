@@ -18,8 +18,8 @@ class App extends React.Component{
         <Stack.Navigator>
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="BillSplitScreen" component={BillSplitScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen}/>
+          <Stack.Screen name="BillSplitScreen" component={BillSplitScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     )

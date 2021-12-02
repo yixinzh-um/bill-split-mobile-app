@@ -25,7 +25,8 @@ class GroupUserList{
     async upload(email, name, purpose){
         const docRef = await addDoc(collection(db, "Group"), {
             "name": name,
-            "purpose": purpose
+            "purpose": purpose,
+            "creator": email
         });
         const groupId = docRef.id
         await addDoc(collection(db, "Membership"), {
