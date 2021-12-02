@@ -22,23 +22,23 @@ export default function CreateGroupScreen({navigation, route}){
 
   return (
     <View style={styles.container}>
-      <View style={styles.loginRow}>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Group Name:</Text>
+      <View style={styles.row}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelText}>Group Name:</Text>
         </View>
-        <View style={styles.loginInputContainer}>
+        <View style={styles.inputContainer}>
           <TextInput 
-            style={styles.loginInputBox}
+            style={styles.inputBox}
             value={groupName}
             onChangeText={(text)=>{setGroupName(text);}}
             />
         </View>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Purpose:</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelText}>Purpose:</Text>
         </View>
-        <View style={styles.loginInputContainer}>
+        <View style={styles.inputContainer}>
           <TextInput 
-          style={styles.loginInputBox}
+          style={styles.inputBox}
           value={purpose}
           onChangeText={(text)=>{setPurpose(text);}}
           />
@@ -63,12 +63,12 @@ export default function CreateGroupScreen({navigation, route}){
           );
         }}
         />
-        <View style={styles.loginInputContainer}>
-          <View style={styles.loginLabelContainer}>
-            <Text style={styles.loginLabelText}>Email:</Text>
+        <View style={styles.inputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labelText}>Email:</Text>
           </View>
           <TextInput 
-            style={styles.loginInputBox}
+            style={styles.inputBox}
             value={userEmail}
             onChangeText={(text)=>{setUserEmail(text);}}
             />
@@ -102,26 +102,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  loginRow: {
+  row: {
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
   },
-  loginLabelContainer: {
+  labelContainer: {
     flex: 0.4,
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
-  loginLabelText: {
+  labelText: {
     fontSize: 18
   },
-  loginInputContainer: {
+  inputContainer: {
     flex: 0.6,
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%'
   },
-  loginInputBox: {
+  inputBox: {
     width: '100%',
     borderColor: 'lightgray',
     borderWidth: 1,
