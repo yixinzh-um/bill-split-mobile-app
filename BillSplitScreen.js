@@ -31,27 +31,27 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
     },
-    loginRow: {
+    row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: '100%',
     },
-    loginLabelContainer: {
+    labelContainer: {
         flex: 0.4,
         justifyContent: 'center',
         alignItems: 'flex-end'
     },
-    loginLabelText: {
+    labelText: {
         fontSize: 18
     },
-    loginInputContainer: {
+    inputContainer: {
         flex: 0.6,
         justifyContent: 'center',
         alignItems: 'flex-start',
         width: '100%'
     },
-    loginInputBox: {
+    inputBox: {
         width: '100%',
         borderColor: 'lightgray',
         borderWidth: 1,
