@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { 
     FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getUserModel } from "../models/UserModel"
+import { getGroupModel } from "../models/GroupModel";
 import { getAuth, signOut } from "firebase/auth";
-const userModel = getUserModel();
+import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 const auth = getAuth();
 
 export default function CreateGroupScreen({navigation, route}){
     const email = route.params.email;
     const [groupName, setGroupName] = useState("");
     const [purpose, setPurpose] = useState("");
-    const [groupList, setGroupList] = useState([]);
-    // useEffect(()=>{
-    //     userModel.updateUserName(email, userName);
-    // }, [userName]);
+    const [userEmail, setUserEmail] = useState("");
+    const groupModel = getGroupModel();
+    const [userList, setUserList] = useState([]);
+    useEffect(()=>{
+        groupModel.name = groupName;
+        groupModel.purpose = purpose;
+        setUserList(groupModel.getUserList());
+    }, );
 
     return (
         <View style={styles.container}>
@@ -24,10 +28,10 @@ export default function CreateGroupScreen({navigation, route}){
                 </View>
                 <View style={styles.loginInputContainer}>
                     <TextInput 
-                    style={styles.loginInputBox}
-                    value={groupName}
-                    onChangeText={(text)=>{setGroupName(text);}}
-                    />
+                        style={styles.loginInputBox}
+                        value={groupName}
+                        onChangeText={(text)=>{setGroupName(text);}}
+                        />
                 </View>
                 <View style={styles.loginLabelContainer}>
                     <Text style={styles.loginLabelText}>Purpose:</Text>
@@ -40,9 +44,44 @@ export default function CreateGroupScreen({navigation, route}){
                     />
                 </View>
             </View>
-            <Button title='Create Group' onPress={
-                ()=>{}
-                }/>
+            <View style={styles.userListContainer}>
+                <FlatList
+                data={userList}
+                renderItem={({item}) => {
+                    return (
+                    <View>
+                        <Text>
+                            {item.email}
+                        </Text>
+                        <Button
+                            icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
+                            type="clear"
+                            onPress={()=>{
+                                groupModel.deleteUser(item.email);
+                            }}/>
+                    </View>
+                    );
+                }}
+                />
+                <View style={styles.loginInputContainer}>
+                    <View style={styles.loginLabelContainer}>
+                        <Text style={styles.loginLabelText}>Email:</Text>
+                    </View>
+                    <TextInput 
+                        style={styles.loginInputBox}
+                        value={userEmail}
+                        onChangeText={(text)=>{setUserEmail(text);}}
+                        />
+                    <Button
+                        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
+                        type="clear"
+                        onPress={()=>{
+                            console.log("add");
+                            groupModel.addUser(userEmail);
+                        }}/>
+                </View>
+                <Button title='Create !' onPress={()=>{}}/>
+            </View>
             
         </View>
       );
@@ -87,5 +126,21 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         fontSize: 18,
         padding: '2%'
+    },
+    sectionHeader: {
+        width: '100%',
+        padding: '3%',
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+    sectionHeaderText: {
+        fontSize: 36
+    },
+    userListContainer: {
+        flex: 0.7, 
+        backgroundColor: '#ccc',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%', 
     },
   });

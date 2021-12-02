@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 import { getUserModel } from "../models/UserModel"
 import { getAuth, signOut } from "firebase/auth";
-import { loadGroups } from "../models/GroupModel";
 const userModel = getUserModel();
 const auth = getAuth();
 
@@ -38,9 +37,9 @@ export default function HomeScreen({navigation, route}){
                 console.log("create");
                 navigation.navigate("CreateGroupScreen", {email: email});
             }}/>
-            <Button title='Test' onPress={
+            {/* <Button title='Test' onPress={
                 async ()=>{setGroupList(loadGroups(email));}
-                }/>
+                }/> */}
             <Button title='Sign Out' onPress={
                 ()=>{
                         signOut(auth)

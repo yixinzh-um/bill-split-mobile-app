@@ -22,7 +22,6 @@ class UserModel{
     constructor(){
         this.userList = [];
         this.userInfo = {}
-        this.subscribers = [];
     }
 
     async logIn(){

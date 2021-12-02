@@ -4,7 +4,7 @@ import React from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'react-native';
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from "./src/screens/HomeScreen";
-// import CreateGroupScreen from "./src/screens/CreateGroupScreen";
+import CreateGroupScreen from "./src/screens/CreateGroupScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,8 +17,8 @@ class App extends React.Component{
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
-          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/> */}
-          {/* <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{headerShown: false}}/> */}
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
