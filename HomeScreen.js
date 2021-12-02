@@ -30,13 +30,13 @@ export default function HomeScreen({navigation, route}){
       <Text style={styles.paragraph}>
         Email: {email}
       </Text>
-      <View style={styles.loginRow}>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Name: </Text>
+      <View style={styles.row}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelText}>Name: </Text>
         </View>
-        <View style={styles.loginInputContainer}>
+        <View style={styles.inputContainer}>
           <TextInput 
-          style={styles.loginInputBox}
+          style={styles.inputBox}
           value={userName==undefined?email:userName}
           onChangeText={(text)=>{setUserName(text);}}
           />
@@ -91,27 +91,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  loginRow: {
+  row: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
   },
-  loginLabelContainer: {
+  labelContainer: {
     flex: 0.4,
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
-  loginLabelText: {
+  labelText: {
     fontSize: 18
   },
-  loginInputContainer: {
+  inputContainer: {
     flex: 0.6,
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%'
   },
-  loginInputBox: {
+  inputBox: {
     width: '100%',
     borderColor: 'lightgray',
     borderWidth: 1,
