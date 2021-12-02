@@ -11,7 +11,7 @@ const auth = getAuth();
 export default function HomeScreen({navigation, route}){
     const email = route.params.email;
     const [userName, setUserName] = useState(
-        dataModel.userInfo[email]==undefined ? undefined : dataModel.userInfo[email]["userName"]
+        userModel.userInfo[email]==undefined ? undefined : userModel.userInfo[email]["userName"]
     );
     useEffect(()=>{
         userModel.updateUserName(email, userName);
