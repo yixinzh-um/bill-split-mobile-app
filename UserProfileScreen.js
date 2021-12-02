@@ -11,16 +11,6 @@ const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
   const user = route.params.user;
-//   const [groupName, setGroupName] = useState("");
-//   const [purpose, setPurpose] = useState("");
-//   const [userEmail, setUserEmail] = useState("");
-//   const groupUserList = getGroupUserList();
-//   const [userList, setUserList] = useState([]);
-
-//   useEffect(()=>{
-//     groupUserList.addSubscribers(()=>{setUserList(groupUserList.getUserList());});
-//     return ()=>{resetGroupUserList()};
-//   },[]);
 
   return (
     <View style={styles.container}>
