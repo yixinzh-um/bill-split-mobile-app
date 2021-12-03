@@ -69,7 +69,7 @@ export default function HomeScreen({navigation, route}){
                 Creator: {item.creator}
               </Text>
               <Button title='Enter !' onPress={()=>{
-                navigation.navigate("BillSplitScreen", {email: email, groupId: item.groupId});
+                navigation.navigate("BillSplitScreen", {email: email, group: item});
               }}/>
             </View>
             );
