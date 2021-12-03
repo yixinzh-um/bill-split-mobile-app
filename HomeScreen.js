@@ -7,7 +7,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { getGroupList, resetGroupList } from "./GroupList";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
-import { headerStyles } from './globalStyles'
+import { headerStyles, rowStyles, containerStyles, listStyles } from './globalStyles'
 
 const userModel = getUserModel();
 const auth = getAuth();
@@ -34,7 +34,7 @@ export default function HomeScreen({navigation, route}){
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyles.container}>
       <View style={headerStyles.header}>
         <Ionicons
           name="settings-outline" size={30} color="black"
@@ -53,31 +53,30 @@ export default function HomeScreen({navigation, route}){
             }}/>
         </View>
       </View>
-      <View style={styles.row}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Name: </Text>
+      <View style={rowStyles.row}>
+        <View style={rowStyles.labelContainer}>
+          <Text style={rowStyles.labelText}>Name: </Text>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={rowStyles.inputContainer}>
           <TextInput 
-            style={styles.inputBox}
+            style={rowStyles.inputBox}
             value={userName}
             onChangeText={(text)=>setUserName(text)}
           />
         </View>
-        <Button title='Set New Name' onPress={
+        <Button styles={rowStyles.buttonContainer} title='Set New Name' onPress={
           ()=>{userModel.updateUserName(email, userName);}
         }/>
       </View>
       <Button title='Create Group' onPress={()=>{
         navigation.navigate("CreateGroupScreen", {email: email});
       }}/>
-      <View style={styles.userListContainer}>
-        <View style={styles.userList}>
+      <View style={listStyles.userListContainer}>
           <FlatList
           data={groups}
           renderItem={({item}) => {
             return (
-            <View style={styles.groupItem}>
+            <View style={listStyles.groupItem}>
               <Text>
                 Name: {item.name} 
               </Text>
@@ -94,66 +93,7 @@ export default function HomeScreen({navigation, route}){
             );
           }}
           />
-        </View>
       </View>
     </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-  },
-  labelContainer: {
-    flex: 0.4,
-    justifyContent: 'center',
-    alignItems: 'flex-end'
-  },
-  labelText: {
-    fontSize: 18
-  },
-  inputContainer: {
-    flex: 0.6,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    width: '100%'
-  },
-  inputBox: {
-    width: '100%',
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 6,
-    fontSize: 18,
-    padding: '2%'
-  },
-  userListContainer: {
-    flex: 0.3, 
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%', 
-  },
-  userList: {
-    flex:0.7,
-  },
-  groupItem: {
-    justifyContent: 'space-between',
-    alignItems:'center',
-    flex: 1,
-  }
-});

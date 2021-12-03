@@ -15,11 +15,11 @@ const headerStyles = StyleSheet.create({
     paddingRight: 10,
     textAlign: 'center',
   },
-})
+});
 
 const formStyles = StyleSheet.create({
 
-})
+});
 
 const detailStyles = StyleSheet.create({
   row: {
@@ -39,7 +39,7 @@ const detailStyles = StyleSheet.create({
     fontSize: 20,
   },
 
-})
+});
 
 const buttonStyles = StyleSheet.create({
   container: {
@@ -57,5 +57,80 @@ const buttonStyles = StyleSheet.create({
     fontSize: 20,
     color: '#006DCD'
   },
-})
-export {headerStyles, formStyles, detailStyles, buttonStyles};
+});
+
+const rowStyles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    padding: 10,
+  },
+  labelContainer: {
+    flex: 0.2,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 10,
+  },
+  labelText: {
+    fontSize: 18
+  },
+  inputContainer: {
+    flex: 0.7,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    width: '100%'
+  },
+  buttonContainer: {
+    flex: 0.1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  inputBox: {
+    width: '80%',
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    borderRadius: 6,
+    fontSize: 18,
+    padding: '2%'
+  },
+});
+
+const containerStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: '#ecf0f1',
+    padding: '3%',
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
+
+const listStyles = StyleSheet.create({
+  groupItem: {
+    alignItems:'center',
+    borderWidth: 2,
+    borderRadius: 20,
+    overflow: 'hidden',
+    borderColor: 'lightgray',
+    flex: 1,
+    padding: '3%',
+    marginBottom: '5%',
+    width: '80%',
+    alignSelf: 'center',
+  },
+  userListContainer: {
+    flex: 1, 
+    justifyContent: 'center',
+    width: '100%', 
+  },
+});
+
+
+export {headerStyles, formStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles};
