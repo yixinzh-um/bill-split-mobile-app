@@ -11,25 +11,32 @@ const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
   const user = route.params.user;
-
+  const [mode, setMode] = useState('show');
   return (
     <View style={styles.container}>
       <View style={headerStyles.header}>
-        <Ionicons
+        <Ionicons 
+          style={headerStyles.leftIcon}
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
+        <View style={headerStyles.titleContainer}>
           <Text style={headerStyles.title}>Profile</Text>
         </View>
-        <View style={{flex: 0.1}}>
+        {mode == "edit" ? 
           <Ionicons 
-            name="create-outline" size={30} color="black"
+            style={headerStyles.rightIcon}
+            name="checkmark-outline" size={30} color="black"
             onPress={()=>{
+              setMode("show");
+              
             }}/>
-        </View>
+          :
+          <View></View>
+        }
+
       </View>
 
       <View style={styles.row}>
@@ -37,10 +44,30 @@ export default function UserProfileScreen({navigation, route}){
           <View style={detailStyles.labelContainer}>
             <Text style={detailStyles.labelText}>Name:</Text>
           </View>
-          <View style={detailStyles.valueContainer}>
-            <Text style={detailStyles.valueText}>{user.userName}</Text>
+          
+            {mode == "show" ?
+            <View style={detailStyles.editorContainer}>
+              <View style={detailStyles.valueContainer}>
+                <Text style={detailStyles.valueText}>{user.userName}</Text>
+              </View>
+              <Ionicons 
+              name="create-outline" size={25} color="black"
+              onPress={()=>{
+                setMode("edit");
+              }}/>
+            </View>
+              
+            :
+            <View style={detailStyles.inputContainer}>
+              <TextInput style={detailStyles.inputBox}
+                         value={user.userName}
+                          // onChangeText={(text)=>{setGroupName(text);}}
+                />
+            </View>
+            }
+           
           </View>
-        </View>
+        
         <View style={detailStyles.row}>
           <View style={detailStyles.labelContainer}>
             <Text style={detailStyles.labelText}>Email:</Text>
@@ -72,7 +99,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#ecf0f1',
     padding: 8,
   },
   row: {

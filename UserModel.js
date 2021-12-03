@@ -47,7 +47,6 @@ class UserModel{
     else if(userName!="")await updateDoc(docRef, {email: email, "userName": userName});
     const data = (await getDoc(docRef)).data();
     this.userInfo[email] = {email:email, "userName": data.userName};
-    console.log(this.userInfo);
     this.updateSubscribers();
   }
 
@@ -65,8 +64,6 @@ class UserModel{
   }
 
   getUser(email) {
-    console.log("this.userList");
-    console.log(this.userList);
     for (let user of this.userList) {
       if (user.id = email) {
         return user;

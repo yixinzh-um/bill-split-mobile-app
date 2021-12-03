@@ -18,8 +18,6 @@ export default function HomeScreen({navigation, route}){
   const userModel = getUserModel();
   const currentUser = userModel.getUser(email);
 
-  console.log("currentUser");
-  console.log(currentUser);
   const [userName, setUserName] = useState("");
   const [groups, setGroups] = useState([]);
   React.useEffect(() => { 
@@ -37,21 +35,23 @@ export default function HomeScreen({navigation, route}){
     <View style={styles.container}>
       <View style={headerStyles.header}>
         <Ionicons
+          style={headerStyles.leftIcon}
           name="settings-outline" size={30} color="black"
           onPress={()=>{
+            console.log("press")
             navigation.navigate("UserProfileScreen", {user: currentUser});
           }}/>
 
-        <View style={{flex: 0.9}}>
+        <View style={headerStyles.titleContainer}> 
           <Text style={headerStyles.title}>{userName}'s Groups</Text>
         </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="search-outline" size={30} color="black"
-            onPress={()=>{
-              setIsVisible(true);
-            }}/>
-        </View>
+        
+        <Ionicons 
+          style={headerStyles.rightIcon}
+          name="search-outline" size={30} color="black"
+          onPress={()=>{
+          }}/>
+      
       </View>
       <View style={styles.row}>
         <View style={styles.labelContainer}>
