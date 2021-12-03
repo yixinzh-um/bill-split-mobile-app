@@ -6,12 +6,19 @@ import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
+import { getUserModel, resetUserModel } from "./UserModel"
 
 const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
   const user = route.params.user;
+  const userModel = getUserModel();
   const [mode, setMode] = useState('show');
+  const [userName, setUserName] = useState(user.userName);
+
+  // useEffect(() => {
+  // }, [mode]);
+  
   return (
     <View style={styles.container}>
       <View style={headerStyles.header}>
@@ -31,7 +38,7 @@ export default function UserProfileScreen({navigation, route}){
             name="checkmark-outline" size={30} color="black"
             onPress={()=>{
               setMode("show");
-              
+              userModel.updateUserName(user.email, userName);
             }}/>
           :
           <View></View>
@@ -48,20 +55,19 @@ export default function UserProfileScreen({navigation, route}){
             {mode == "show" ?
             <View style={detailStyles.editorContainer}>
               <View style={detailStyles.valueContainer}>
-                <Text style={detailStyles.valueText}>{user.userName}</Text>
+                <Text style={detailStyles.valueText}>{userName}</Text>
               </View>
               <Ionicons 
-              name="create-outline" size={25} color="black"
-              onPress={()=>{
-                setMode("edit");
-              }}/>
-            </View>
-              
+                name="create-outline" size={25} color="black"
+                onPress={()=>{
+                  setMode("edit");
+                }}/>
+            </View>      
             :
             <View style={detailStyles.inputContainer}>
               <TextInput style={detailStyles.inputBox}
-                         value={user.userName}
-                          // onChangeText={(text)=>{setGroupName(text);}}
+                         value={userName}
+                         onChangeText={(text)=>{setUserName(text);}}
                 />
             </View>
             }

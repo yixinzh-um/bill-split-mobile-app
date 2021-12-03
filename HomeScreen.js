@@ -18,13 +18,10 @@ export default function HomeScreen({navigation, route}){
   const userModel = getUserModel();
   const currentUser = userModel.getUser(email);
 
-  const [userName, setUserName] = useState("");
   const [groups, setGroups] = useState([]);
-  React.useEffect(() => { 
+  useEffect(() => { 
     const focus = navigation.addListener('focus', async () => {
-      userModel.addSubscribers(()=>{setUserName(userModel.userInfo[email].userName);});
       groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
-      await userModel.updateUserName(email, userName);
       await groupList.load(email);
       return () => {resetGroupList(); resetUserModel();};
     });
@@ -38,12 +35,11 @@ export default function HomeScreen({navigation, route}){
           style={headerStyles.leftIcon}
           name="settings-outline" size={30} color="black"
           onPress={()=>{
-            console.log("press")
             navigation.navigate("UserProfileScreen", {user: currentUser});
           }}/>
 
         <View style={headerStyles.titleContainer}> 
-          <Text style={headerStyles.title}>{userName}'s Groups</Text>
+          <Text style={headerStyles.title}>{currentUser != null ? currentUser.userName : "User"}'s Groups</Text>
         </View>
         
         <Ionicons 
@@ -53,21 +49,7 @@ export default function HomeScreen({navigation, route}){
           }}/>
       
       </View>
-      <View style={styles.row}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.labelText}>Name: </Text>
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput 
-            style={styles.inputBox}
-            value={userName}
-            onChangeText={(text)=>setUserName(text)}
-          />
-        </View>
-        <Button title='Set New Name' onPress={
-          ()=>{userModel.updateUserName(email, userName);}
-        }/>
-      </View>
+
       <Button title='Create Group' onPress={()=>{
         navigation.navigate("CreateGroupScreen", {email: email});
       }}/>
