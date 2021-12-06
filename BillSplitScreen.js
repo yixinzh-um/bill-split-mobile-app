@@ -14,7 +14,6 @@ export default function BillSplitScreen({navigation, route}){
   const group = route.params.group;
   const memberModel = getMemberModel(group);
   const itemModel = getItemModel(group.groupId);
-
   const [memberList, setMemberList] = useState([]);
   const [itemList, setItemList] = useState([]);
 
@@ -31,7 +30,6 @@ export default function BillSplitScreen({navigation, route}){
       memberModel.removeListener(memberListenerId);
       itemModel.removeListener(itemListenerId);
   };}, []);
-
 
   return (
     <View style={containerStyles.container}>

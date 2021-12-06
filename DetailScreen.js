@@ -7,17 +7,6 @@ import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons';
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 
-
-
-// {payer: 'pandapcd@umich.edu', groupId: 'BBmfhqvfJv262w5XBJau', name: 'test', value: 123, key: 0, …}
-// groupId: "BBmfhqvfJv262w5XBJau"
-// id: "v7uQRfieoWtlIn6hPov8"
-// key: 0
-// name: "test"
-// payer: "pandapcd@umich.edu"
-// value: 123
-// [[Prototype]]: Object
-
 export default function DetailScreen({navigation, route}){
   const email = route.params.email;
   const item = route.params.item
@@ -76,8 +65,17 @@ export default function DetailScreen({navigation, route}){
       {item.payer==email ?
         <View>
           <Button title='Update item !' onPress={()=>{
-            itemModel.updateItem(item, itemName, itemValue);
-            navigation.goBack();
+            const value = parseFloat(parseFloat(itemValue).toFixed(2));
+            if(!(value>0)){
+              alert("The item value should be a number larger than 0");
+              setItemValue(0);
+            }
+            else if(itemName=="")alert("The item name can't be blank")
+            else{
+              setItemValue(value);
+              itemModel.updateItem(item, itemName, parseFloat(parseFloat(itemValue).toFixed(2)));
+              navigation.goBack();
+            }            
           }}/>
           <Button title='Delete item !' onPress={()=>{
             itemModel.deleteItem(item);

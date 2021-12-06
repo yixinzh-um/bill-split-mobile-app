@@ -27,10 +27,10 @@ class MemberModel {
       const email = doc.data()["email"];
       this.members[email] = 0;
     }); 
-
     const q = query(Items, where("groupId", "==", this.group.groupId));
     onSnapshot(q, qSnap => {
       const size = Object.keys(this.members).length;
+      console.log(size);
       for(const email in this.members)this.members[email] = 0;
       qSnap.forEach((doc)=>{
         const data = doc.data();
