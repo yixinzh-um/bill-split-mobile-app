@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
 } from 'react-native';
-import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
@@ -12,19 +11,19 @@ const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
   const email = route.params.email;
-  const userModel = getUserModel();
-  const user = userModel.getUser(email);
+  const userModel = getUserModel(email);
+  const user = userModel.getCurrentUser();
   console.log(user);
   const [mode, setMode] = useState('show');
-  const [userName, setUserName] = useState();
+  const [name, setName] = useState(user.name);
 
   useEffect(() => {
-    const listenerId =  userModel.addUserListener(() => {
-      let newUser = userModel.getUser(email);
-      setUserName(newUser.userName);
+    const listenerId =  userModel.addListener(() => {
+      let newUser = userModel.getCurrentUser();
+      setName(newUser.name);
     });
     return(() => {
-      userModel.removeUserListener(listenerId);
+      userModel.removeListener(listenerId);
     })
   }, [mode]);
   
@@ -47,7 +46,7 @@ export default function UserProfileScreen({navigation, route}){
             name="checkmark-outline" size={30} color="black"
             onPress={()=>{
               setMode("show");
-              userModel.updateUserName(user.email, userName);
+              userModel.updateUserName(name);
             }}/>
           :
           <View></View>
@@ -64,7 +63,7 @@ export default function UserProfileScreen({navigation, route}){
             {mode == "show" ?
             <View style={detailStyles.editorContainer}>
               <View style={detailStyles.valueContainer}>
-                <Text style={detailStyles.valueText}>{userName}</Text>
+                <Text style={detailStyles.valueText}>{name}</Text>
               </View>
               <Ionicons 
                 name="create-outline" size={25} color="black"
@@ -75,8 +74,8 @@ export default function UserProfileScreen({navigation, route}){
             :
             <View style={detailStyles.inputContainer}>
               <TextInput style={detailStyles.inputBox}
-                         value={userName}
-                         onChangeText={(text)=>{setUserName(text);}}
+                         value={name}
+                         onChangeText={(text)=>{setName(text);}}
                 />
             </View>
             }
@@ -88,7 +87,7 @@ export default function UserProfileScreen({navigation, route}){
             <Text style={detailStyles.labelText}>Email:</Text>
           </View>
           <View style={detailStyles.valueContainer}>
-            <Text style={detailStyles.valueText}>{user.email}</Text>
+            <Text style={detailStyles.valueText}>{userModel.email}</Text>
           </View>
         </View>
       </View>
@@ -99,7 +98,11 @@ export default function UserProfileScreen({navigation, route}){
           onPress={() => {
             signOut(auth);
             console.log("sign out");
-            navigation.navigate("LoginScreen");
+            resetUserModel();
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
+            });
           }}
           >
           <Text style={buttonStyles.text}>Log out</Text>

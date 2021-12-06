@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
+import { getGroupUserList } from "./GroupModel";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+
 const auth = getAuth();
 
 export default function CreateGroupScreen({navigation, route}){
@@ -18,7 +19,6 @@ export default function CreateGroupScreen({navigation, route}){
 
   useEffect(()=>{
     groupUserList.addSubscribers(()=>{setUserList(groupUserList.getUserList());});
-    return ()=>{resetGroupUserList()};
   },[]);
 
   return (
@@ -79,7 +79,8 @@ export default function CreateGroupScreen({navigation, route}){
           icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
           type="clear"
           onPress={()=>{
-            groupUserList.addUser(userEmail);
+            if(userEmail.indexOf("@")<1)alert("Invalid Email");
+            else groupUserList.addUser(userEmail);
           }}/>
       </View>
       <View style={listStyles.userListContainer}>
@@ -104,8 +105,11 @@ export default function CreateGroupScreen({navigation, route}){
         />
       </View>
       <Button title='Create !' onPress={()=>{
-        groupUserList.upload(email, groupName, purpose);
-        navigation.goBack();
+        if(groupName=="")alert("Group can't have an empty name!")
+        else{
+          groupUserList.upload(email, groupName, purpose);
+          navigation.goBack();
+        }
       }}/>
     </View>
     );

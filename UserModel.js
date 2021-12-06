@@ -5,69 +5,79 @@ import {
   } from "firebase/firestore";
 
 import React, { useEffect, useState } from 'react';
-import {getDB} from "./FirebaseApp";
+import { getDB } from "./FirebaseApp";
 
 let userModel;
 const db = getDB();
-
 const userInfo = collection(db, "userInfo");
 
 class UserModel{
-  constructor() {
-    this.userList = [];
+  constructor(email) {
+    this.currentUser = {};
     this.userInfo = {}
-    this.userListeners = [];
-    this.initUsersOnSnapshot();
+    this.listeners = [];
+    this.email = email;
+    this.user = undefined;
+    this.initUser();
   }
 
-  
-  addUserListener(callbackFunction) {
-    const listenerId = Date.now(); // need an ID for deletion later
+  async initUser(){
+    // const q = query(userInfo, where("email", "==", this.email));
+    // const querySnapShot = await getDocs(q);
+    // const docRef = doc(db, "userInfo", this.email);
+    // if(querySnapShot.size==0){
+    //   await setDoc(docRef, {"email": this.email, "name": "User"});
+    // }
+    onSnapshot(doc(db, "userInfo", this.email), (qSnap) => {
+      const data = qSnap.data();
+      console.log(data);
+      this.user = data;
+      this.name = data.name;
+      this.notifyListener();
+    });
+    
+    this.notifyListener();
+  }
+
+  // initUsersOnSnapshot() {
+  //   onSnapshot(userInfo, (qSnap) => {
+  //     if (qSnap.empty) return;
+  //     let userList = [];
+  //     qSnap.forEach((docSnap) => {
+  //       let user = docSnap.data();
+  //       user.key = docSnap.id;
+  //       userList.push(user);
+  //     });
+  //     this.userList = userList;
+  //   });
+  // }
+
+  async updateUserName(name) {
+    const docRef = doc(db, "userInfo", this.email);
+    await updateDoc(docRef, {email: this.email, "name": name});
+    this.notifyListener();
+  }
+
+  addListener(callbackFunction) {
+    const listenerId = Date.now();
     const listener = {
       id: listenerId,
-      callback: callbackFunction  
-    };  
-    this.userListeners.push(listener);
-    callbackFunction(); // have the caller check right away
+      callback: callbackFunction
+    }
+    this.listeners.push(listener);
+    callbackFunction();
     return listenerId;
   }
-  removeUserListener(listenerId) {
-    let idx = this.userListeners.findIndex((elem)=>elem.id===listenerId);
-    this.userListeners.splice(idx, 1);
+
+  removeListener(listenerId) {
+    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    this.listeners.splice(idx, 1);
   }
-  notifyUserListeners() {
-    for (let ul of this.userListeners) {
-      ul.callback();
+
+  notifyListener() {
+    for (const tl of this.listeners) {
+      tl.callback();
     }
-  }
-
-
-  async logIn() {
-    await createUserWithEmailAndPassword(auth, email, password);  
-  }
-
-  async signIn(email, password) {
-    await signInWithEmailAndPassword(auth, email, password);
-  }
-
-  async updateUserName(email, userName) {
-    const docRef = doc(db, "userInfo", email);
-    await setDoc(docRef, {email: email, "userName": userName});
-    this.notifyUserListeners();
-  }
-
-  initUsersOnSnapshot() {
-    onSnapshot(userInfo, (qSnap) => {
-      if (qSnap.empty) return;
-      let userList = [];
-      qSnap.forEach((docSnap) => {
-        let user = docSnap.data();
-        user.key = docSnap.id;
-        userList.push(user);
-      });
-      this.userList = userList;
-    });
-    this.notifyUserListeners();
   }
 
   getUser(email) {
@@ -78,18 +88,14 @@ class UserModel{
     }
   }
 
-  getUserList() {
-    return this.userList;
+  getCurrentUser() {
+    return this.user;
   }
 };
 
-export function getUserModel() {
+export function getUserModel(email) {
   if(!userModel){
-    userModel = new UserModel();
+    userModel = new UserModel(email);
   }
   return userModel;
 };
-
-export function resetUserModel() {
-  userModel = undefined;
-}
