@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
-} from 'react-native';
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
+import { headerStyles, rowStyles, containerStyles} from './globalStyles';
+import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 
@@ -81,26 +79,31 @@ export default function ItemScreen({navigation, route}){
             onChangeText={(text)=>{setPayerEmail(text);}}
             />
         </View>
-        <Button style={rowStyles.buttonContainer}
-          title='Add Item'
-          icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
-          type="clear"
-          onPress={()=>{
-            const value = parseFloat(parseFloat(itemValue).toFixed(2));
-            if(!(value>0)){
-              alert("The item value should be a number larger than 0");
-              setItemValue(0);
-            }
-            else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
-            else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
-            else if(itemName=="")alert("The item name can't be blank")
-            else {
-              setItemValue(value);
-              itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
-              navigation.goBack();
-            }
-          }}/>
       </View>
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen'), {"item": item}}}>
+        <MaterialIcons name='photo-camera'size={32}/>
+      </TouchableOpacity>
+
+      <Button style={rowStyles.buttonContainer}
+        title='Add Item'
+        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
+        type="clear"
+        onPress={()=>{
+          const value = parseFloat(parseFloat(itemValue).toFixed(2));
+          if(!(value>0)){
+            alert("The item value should be a number larger than 0");
+            setItemValue(0);
+          }
+          else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
+          else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
+          else if(itemName=="")alert("The item name can't be blank")
+          else {
+            setItemValue(value);
+            itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
+            navigation.goBack();
+          }
+        }}/>
+      
     </View>
     );
 }

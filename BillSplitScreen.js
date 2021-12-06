@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
 } from 'react-native';
 import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
-import { getMemberModel } from './MemberModel';
-import { getItemModel } from './ItemModel';
+import { getMemberModel, resetMemberModel } from './MemberModel';
+import { getItemModel, resetItemModel } from './ItemModel';
 import ItemScreen from "./ItemScreen";
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function BillSplitScreen({navigation, route}){
   const email = route.params.email;
@@ -37,6 +36,8 @@ export default function BillSplitScreen({navigation, route}){
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
+            resetMemberModel();
+            resetItemModel();
             navigation.goBack();
           }}/>
 
