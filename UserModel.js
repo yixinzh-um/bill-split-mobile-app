@@ -21,35 +21,23 @@ class UserModel{
   }
 
   async initUser(){
-    // const q = query(userInfo, where("email", "==", this.email));
-    // const querySnapShot = await getDocs(q);
-    // const docRef = doc(db, "userInfo", this.email);
-    // if(querySnapShot.size==0){
-    //   await setDoc(docRef, {"email": this.email, "name": "User"});
-    // }
-    onSnapshot(doc(db, "userInfo", this.email), (qSnap) => {
+    const q = query(userInfo, where("email", "==", this.email));
+    const querySnapShot = await getDocs(q);
+    const docRef = doc(db, "userInfo", this.email);
+    if (querySnapShot.size==0) {
+      let userContents = {"email": this.email, "name": this.email, contacts: []};
+      await setDoc(docRef, userContents);
+      this.user = userContents;
+    }
+
+    snapShotUnsub = onSnapshot(docRef, (qSnap) => {
       const data = qSnap.data();
-      console.log(data);
-      this.user = data;
       this.name = data.name;
+      this.user = data;
       this.notifyListener();
     });
-    
-    this.notifyListener();
   }
 
-  // initUsersOnSnapshot() {
-  //   onSnapshot(userInfo, (qSnap) => {
-  //     if (qSnap.empty) return;
-  //     let userList = [];
-  //     qSnap.forEach((docSnap) => {
-  //       let user = docSnap.data();
-  //       user.key = docSnap.id;
-  //       userList.push(user);
-  //     });
-  //     this.userList = userList;
-  //   });
-  // }
 
   async updateUserName(name) {
     const docRef = doc(db, "userInfo", this.email);
@@ -98,4 +86,8 @@ export function getUserModel(email) {
     userModel = new UserModel(email);
   }
   return userModel;
+};
+
+export function resetUserModel() {
+  userModel = undefined;
 };

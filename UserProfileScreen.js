@@ -5,7 +5,7 @@ import {
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
-import { getUserModel } from "./UserModel"
+import { getUserModel, resetUserModel } from "./UserModel"
 
 const auth = getAuth();
 
@@ -13,7 +13,6 @@ export default function UserProfileScreen({navigation, route}){
   const email = route.params.email;
   const userModel = getUserModel(email);
   const user = userModel.getCurrentUser();
-  console.log(user);
   const [mode, setMode] = useState('show');
   const [name, setName] = useState(user.name);
 
@@ -98,6 +97,7 @@ export default function UserProfileScreen({navigation, route}){
           onPress={() => {
             signOut(auth);
             console.log("sign out");
+            resetUserModel();
             navigation.reset({
               index: 0,
               routes: [{ name: 'LoginScreen' }],
