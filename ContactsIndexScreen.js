@@ -4,34 +4,36 @@ import {
 } from 'react-native';
 import { getUserModel } from "./UserModel"
 import { getAuth, signOut } from "firebase/auth";
-import { getGroupList, resetGroupList } from "./GroupList";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
-import { headerStyles, rowStyles, containerStyles, listStyles } from './globalStyles'
+import { headerStyles, rowStyles, containerStyles, listStyles, detailStyles } from './globalStyles'
 
 const userModel = getUserModel();
 const auth = getAuth();
-const groupList = getGroupList();
 
-export default function HomeScreen({navigation, route}){
+export default function ContactsIndexScreen({navigation, route}){
   const email = route.params.email;
-  const [contacts, setContacts] = useState(userModel.getContacts(email));
+  const userModel = getUserModel();
+  const user = userModel.getCurrentUser();
+  const [contact, setContact] = useState('');
+  const [contacts, setContacts] = useState(user.contacts);
+
   useEffect(() => {
-    const listenerId =  userModel.addUserListener(() => {
+    const listenerId =  userModel.addListener(() => {
       let newUser = userModel.getCurrentUser();
-      setUserName(newUser.userName);
+      setContacts(newUser.contacts);
     });
     return(() => {
-      userModel.removeUserListener(listenerId);
+      userModel.removeListener(listenerId);
     })
-  }, [mode]);
+  }, []);
 
   return (
     <View style={containerStyles.container}>
       <View style={headerStyles.header}>
         <Ionicons
           style={headerStyles.leftIcon}
-          name="settings-outline" size={30} color="black"
+          name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
             navigation.navigate("UserProfileScreen", {email: email});
           }}/>
@@ -47,9 +49,15 @@ export default function HomeScreen({navigation, route}){
           }}/>
       
       </View>
-
+      <View style={detailStyles.inputContainer}>
+        <TextInput style={detailStyles.inputBox}
+                    value={contact}
+                    onChangeText={(text)=>{setContact(text)}}
+          />
+      </View>
       <Button title='Add a new contact' onPress={()=>{
-        navigation.navigate("CreateGroupScreen", {email: email});
+        userModel.addContact(contact);
+        setContact('');
       }}/>
       <View style={listStyles.userListContainer}>
           <FlatList
@@ -58,17 +66,23 @@ export default function HomeScreen({navigation, route}){
             return (
             <View style={listStyles.groupItem}>
               <Text>
-                Name: {item.name} 
+                {item} 
               </Text>
-              <Text>
+              <Ionicons 
+                style={headerStyles.rightIcon}
+                name="trash-outline" size={25} color="black"
+                onPress={()=>{
+                  userModel.removeContact(item);
+                }}/>
+              {/* <Text>
                 Purpose: {item.purpose}
               </Text>
               <Text>
                 Creator: {item.creator}
-              </Text>
-              <Button title='Enter !' onPress={()=>{
+              </Text> */}
+              {/* <Button title='Enter !' onPress={()=>{
                 navigation.navigate("BillSplitScreen", {email: email, group: item});
-              }}/>
+              }}/> */}
             </View>
             );
           }}

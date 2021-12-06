@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged,
   createUserWithEmailAndPassword
 } from "firebase/auth";
 import { getDB } from "./FirebaseApp";
+import { getUserModel } from './UserModel';
 
 const auth = getAuth();
 
@@ -89,7 +90,8 @@ export default function LoginScreen({navigation}){
             } 
             else {
               try {
-                await createUserWithEmailAndPassword(auth, email, password);  
+                await createUserWithEmailAndPassword(auth, email, password);
+                await getUserModel(email);
                 console.log('created user', email);
               } catch(error) {
                 console.log("Sign Up Error", error.message,[{ text: "OK" }]);
