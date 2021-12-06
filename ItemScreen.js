@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
-import { headerStyles, rowStyles, containerStyles} from './globalStyles';
+import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
+import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
@@ -13,11 +13,11 @@ export default function ItemScreen({navigation, route}){
   const [itemValue, setItemValue] = useState(0);
   const [itemName, setItemName] = useState("");
   const [payerEmail, setPayerEmail] = useState("");
-  const [itemList, setItemList] = useState([]);
-
+  const [image, setImage] = useState(undefined);
+  
   useEffect(()=>{
     const itemListenerId = itemModel.addListener(() => {
-      setItemList(itemModel.itemList);
+      setImage(itemModel.image);
     });
 
     return () => {
@@ -31,6 +31,7 @@ export default function ItemScreen({navigation, route}){
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
 
@@ -80,10 +81,16 @@ export default function ItemScreen({navigation, route}){
             />
         </View>
       </View>
-      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen'), {"item": item}}}>
+      {image==undefined ? <View></View> 
+        :
+        <Image
+          style={detailStyles.mainImage}
+          source={image}
+        />
+      }
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": group})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
-
       <Button style={rowStyles.buttonContainer}
         title='Add Item'
         icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}

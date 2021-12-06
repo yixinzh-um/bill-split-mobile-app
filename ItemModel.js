@@ -4,16 +4,19 @@ import {
   query, orderBy, where, onSnapshot, getDoc,
   doc, addDoc, updateDoc, deleteDoc, setDoc
 } from "firebase/firestore";
+import { getDB, getStore } from "./FirebaseApp";
+import {ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-import {getDB} from "./FirebaseApp";
 const db = getDB();
 const Items = collection(db, "Items");
+const storage = getStore();
 
 class ItemModel {
   constructor(groupId) {
     this.itemList = [];
     this.groupId = groupId;
     this.listeners = [];
+    this.image = undefined;
     this.initItemModel();
   }
 
@@ -33,13 +36,31 @@ class ItemModel {
     this.notifyListener();
   }
 
+  async uploadImage(payer){
+    let downloadURL;
+    if(this.image){
+      const response = await fetch(this.image.uri);
+      const imageBlob = await response.blob();
+      const timeStamp = new Date();
+      const timeString = timeStamp.toISOString();
+      const fileName = this.groupId + "_" + payer + "_" + timeString + ".jpg";
+      const fileRef = ref(storage, 'images/' + fileName);
+      await uploadBytes(fileRef, imageBlob);
+      downloadURL = await getDownloadURL(fileRef);
+      this.image = undefined;
+    }
+    return downloadURL
+  }
+
   async addItem(itemName, itemValue, payerEmail) {
-    const item = {
+    let item = {
       "name": itemName, 
       "value": itemValue, 
       "payer": payerEmail, 
       "groupId": this.groupId
     };
+    const url = await this.uploadImage(item.payer);
+    if(url)item["image"]=url;
     const docRef = await addDoc(Items, item);
   }
 
@@ -49,13 +70,20 @@ class ItemModel {
     const data = (await getDoc(docRef)).data();
     data["name"] = itemName;
     data["value"] = itemValue;
+    const url = await this.uploadImage(item.payer);
+    console.log(url);
+    if(url)data["image"]=url;
     setDoc(docRef, data);
   }
 
   async deleteItem(item){
     const id = item.id;
     await deleteDoc(doc(db, "Items", id));
+  }
 
+  async updateImage(image){
+    this.image = image;
+    this.notifyListener();
   }
 
   addListener(callbackFunction) {
