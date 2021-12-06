@@ -83,7 +83,7 @@ export default function BillSplitScreen({navigation, route}){
         renderItem={({item}) => {
           return (
           <TouchableOpacity style={listStyles.groupItem} onPress={()=>{
-            navigation.navigate("DetailScreen", {"email": email, "item": item});
+            navigation.navigate("DetailScreen", {email: email, item: item});
           }}>
             <Text>
               Item Name: {item.name}

@@ -10,7 +10,7 @@ export default function ItemScreen({navigation, route}){
   const memberModel = getMemberModel(group);
   const itemModel = getItemModel(group.groupId);
 
-  const [itemValue, setItemValue] = useState(0);
+  const [itemValue, setItemValue] = useState('0');
   const [itemName, setItemName] = useState("");
   const [payerEmail, setPayerEmail] = useState("");
   const [itemList, setItemList] = useState([]);
@@ -34,14 +34,8 @@ export default function ItemScreen({navigation, route}){
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
-          <Text style={headerStyles.title}> Bills</Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="settings-outline" size={30} color="black"
-            onPress={()=>{
-            }}/>
+        <View style={{flex: 1}}>
+          <Text style={headerStyles.title}> Add Items</Text>
         </View>
       </View>
       <View style={rowStyles.row}>
@@ -64,7 +58,7 @@ export default function ItemScreen({navigation, route}){
             <TextInput 
               style={rowStyles.inputBox}
               value={itemValue}
-              onChangeText={(text)=>{setItemValue(text);}}
+              onChangeText={(text)=>{setItemValue(text)}}
             />
           </View>
       </View>
@@ -80,7 +74,7 @@ export default function ItemScreen({navigation, route}){
             />
         </View>
       </View>
-      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen'), {"item": item}}}>
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen'), {item: item}}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
 
@@ -92,13 +86,13 @@ export default function ItemScreen({navigation, route}){
           const value = parseFloat(parseFloat(itemValue).toFixed(2));
           if(!(value>0)){
             alert("The item value should be a number larger than 0");
-            setItemValue(0);
+            setItemValue('0');
           }
-          else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
-          else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
+          else if(payerEmail.indexOf("@")<1) alert("Invalid Email");
+          else if(memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
           else if(itemName=="")alert("The item name can't be blank")
           else {
-            setItemValue(value);
+            setItemValue(value.toString());
             itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
             navigation.goBack();
           }

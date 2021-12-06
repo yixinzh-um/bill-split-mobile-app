@@ -9,10 +9,10 @@ import { getItemModel } from './ItemModel';
 
 export default function DetailScreen({navigation, route}){
   const email = route.params.email;
-  const item = route.params.item
+  const item = route.params.item;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
-  const [itemValue, setItemValue] = useState(item.value);
+  const [itemValue, setItemValue] = useState(item.value.toString());
   return (
     <View style={containerStyles.container}>
       <View style={headerStyles.header}>
@@ -22,14 +22,8 @@ export default function DetailScreen({navigation, route}){
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
-          <Text style={headerStyles.title}> Bills</Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="settings-outline" size={30} color="black"
-            onPress={()=>{
-            }}/>
+        <View style={{flex: 1}}>
+          <Text style={headerStyles.title}> Edit items</Text>
         </View>
       </View>
       <View style={rowStyles.row}>
@@ -72,7 +66,7 @@ export default function DetailScreen({navigation, route}){
             }
             else if(itemName=="")alert("The item name can't be blank")
             else{
-              setItemValue(value);
+              setItemValue(value.toString());
               itemModel.updateItem(item, itemName, parseFloat(parseFloat(itemValue).toFixed(2)));
               navigation.goBack();
             }            
