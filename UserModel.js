@@ -9,7 +9,7 @@ import { getDB } from "./FirebaseApp";
 
 let userModel;
 const db = getDB();
-const userInfo = collection(db, "userInfo");
+const userInfo = collection(db, "UserInfo");
 
 class UserModel{
   constructor(email) {
@@ -23,11 +23,11 @@ class UserModel{
   async initUser(){
     const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     if(querySnapShot.size==0){
       await setDoc(docRef, {"email": this.email, "name": "User"});
     }
-    onSnapshot(doc(db, "userInfo", this.email), (qSnap) => {
+    onSnapshot(doc(db, "UserInfo", this.email), (qSnap) => {
       const data = qSnap.data();
       this.name = data.name;
       this.notifyListener();
@@ -36,7 +36,7 @@ class UserModel{
   }
 
   async updateUserName(name) {
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     await updateDoc(docRef, {email: this.email, "name": name});
     const data = (await getDoc(docRef)).data();
     this.notifyListener();

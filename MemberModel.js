@@ -1,8 +1,8 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { 
-  initializeFirestore, collection,  
-  query, orderBy, where, onSnapshot,
-  doc, addDoc, updateDoc, deleteDoc
+  collection,  
+  query, orderBy, where, onSnapshot, writeBatch,
+  doc, addDoc, updateDoc, deleteDoc, setDoc, getDoc
 } from "firebase/firestore";
 import {getDB} from "./FirebaseApp";
 
@@ -24,7 +24,7 @@ class MemberModel {
     onSnapshot(q, qSnap => {
       qSnap.forEach((doc)=>{
         const data = doc.data();
-        this.members[data["email"]] = data["balance"];
+        this.members[data["email"]] = {"balance": data["balance"], "id": doc.id}
       })
       this.notifyListener();
     });
@@ -35,10 +35,28 @@ class MemberModel {
     let key = 0;
     let ret = [];
     for(const email in this.members){
-      ret.push({"email":email, "key": key++, "balance": this.members[email]});
+      ret.push({"email":email, "key": key++, "balance": this.members[email]["balance"]});
     }
-    console.log(ret);
     return ret;
+  }
+
+  async addItem(itemValue, payerEmail) {
+    const userNum = this.getMemberList().length;
+    const debit = (itemValue / (userNum - 1)).toFixed(2);
+    for(const email in this.members){
+      if(email==payerEmail)this.members[email]["balance"] += itemValue;
+      else this.members[email]["balance"] -= itemValue;
+    }
+    const batch = writeBatch(db);
+    for(const email in this.members){
+      const id = this.members[email]["id"];
+      const docRef = doc(db, "Membership", id);
+      const docSnap = await getDoc(docRef);
+      let data = docSnap.data();
+      data["balance"] = this.members[email]["balance"];
+      batch.set(docRef, data);
+    }
+    await batch.commit();
   }
 
 

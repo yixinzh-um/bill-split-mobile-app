@@ -2,25 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getAuth, signOut } from "firebase/auth";
 import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
+import { getItemModel } from './ItemModel';
+import ItemScreen from "./ItemScreen";
 
 export default function BillSplitScreen({navigation, route}){
   const email = route.params.email;
   const group = route.params.group;
   const memberModel = getMemberModel(group);
+  const itemModel = getItemModel(group.groupId);
+
   const [memberList, setMemberList] = useState([]);
+  const [itemList, setItemList] = useState([]);
 
   useEffect(()=>{
     const memberListenerId = memberModel.addListener(() => {
       setMemberList(memberModel.getMemberList());
     });
-    
+    const itemListenerId = itemModel.addListener(() => {
+      setItemList(itemModel.itemList);
+    });
+
+
     return () => {
       memberModel.removeListener(memberListenerId);
-      // groupList.removeListener(groupListenerId);
+      itemModel.removeListener(itemListenerId);
   };}, []);
 
 
@@ -63,13 +71,33 @@ export default function BillSplitScreen({navigation, route}){
         }}
         />
       </View>
+      <Text style={containerStyles.paragraph}>
+        Item List
+      </Text>
       <Button title='Add item !' onPress={()=>{
-        // if(groupName=="")alert("Group can't have an empty name!")
-        // else{
-        //   groupUserList.upload(email, groupName, purpose);
-        //   navigation.goBack();
-        // }
+        navigation.navigate("ItemScreen", {group: group});
       }}/>
+      <View style={listStyles.userListContainer}>
+        <FlatList
+        data={itemList}
+        renderItem={({item}) => {
+          return (
+          <View style={listStyles.groupItem}>
+            <Text>
+              Item Name: {item.name}
+            </Text>
+            <Text>
+              Item Value: {item.value}
+            </Text>
+            <Text>
+              Item Payer: {item.payer}
+            </Text>
+          </View>
+          );
+        }}
+        />
+      </View>
+      
     </View>
     );
 }
