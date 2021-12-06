@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { getDB } from "./FirebaseApp";
 
 const db = getDB();
-const userInfo = collection(db, "userInfo");
+const userInfo = collection(db, "UserInfo");
 
 class UserModel{
   constructor(email) {
@@ -27,9 +27,11 @@ class UserModel{
   async initUser(){
     const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     if (querySnapShot.size==0) {
-      let userContents = {"email": this.email, "name": this.email, contacts: []};
+      let userContents = {email: this.email, 
+                          name: this.email.split('@')[0], 
+                          contacts: []};
       await setDoc(docRef, userContents);
       this.user = userContents;
     }
@@ -44,20 +46,20 @@ class UserModel{
 
 
   async updateUserName(name) {
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     await updateDoc(docRef, {email: this.email, "name": name});
     this.notifyListener();
   }
 
   async addContact(contact) {
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     let contacts = Array.from(this.user.contacts);
     contacts.push(contact);
     await updateDoc(docRef, {contacts: contacts});
     this.notifyListener();
   }
   async removeContact(contact) {
-    const docRef = doc(db, "userInfo", this.email);
+    const docRef = doc(db, "UserInfo", this.email);
     let contacts = Array.from(this.user.contacts);
     let idx = contacts.findIndex((elem)=>elem===contact); 
     contacts.splice(idx, 1);
