@@ -16,7 +16,11 @@ class UserModel{
     this.userInfo = {}
     this.listeners = [];
     this.email = email;
-    this.user = undefined;
+    this.user = {
+      email: '',
+      name: '',
+      contacts: [],
+    }
     this.initUser();
   }
 
