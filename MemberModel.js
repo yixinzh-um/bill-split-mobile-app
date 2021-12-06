@@ -1,13 +1,14 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { 
-  initializeFirestore, collection,  
-  query, orderBy, where, onSnapshot,
-  doc, addDoc, updateDoc, deleteDoc
+  collection,  
+  query, orderBy, where, onSnapshot, writeBatch, getDocs,
+  doc, addDoc, updateDoc, deleteDoc, setDoc, getDoc
 } from "firebase/firestore";
 import {getDB} from "./FirebaseApp";
 
 const db = getDB();
-const memberShip = collection(db, "Membership");
+const MemberShip = collection(db, "MemberShip");
+const Items = collection(db, "Items");
 
 let memberModel = undefined;
 
@@ -15,17 +16,31 @@ class MemberModel {
   constructor(group) {
     this.group = group;
     this.listeners = [];
-    this.members = []
+    this.members = {};
     this.initMemberModel();
   }
   
   async initMemberModel(){ // Load all related user and their balance in this group
-    const q = query(memberShip, where("groupId", "==", this.group.groupId));
+    const members = query(MemberShip, where("groupId", "==", this.group.groupId));
+    const querySnapshot = await getDocs(members);
+    querySnapshot.forEach((doc) => {
+      const email = doc.data()["email"];
+      this.members[email] = 0;
+    }); 
+    const q = query(Items, where("groupId", "==", this.group.groupId));
     onSnapshot(q, qSnap => {
+      const size = Object.keys(this.members).length;
+      console.log(size);
+      for(const email in this.members)this.members[email] = 0;
       qSnap.forEach((doc)=>{
         const data = doc.data();
-        this.members[data["email"]] = data["balance"];
-      })
+        const payer = data["payer"];
+        const value = data["value"];
+        for(const email in this.members){
+          if(email==payer)this.members[email] += value;
+          else this.members[email] -= (value / (size - 1));
+        }
+      });
       this.notifyListener();
     });
     this.notifyListener();
@@ -37,7 +52,6 @@ class MemberModel {
     for(const email in this.members){
       ret.push({"email":email, "key": key++, "balance": this.members[email]});
     }
-    console.log(ret);
     return ret;
   }
 
@@ -64,6 +78,7 @@ class MemberModel {
     }
   }
 }
+
 export function getMemberModel(group) {
   if (!memberModel) {
     memberModel = new MemberModel(group);

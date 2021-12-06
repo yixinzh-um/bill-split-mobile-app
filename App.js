@@ -5,8 +5,11 @@ import { StyleSheet, Text, ScrollView, View, TouchableOpacity, Image } from 'rea
 import LoginScreen from './LoginScreen';
 import HomeScreen from "./HomeScreen";
 import CreateGroupScreen from "./CreateGroupScreen";
-import BillSplitScreen from "./BillSplitScreen"
-import UserProfileScreen from "./UserProfileScreen"
+import BillSplitScreen from "./BillSplitScreen";
+import UserProfileScreen from "./UserProfileScreen";
+import ItemScreen from "./ItemScreen";
+import DetailScreen from "./DetailScreen";
+import CameraScreen from './CameraScreen';
 import ContactsIndexScreen from "./ContactsIndexScreen";
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +26,9 @@ class App extends React.Component{
           <Stack.Screen name="CreateGroupScreen" component={CreateGroupScreen} options={{headerShown: false}}/>
           <Stack.Screen name="BillSplitScreen" component={BillSplitScreen} options={{headerShown: false}}/>
           <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="ItemScreen" component={ItemScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="DetailScreen" component={DetailScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="CameraScreen" component={DetailScreen} options={{headerShown: false}}/>
           <Stack.Screen name="ContactsIndexScreen" component={ContactsIndexScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>

@@ -36,7 +36,7 @@ class UserModel{
       this.user = userContents;
     }
 
-    snapShotUnsub = onSnapshot(docRef, (qSnap) => {
+    onSnapshot(docRef, (qSnap) => {
       const data = qSnap.data();
       this.name = data.name;
       this.user = data;

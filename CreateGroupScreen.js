@@ -3,7 +3,7 @@ import {
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
 import { getGroupUserList } from "./GroupModel";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 
@@ -57,9 +57,9 @@ export default function CreateGroupScreen({navigation, route}){
           </View>
           <View style={rowStyles.inputContainer}>
             <TextInput 
-            style={rowStyles.inputBox}
-            value={purpose}
-            onChangeText={(text)=>{setPurpose(text);}}
+              style={rowStyles.inputBox}
+              value={purpose}
+              onChangeText={(text)=>{setPurpose(text);}}
             />
           </View>
       </View>

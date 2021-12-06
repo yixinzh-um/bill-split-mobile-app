@@ -10,7 +10,7 @@ import {getDB} from "./FirebaseApp";
 
 
 const db = getDB();
-const memberShip = collection(db, "Membership");
+const MemberShip = collection(db, "MemberShip");
 let groupUserList;
 let groupList;
 
@@ -35,17 +35,15 @@ class GroupUserList{
       "creator": email
     });
     const groupId = docRef.id
-    await addDoc(collection(db, "Membership"), {
+    await addDoc(collection(db, "MemberShip"), {
       "email": email,
       "groupId": groupId,
-      "balance": 0
     });
     for(const userEmail in this.users){
       if(userEmail==email)continue;
-      await addDoc(collection(db, "Membership"), {
+      await addDoc(collection(db, "MemberShip"), {
         "email": userEmail,
         "groupId": groupId,
-        "balance": 0
       });
     }
   }
@@ -60,7 +58,7 @@ class GroupUserList{
   }
 
   addUser(email){
-    this.users[email] = {"email": email, "balance": 0};
+    this.users[email] = {"email": email};
     this.updateSubscribers();
   }
 
@@ -79,7 +77,7 @@ class GroupList{
   }
 
   async initGroupList(){ // init basic infomation about the group
-    const q = query(memberShip, where("email", "==", this.email));
+    const q = query(MemberShip, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
     onSnapshot(q, async (qSnap) => {
       this.groups = {}
