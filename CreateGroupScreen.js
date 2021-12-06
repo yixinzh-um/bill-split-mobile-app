@@ -5,6 +5,7 @@ import {
 import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 const auth = getAuth();
 
 export default function CreateGroupScreen({navigation, route}){
@@ -21,39 +22,77 @@ export default function CreateGroupScreen({navigation, route}){
   },[]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.loginRow}>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Group Name:</Text>
+    <View style={containerStyles.container}>
+      <View style={headerStyles.header}>
+        <Ionicons
+          name="arrow-back-outline" size={30} color="black"
+          onPress={()=>{
+            navigation.goBack();
+          }}/>
+        <View style={{flex: 0.9}}>
+          <Text style={headerStyles.title}>Create group</Text>
         </View>
-        <View style={styles.loginInputContainer}>
+        <View style={{flex: 0.1}}>
+          <Ionicons 
+            name="create-outline" size={30} color="black"
+            onPress={()=>{
+            }}/>
+        </View>
+      </View>
+      <View style={rowStyles.row}>
+        <View style={rowStyles.labelContainer}>
+          <Text style={rowStyles.labelText}>Group Name:</Text>
+        </View>
+        <View style={rowStyles.inputContainer}>
           <TextInput 
-            style={styles.loginInputBox}
+            style={rowStyles.inputBox}
             value={groupName}
             onChangeText={(text)=>{setGroupName(text);}}
             />
         </View>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Purpose:</Text>
-        </View>
-        <View style={styles.loginInputContainer}>
-          <TextInput 
-          style={styles.loginInputBox}
-          value={purpose}
-          onChangeText={(text)=>{setPurpose(text);}}
-          />
-        </View>
       </View>
-      <View style={styles.userListContainer}>
+      <View style={rowStyles.row}>
+          <View style={rowStyles.labelContainer}>
+            <Text style={rowStyles.labelText}>Purpose:</Text>
+          </View>
+          <View style={rowStyles.inputContainer}>
+            <TextInput 
+            style={rowStyles.inputBox}
+            value={purpose}
+            onChangeText={(text)=>{setPurpose(text);}}
+            />
+          </View>
+      </View>
+      <View style={rowStyles.row}>
+        <View style={rowStyles.labelContainer}>
+          <Text style={rowStyles.labelText}>Email:</Text>
+        </View>
+        <View style={rowStyles.inputContainer}>
+          <TextInput 
+            style={rowStyles.inputBox}
+            value={userEmail}
+            onChangeText={(text)=>{setUserEmail(text);}}
+            />
+        </View>
+        <Button style={rowStyles.buttonContainer}
+          title='Add user'
+          icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
+          type="clear"
+          onPress={()=>{
+            groupUserList.addUser(userEmail);
+          }}/>
+      </View>
+      <View style={listStyles.userListContainer}>
         <FlatList
         data={userList}
         renderItem={({item}) => {
           return (
-          <View>
+          <View style={listStyles.groupItem}>
             <Text>
               {item.email}
             </Text>
             <Button
+              title='Delete user'
               icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
               type="clear"
               onPress={()=>{
@@ -63,85 +102,11 @@ export default function CreateGroupScreen({navigation, route}){
           );
         }}
         />
-        <View style={styles.loginInputContainer}>
-          <View style={styles.loginLabelContainer}>
-            <Text style={styles.loginLabelText}>Email:</Text>
-          </View>
-          <TextInput 
-            style={styles.loginInputBox}
-            value={userEmail}
-            onChangeText={(text)=>{setUserEmail(text);}}
-            />
-          <Button
-            icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
-            type="clear"
-            onPress={()=>{
-              groupUserList.addUser(userEmail);
-            }}/>
-        </View>
-        <Button title='Create !' onPress={()=>{
-          groupUserList.upload(email, groupName, purpose);
-          navigation.goBack();
-        }}/>
       </View>
+      <Button title='Create !' onPress={()=>{
+        groupUserList.upload(email, groupName, purpose);
+        navigation.goBack();
+      }}/>
     </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  loginRow: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-  },
-  loginLabelContainer: {
-    flex: 0.4,
-    justifyContent: 'center',
-    alignItems: 'flex-end'
-  },
-  loginLabelText: {
-    fontSize: 18
-  },
-  loginInputContainer: {
-    flex: 0.6,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    width: '100%'
-  },
-  loginInputBox: {
-    width: '100%',
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 6,
-    fontSize: 18,
-    padding: '2%'
-  },
-  sectionHeader: {
-    width: '100%',
-    padding: '3%',
-    justifyContent: 'center',
-    alignItems: 'center'
-    },
-  sectionHeaderText: {
-    fontSize: 36
-  },
-  userListContainer: {
-    flex: 0.7, 
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%', 
-  },
-  });
