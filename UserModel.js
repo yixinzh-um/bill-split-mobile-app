@@ -49,6 +49,23 @@ class UserModel{
     this.notifyListener();
   }
 
+  async addContact(contact) {
+    const docRef = doc(db, "userInfo", this.email);
+    let contacts = Array.from(this.user.contacts);
+    contacts.push(contact);
+    await updateDoc(docRef, {contacts: contacts});
+    this.notifyListener();
+  }
+  async removeContact(contact) {
+    const docRef = doc(db, "userInfo", this.email);
+    let contacts = Array.from(this.user.contacts);
+    let idx = contacts.findIndex((elem)=>elem===contact); 
+    contacts.splice(idx, 1);
+    await updateDoc(docRef, {contacts: contacts});
+    this.notifyListener();
+  }
+
+
   addListener(callbackFunction) {
     const listenerId = Date.now();
     const listener = {

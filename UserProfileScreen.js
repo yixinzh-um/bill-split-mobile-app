@@ -91,6 +91,19 @@ export default function UserProfileScreen({navigation, route}){
         </View>
       </View>
 
+      <View style={detailStyles.row}>
+          <View style={detailStyles.labelContainer}>
+            <Text style={detailStyles.labelText}>Contacts:</Text>
+          </View>
+          <View style={detailStyles.valueContainer}>
+            <Ionicons 
+              name="people-circle-outline" size={30} color="#006DCD"
+              onPress={()=>{
+                navigation.navigate("ContactsIndexScreen", {email: email});
+              }}/>
+          </View>
+        </View>
+
       <View style={styles.signOutContainer}>
         <TouchableOpacity 
           style={buttonStyles.container}
