@@ -16,18 +16,31 @@ class UserModel{
   constructor() {
     this.userList = [];
     this.userInfo = {}
-    this.subscribers = [];
+    this.userListeners = [];
     this.initUsersOnSnapshot();
   }
 
   
-  updateSubscribers() {
-    for(let sub of this.subscribers)sub();
+  addUserListener(callbackFunction) {
+    const listenerId = Date.now(); // need an ID for deletion later
+    const listener = {
+      id: listenerId,
+      callback: callbackFunction  
+    };  
+    this.userListeners.push(listener);
+    callbackFunction(); // have the caller check right away
+    return listenerId;
+  }
+  removeUserListener(listenerId) {
+    let idx = this.userListeners.findIndex((elem)=>elem.id===listenerId);
+    this.userListeners.splice(idx, 1);
+  }
+  notifyUserListeners() {
+    for (let ul of this.userListeners) {
+      ul.callback();
+    }
   }
 
-  addSubscribers(sub) {
-    this.subscribers.push(sub);
-  }
 
   async logIn() {
     await createUserWithEmailAndPassword(auth, email, password);  
@@ -38,16 +51,9 @@ class UserModel{
   }
 
   async updateUserName(email, userName) {
-    const q = query(userInfo, where("email", "==", email));
-    const querySnapShot = await getDocs(q);
     const docRef = doc(db, "userInfo", email);
-    if(querySnapShot.size==0){
-      await setDoc(docRef, {email: email, "userName": email});
-    }
-    else if(userName!="")await updateDoc(docRef, {email: email, "userName": userName});
-    const data = (await getDoc(docRef)).data();
-    this.userInfo[email] = {email:email, "userName": data.userName};
-    this.updateSubscribers();
+    await setDoc(docRef, {email: email, "userName": userName});
+    this.notifyUserListeners();
   }
 
   initUsersOnSnapshot() {
@@ -61,6 +67,7 @@ class UserModel{
       });
       this.userList = userList;
     });
+    this.notifyUserListeners();
   }
 
   getUser(email) {

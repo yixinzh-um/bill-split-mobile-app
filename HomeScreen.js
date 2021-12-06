@@ -15,15 +15,14 @@ const groupList = getGroupList();
 
 export default function HomeScreen({navigation, route}){
   const email = route.params.email;
-  const userModel = getUserModel();
-  const currentUser = userModel.getUser(email);
-
   const [groups, setGroups] = useState([]);
   useEffect(() => { 
     const focus = navigation.addListener('focus', async () => {
       groupList.addSubscribers(()=>{setGroups(groupList.getGroupList());});
       await groupList.load(email);
-      return () => {resetGroupList(); resetUserModel();};
+      return () => {
+        resetGroupList(); 
+      };
     });
     return focus;
   }, [navigation]);
@@ -35,11 +34,11 @@ export default function HomeScreen({navigation, route}){
           style={headerStyles.leftIcon}
           name="settings-outline" size={30} color="black"
           onPress={()=>{
-            navigation.navigate("UserProfileScreen", {user: currentUser});
+            navigation.navigate("UserProfileScreen", {email: email});
           }}/>
 
         <View style={headerStyles.titleContainer}> 
-          <Text style={headerStyles.title}>{currentUser != null ? currentUser.userName : "User"}'s Groups</Text>
+          <Text style={headerStyles.title}>Groups</Text>
         </View>
         
         <Ionicons 

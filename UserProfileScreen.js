@@ -11,13 +11,22 @@ import { getUserModel, resetUserModel } from "./UserModel"
 const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
-  const user = route.params.user;
+  const email = route.params.email;
   const userModel = getUserModel();
+  const user = userModel.getUser(email);
+  console.log(user);
   const [mode, setMode] = useState('show');
-  const [userName, setUserName] = useState(user.userName);
+  const [userName, setUserName] = useState();
 
-  // useEffect(() => {
-  // }, [mode]);
+  useEffect(() => {
+    const listenerId =  userModel.addUserListener(() => {
+      let newUser = userModel.getUser(email);
+      setUserName(newUser.userName);
+    });
+    return(() => {
+      userModel.removeUserListener(listenerId);
+    })
+  }, [mode]);
   
   return (
     <View style={styles.container}>
