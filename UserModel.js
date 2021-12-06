@@ -7,7 +7,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { getDB } from "./FirebaseApp";
 
-let userModel;
 const db = getDB();
 const userInfo = collection(db, "userInfo");
 
@@ -93,6 +92,7 @@ class UserModel{
   }
 };
 
+let userModel = undefined;
 export function getUserModel(email) {
   if(!userModel){
     userModel = new UserModel(email);
