@@ -7,6 +7,7 @@ import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons';
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 import ItemScreen from "./ItemScreen";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function BillSplitScreen({navigation, route}){
   const email = route.params.email;
@@ -82,7 +83,9 @@ export default function BillSplitScreen({navigation, route}){
         data={itemList}
         renderItem={({item}) => {
           return (
-          <View style={listStyles.groupItem}>
+          <TouchableOpacity style={listStyles.groupItem} onPress={()=>{
+            navigation.navigate("DetailScreen", {"email": email, "item": item});
+          }}>
             <Text>
               Item Name: {item.name}
             </Text>
@@ -92,7 +95,7 @@ export default function BillSplitScreen({navigation, route}){
             <Text>
               Item Payer: {item.payer}
             </Text>
-          </View>
+          </TouchableOpacity>
           );
         }}
         />

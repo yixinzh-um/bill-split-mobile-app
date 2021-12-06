@@ -8,6 +8,7 @@ import CreateGroupScreen from "./CreateGroupScreen";
 import BillSplitScreen from "./BillSplitScreen";
 import UserProfileScreen from "./UserProfileScreen";
 import ItemScreen from "./ItemScreen";
+import DetailScreen from "./DetailScreen";
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component{
@@ -24,6 +25,7 @@ class App extends React.Component{
           <Stack.Screen name="BillSplitScreen" component={BillSplitScreen} options={{headerShown: false}}/>
           <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{headerShown: false}}/>
           <Stack.Screen name="ItemScreen" component={ItemScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="DetailScreen" component={DetailScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )

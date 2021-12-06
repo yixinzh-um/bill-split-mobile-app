@@ -21,8 +21,6 @@ export default function ItemScreen({navigation, route}){
     const itemListenerId = itemModel.addListener(() => {
       setItemList(itemModel.itemList);
     });
-    
-    // const memberListenerId
 
     return () => {
       itemModel.removeListener(itemListenerId);
@@ -88,41 +86,21 @@ export default function ItemScreen({navigation, route}){
           icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
           type="clear"
           onPress={()=>{
-            // const value = parseFloat(parseFloat(itemValue).toFixed(2));
-            const value=5;
+            const value = parseFloat(parseFloat(itemValue).toFixed(2));
             if(!(value>0)){
               alert("The item value should be a number larger than 0");
               setItemValue(0);
             }
-            // else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
-            // else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
-            // else if(itemName=="")alert("The item name can't be blank")
+            else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
+            else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
+            else if(itemName=="")alert("The item name can't be blank")
             else {
               setItemValue(value);
-              // itemModel.addItem(itemName, itemValue, payerEmail);
-              // memberModel.addItem(itemValue, payerEmail);
-              memberModel.addItem(10, payerEmail);
+              itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
               navigation.goBack();
             }
           }}/>
       </View>
-      {/* <View style={listStyles.userListContainer}>
-        <FlatList
-        data={memberList}
-        renderItem={({item}) => {
-          return (
-          <View style={listStyles.groupItem}>
-            <Text>
-              {item.email}
-            </Text>
-            <Text>
-              Balance: {item.balance}
-            </Text>
-          </View>
-          );
-        }}
-        />
-      </View> */}
     </View>
     );
 }
