@@ -7,16 +7,20 @@ import {
 import React, { useEffect, useState } from 'react';
 import { getDB } from "./FirebaseApp";
 
-let userModel;
 const db = getDB();
 const userInfo = collection(db, "UserInfo");
 
 class UserModel{
   constructor(email) {
-    this.userList = [];
+    this.currentUser = {};
     this.userInfo = {}
     this.listeners = [];
-    this.email = email
+    this.email = email;
+    this.user = {
+      email: '',
+      name: '',
+      contacts: [],
+    }
     this.initUser();
   }
 
@@ -24,21 +28,24 @@ class UserModel{
     const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
     const docRef = doc(db, "UserInfo", this.email);
-    if(querySnapShot.size==0){
-      await setDoc(docRef, {"email": this.email, "name": "User"});
+    if (querySnapShot.size==0) {
+      let userContents = {"email": this.email, "name": this.email, contacts: []};
+      await setDoc(docRef, userContents);
+      this.user = userContents;
     }
-    onSnapshot(doc(db, "UserInfo", this.email), (qSnap) => {
+
+    onSnapshot(docRef, (qSnap) => {
       const data = qSnap.data();
       this.name = data.name;
+      this.user = data;
       this.notifyListener();
     });
-    this.notifyListener();
   }
+
 
   async updateUserName(name) {
     const docRef = doc(db, "UserInfo", this.email);
     await updateDoc(docRef, {email: this.email, "name": name});
-    const data = (await getDoc(docRef)).data();
     this.notifyListener();
   }
 
@@ -64,8 +71,20 @@ class UserModel{
     }
   }
 
+  getUser(email) {
+    for (let user of this.userList) {
+      if (user.id = email) {
+        return user;
+      }
+    }
+  }
+
+  getCurrentUser() {
+    return this.user;
+  }
 };
 
+let userModel = undefined;
 export function getUserModel(email) {
   if(!userModel){
     userModel = new UserModel(email);
@@ -75,4 +94,4 @@ export function getUserModel(email) {
 
 export function resetUserModel() {
   userModel = undefined;
-}
+};

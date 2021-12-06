@@ -12,8 +12,19 @@ const auth = getAuth();
 export default function UserProfileScreen({navigation, route}){
   const email = route.params.email;
   const userModel = getUserModel(email);
+  const user = userModel.getCurrentUser();
   const [mode, setMode] = useState('show');
-  const [userName, setUserName] = useState(userModel.name);
+  const [name, setName] = useState(user.name);
+
+  useEffect(() => {
+    const listenerId =  userModel.addListener(() => {
+      let newUser = userModel.getCurrentUser();
+      setName(newUser.name);
+    });
+    return(() => {
+      userModel.removeListener(listenerId);
+    })
+  }, [mode]);
   
   return (
     <View style={styles.container}>
@@ -34,7 +45,7 @@ export default function UserProfileScreen({navigation, route}){
             name="checkmark-outline" size={30} color="black"
             onPress={()=>{
               setMode("show");
-              userModel.updateUserName(userName);
+              userModel.updateUserName(name);
             }}/>
           :
           <View></View>
@@ -51,7 +62,7 @@ export default function UserProfileScreen({navigation, route}){
             {mode == "show" ?
             <View style={detailStyles.editorContainer}>
               <View style={detailStyles.valueContainer}>
-                <Text style={detailStyles.valueText}>{userName}</Text>
+                <Text style={detailStyles.valueText}>{name}</Text>
               </View>
               <Ionicons 
                 name="create-outline" size={25} color="black"
@@ -62,8 +73,8 @@ export default function UserProfileScreen({navigation, route}){
             :
             <View style={detailStyles.inputContainer}>
               <TextInput style={detailStyles.inputBox}
-                         value={userName}
-                         onChangeText={(text)=>{setUserName(text);}}
+                         value={name}
+                         onChangeText={(text)=>{setName(text);}}
                 />
             </View>
             }

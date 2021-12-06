@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
 } from 'react-native';
-import { getUserModel} from "./UserModel"
+import { getUserModel, resetUserModel } from "./UserModel"
 import { getGroupList} from "./GroupModel";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
@@ -16,18 +16,20 @@ export default function HomeScreen({navigation, route}){
   const userModel = getUserModel(email);
   const groupList = getGroupList(email);
   const [groups, setGroups] = useState([]);
-  const [userName, setUserName] = useState("Use");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const nameListenerId = userModel.addListener(
-      () => {setUserName(userModel.name);}
-    );
+    const userListenerId = userModel.addListener(async () => {
+      const userModel = await getUserModel(email);
+      const newUser = userModel.getCurrentUser();
+      setUserName(newUser.name);
+    });
     const groupListenerId = groupList.addListener(
       () => {setGroups(groupList.getGroupList());}
     );
 
     return () => {
-      userModel.removeListener(nameListenerId);
+      userModel.removeListener(userListenerId);
       groupList.removeListener(groupListenerId);
     };
   }, []);
