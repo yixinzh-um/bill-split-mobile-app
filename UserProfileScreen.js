@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
 } from 'react-native';
-import { getGroupUserList, resetGroupUserList } from "./GroupUserList";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
@@ -11,13 +10,10 @@ import { getUserModel, resetUserModel } from "./UserModel"
 const auth = getAuth();
 
 export default function UserProfileScreen({navigation, route}){
-  const user = route.params.user;
-  const userModel = getUserModel();
+  const email = route.params.email;
+  const userModel = getUserModel(email);
   const [mode, setMode] = useState('show');
-  const [userName, setUserName] = useState(user.userName);
-
-  // useEffect(() => {
-  // }, [mode]);
+  const [userName, setUserName] = useState(userModel.name);
   
   return (
     <View style={styles.container}>
@@ -38,7 +34,7 @@ export default function UserProfileScreen({navigation, route}){
             name="checkmark-outline" size={30} color="black"
             onPress={()=>{
               setMode("show");
-              userModel.updateUserName(user.email, userName);
+              userModel.updateUserName(userName);
             }}/>
           :
           <View></View>
@@ -79,7 +75,7 @@ export default function UserProfileScreen({navigation, route}){
             <Text style={detailStyles.labelText}>Email:</Text>
           </View>
           <View style={detailStyles.valueContainer}>
-            <Text style={detailStyles.valueText}>{user.email}</Text>
+            <Text style={detailStyles.valueText}>{userModel.email}</Text>
           </View>
         </View>
       </View>
@@ -90,7 +86,11 @@ export default function UserProfileScreen({navigation, route}){
           onPress={() => {
             signOut(auth);
             console.log("sign out");
-            navigation.navigate("LoginScreen");
+            resetUserModel();
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
+            });
           }}
           >
           <Text style={buttonStyles.text}>Log out</Text>

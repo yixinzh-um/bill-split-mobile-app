@@ -5,80 +5,70 @@ import {
   } from "firebase/firestore";
 
 import React, { useEffect, useState } from 'react';
-import {getDB} from "./FirebaseApp";
+import { getDB } from "./FirebaseApp";
 
 let userModel;
 const db = getDB();
-
 const userInfo = collection(db, "userInfo");
 
 class UserModel{
-  constructor() {
+  constructor(email) {
     this.userList = [];
     this.userInfo = {}
-    this.subscribers = [];
-    this.initUsersOnSnapshot();
+    this.listeners = [];
+    this.email = email
+    this.initUser();
   }
 
-  
-  updateSubscribers() {
-    for(let sub of this.subscribers)sub();
-  }
-
-  addSubscribers(sub) {
-    this.subscribers.push(sub);
-  }
-
-  async logIn() {
-    await createUserWithEmailAndPassword(auth, email, password);  
-  }
-
-  async signIn(email, password) {
-    await signInWithEmailAndPassword(auth, email, password);
-  }
-
-  async updateUserName(email, userName) {
-    const q = query(userInfo, where("email", "==", email));
+  async initUser(){
+    const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
-    const docRef = doc(db, "userInfo", email);
+    const docRef = doc(db, "userInfo", this.email);
     if(querySnapShot.size==0){
-      await setDoc(docRef, {email: email, "userName": email});
+      await setDoc(docRef, {"email": this.email, "name": "User"});
     }
-    else if(userName!="")await updateDoc(docRef, {email: email, "userName": userName});
-    const data = (await getDoc(docRef)).data();
-    this.userInfo[email] = {email:email, "userName": data.userName};
-    this.updateSubscribers();
-  }
-
-  initUsersOnSnapshot() {
-    onSnapshot(userInfo, (qSnap) => {
-      if (qSnap.empty) return;
-      let userList = [];
-      qSnap.forEach((docSnap) => {
-        let user = docSnap.data();
-        user.key = docSnap.id;
-        userList.push(user);
-      });
-      this.userList = userList;
+    onSnapshot(doc(db, "userInfo", this.email), (qSnap) => {
+      const data = qSnap.data();
+      this.name = data.name;
+      this.notifyListener();
     });
+    this.notifyListener();
   }
 
-  getUser(email) {
-    for (let user of this.userList) {
-      if (user.id = email) {
-        return user;
-      }
+  async updateUserName(name) {
+    const docRef = doc(db, "userInfo", this.email);
+    await updateDoc(docRef, {email: this.email, "name": name});
+    const data = (await getDoc(docRef)).data();
+    this.notifyListener();
+  }
+
+  addListener(callbackFunction) {
+    const listenerId = Date.now();
+    const listener = {
+      id: listenerId,
+      callback: callbackFunction
+    }
+    this.listeners.push(listener);
+    callbackFunction();
+    return listenerId;
+  }
+
+  removeListener(listenerId) {
+    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    this.listeners.splice(idx, 1);
+  }
+
+  notifyListener() {
+    for (const tl of this.listeners) {
+      tl.callback();
     }
   }
 
-  getUserList() {
-    return this.userList;
-  }
 };
 
-export function getUserModel() {
+export function getUserModel(email) {
   if(!userModel){
-    userModel = new UserModel();
+    userModel = new UserModel(email);
   }
   return userModel;
 };
