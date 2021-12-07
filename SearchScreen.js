@@ -62,7 +62,7 @@ export default function SearchScreen({navigation, route}){
       <Text style={containerStyles.paragraph}>
         Results
       </Text>
-      {itemList.filter(item => item.name===keyword).length > 0 ?
+      {keyword!='' && (itemList.filter(item => item.name===keyword).length > 0 ?
         <View style={listStyles.userListContainer}>
             <FlatList
             data={itemList.filter(item => item.name===keyword)}
@@ -85,7 +85,7 @@ export default function SearchScreen({navigation, route}){
             }}
             />
         </View>:
-        <Text style={containerStyles.paragraph}>No such results</Text>
+        <Text style={containerStyles.paragraph}>No results</Text>)
         }
     </View>
     );

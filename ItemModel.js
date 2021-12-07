@@ -49,7 +49,7 @@ class ItemModel {
       downloadURL = await getDownloadURL(fileRef);
       this.image = undefined;
     }
-    return downloadURL
+    return downloadURL;
   }
 
   async addItem(itemName, itemValue, payerEmail) {

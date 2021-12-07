@@ -82,7 +82,8 @@ export default function ItemScreen({navigation, route}){
           source={image}
         />
       }
-      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": group})}}>
+      <TouchableOpacity style={rowStyles.center}
+        onPress={()=>{navigation.navigate('CameraScreen', {"group": group})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
       <Button style={rowStyles.buttonContainer}

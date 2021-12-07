@@ -39,14 +39,8 @@ export default function BillSplitScreen({navigation, route}){
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
+        <View style={{flex: 1}}>
           <Text style={headerStyles.title}> Bills</Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="settings-outline" size={30} color="black"
-            onPress={()=>{
-            }}/>
         </View>
       </View>
       <Text style={containerStyles.paragraph}>
