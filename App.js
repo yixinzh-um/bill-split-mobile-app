@@ -29,6 +29,7 @@ class App extends React.Component{
           <Stack.Screen name="ItemScreen" component={ItemScreen} options={{headerShown: false}}/>
           <Stack.Screen name="DetailScreen" component={DetailScreen} options={{headerShown: false}}/>
           <Stack.Screen name="CameraScreen" component={CameraScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="ContactsIndexScreen" component={ContactsIndexScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
