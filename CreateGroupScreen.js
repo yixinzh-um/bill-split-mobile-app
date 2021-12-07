@@ -36,12 +36,10 @@ export default function CreateGroupScreen({navigation, route}){
       let newUser = await userModel.getCurrentUser();
       let bottomListContents = Array.from(bottomListMenu);
       for (let contact of newUser.contacts) {
-        let contactItem = {}
-        contactItem = {
+        let contactItem = {
           title: contact,
           isSelected: false,
           onPress: () => {
-            console.log(contact);
             groupUserList.addUser(contact);
           }
         }
@@ -159,7 +157,7 @@ export default function CreateGroupScreen({navigation, route}){
       <BottomSheet
         isVisible={isVisible}
         containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
-      >
+       >
         {bottomList.map((l, i) => (
           <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
             <ListItem.Content style={{flexDirection: 'row', justifyContent: 'space-between'}}>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
+import { BottomSheet, ListItem } from 'react-native-elements';
 import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
@@ -14,7 +15,27 @@ export default function ItemScreen({navigation, route}){
   const [itemName, setItemName] = useState("");
   const [payerEmail, setPayerEmail] = useState("");
   const [image, setImage] = useState(undefined);
-  
+  const [isVisible, setIsVisible] = useState(false);
+  const bottomList = [
+    {
+      title: 'Settings',
+      containerStyle: { backgroundColor: 'black' },
+      titleStyle: { color: 'white' },
+      onPress: () => setIsVisible(false),
+      hasIcon: true,
+    },
+  ];
+  console.log(memberModel.getMemberList());
+  for(let member of memberModel.getMemberList()){
+    let content = {
+      title: member.email,
+      isSelected: false,
+      onPress: () => {
+        setPayerEmail(member.email);
+      }
+    }
+    bottomList.push(content);
+  }
   useEffect(()=>{
     const itemListenerId = itemModel.addListener(() => {
       setImage(itemModel.image);
@@ -67,12 +88,14 @@ export default function ItemScreen({navigation, route}){
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Payer Email:</Text>
         </View>
+        <Ionicons 
+          name="add-circle-outline" size={24} color="#007DC9"
+          onPress={()=>{
+            setIsVisible(true);
+          }}
+          />
         <View style={rowStyles.inputContainer}>
-          <TextInput 
-            style={rowStyles.inputBox}
-            value={payerEmail}
-            onChangeText={(text)=>{setPayerEmail(text);}}
-            />
+          <Text style={rowStyles.inputlabelText}>{payerEmail}</Text>
         </View>
       </View>
       {image==undefined ? <View></View> 
@@ -105,7 +128,22 @@ export default function ItemScreen({navigation, route}){
             navigation.goBack();
           }
         }}/>
-      
+      <BottomSheet
+        isVisible={isVisible}
+        containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+        >
+        {bottomList.map((l, i) => (
+          <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+            <ListItem.Content style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <ListItem.Title style={l.titleStyle}><Text>{l.title}</Text></ListItem.Title>
+              {l.hasIcon &&
+                <Ionicons
+                  name="close-circle-outline" size={24} color="#007DC9"/>
+              }
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
     </View>
     );
 }
