@@ -11,7 +11,7 @@ export default function DetailScreen({navigation, route}){
   const item = route.params.item;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
-  const [itemValue, setItemValue] = useState(item.value);
+  const [itemValue, setItemValue] = useState(item.value.toString());
   const [image, setImage] = useState(item.image);
   useEffect(()=>{
     const itemListenerId = itemModel.addListener(() => {
@@ -48,7 +48,7 @@ export default function DetailScreen({navigation, route}){
             onChangeText={(text)=>{setItemName(text);}}
           />
           :
-          <Text>{itemName}</Text> }
+          <Text style={rowStyles.labelText}>{itemName}</Text> }
         </View>
       </View>
       <View style={rowStyles.row}>
@@ -63,13 +63,13 @@ export default function DetailScreen({navigation, route}){
             onChangeText={(text)=>{setItemValue(text);}}
           />
           :
-          <Text>{itemValue}</Text> }
+          <Text style={rowStyles.labelText}>{itemValue}</Text> }
         </View>
       <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": item.groupId})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
       </View>
-      {image == undefined ? <View></View> : 
+      {image === undefined ? <View></View> : 
         <View>
           <Image
             style={detailStyles.mainImage}
@@ -83,7 +83,7 @@ export default function DetailScreen({navigation, route}){
             const value = parseFloat(parseFloat(itemValue).toFixed(2));
             if(!(value>0)){
               alert("The item value should be a number larger than 0");
-              setItemValue(0);
+              setItemValue('0');
             }
             else if(itemName=="")alert("The item name can't be blank")
             else{
@@ -98,7 +98,14 @@ export default function DetailScreen({navigation, route}){
             navigation.goBack();
           }}/>
         </View>
-        : <Text>Item Payer: {item.payer}</Text>
+        :  <View style={rowStyles.row}>
+             <View style={rowStyles.labelContainer}>
+              <Text style={rowStyles.labelText}>Item Payer:</Text>
+            </View>
+            <View style={rowStyles.inputContainer}>
+              <Text style={rowStyles.labelText}>{item.payer}</Text>
+            </View>
+          </View>
       }
     </View>
     );

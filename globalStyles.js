@@ -1,4 +1,3 @@
-import { AutoFocus } from 'expo-camera/build/Camera.types';
 import { StyleSheet } from 'react-native';
 
 const headerStyles = StyleSheet.create({
@@ -32,10 +31,6 @@ const headerStyles = StyleSheet.create({
     right: 0,
     // justifyContent: 'flex-end',
   }
-});
-
-const formStyles = StyleSheet.create({
-
 });
 
 const detailStyles = StyleSheet.create({
@@ -136,6 +131,10 @@ const rowStyles = StyleSheet.create({
     fontSize: 18,
     padding: '2%'
   },
+  center: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  }
 });
 
 const containerStyles = StyleSheet.create({
@@ -174,4 +173,4 @@ const listStyles = StyleSheet.create({
 });
 
 
-export {headerStyles, formStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles};
+export {headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles};
