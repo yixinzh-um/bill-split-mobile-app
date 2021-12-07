@@ -6,7 +6,6 @@ import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, l
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { getMemberModel, resetMemberModel } from './MemberModel';
 import { getItemModel, resetItemModel } from './ItemModel';
-import ItemScreen from "./ItemScreen";
 
 export default function BillSplitScreen({navigation, route}){
   const email = route.params.email;
@@ -23,7 +22,6 @@ export default function BillSplitScreen({navigation, route}){
     const itemListenerId = itemModel.addListener(() => {
       setItemList(itemModel.itemList);
     });
-
 
     return () => {
       memberModel.removeListener(memberListenerId);

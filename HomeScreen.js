@@ -6,8 +6,7 @@ import { getUserModel, resetUserModel } from "./UserModel"
 import { getGroupList} from "./GroupModel";
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
-import { useFocusEffect } from '@react-navigation/native';
-import { headerStyles, rowStyles, containerStyles, listStyles } from './globalStyles'
+import { headerStyles, rowStyles, containerStyles, listStyles } from './globalStyles';
 
 const auth = getAuth();
 
@@ -52,7 +51,8 @@ export default function HomeScreen({navigation, route}){
           style={headerStyles.rightIcon}
           name="search-outline" size={30} color="black"
           onPress={()=>{
-        }}/>
+            navigation.navigate("SearchScreen", {email: email});
+          }}/>
       
       </View>
 

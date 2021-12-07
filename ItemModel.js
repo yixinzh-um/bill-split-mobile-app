@@ -61,7 +61,7 @@ class ItemModel {
     };
     const url = await this.uploadImage(item.payer);
     if(url)item["image"]=url;
-    const docRef = await addDoc(Items, item);
+    addDoc(Items, item);
   }
 
   async updateItem(item, itemName, itemValue){
@@ -78,7 +78,7 @@ class ItemModel {
 
   async deleteItem(item){
     const id = item.id;
-    await deleteDoc(doc(db, "Items", id));
+    deleteDoc(doc(db, "Items", id));
   }
 
   async updateImage(image){
@@ -120,4 +120,17 @@ export function getItemModel(groupId) {
 
 export function resetItemModel(){
   itemModel = undefined;
+}
+
+let itemModels = undefined;
+
+export function getItemModels(groups) {
+  if (!itemModels) {
+    itemModels = groups.map(item => new ItemModel(item.groupId));
+  }
+  return itemModels;
+}
+
+export function resetItemModels(){
+  itemModels = undefined;
 }
