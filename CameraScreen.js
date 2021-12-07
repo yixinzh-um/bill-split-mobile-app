@@ -2,10 +2,13 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, 
   TouchableOpacity, Button } from 'react-native';
 import { Camera } from 'expo-camera';
+import { getItemModel } from './ItemModel';
 
-export default function CameraScreen({navigation}) {
+export default function CameraScreen({navigation, route}) {
   const [hasPermission, setHasPermission] = useState(null);
-  
+  const groupId = route.params.groupId;
+  const itemModel = getItemModel(groupId);
+
   useEffect(() => {
     async function getPermissions(){
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -33,8 +36,8 @@ export default function CameraScreen({navigation}) {
       <TouchableOpacity 
         style={styles.cameraControls}
         onPress={async ()=>{
-          let picData = await theCamera.takePictureAsync({quality: 0.2});
-        //   console.log('took a picture:', picData);
+          let imageData = await theCamera.takePictureAsync({quality: 0.2});
+          itemModel.updateImage(imageData);
           navigation.goBack();
         }}>
         <Text style={styles.snapText}>Snap!</Text>

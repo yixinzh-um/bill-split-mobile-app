@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  Button, Text, TextInput, View, Image, TouchableOpacity
 } from 'react-native';
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+import { headerStyles, detailStyles, rowStyles, containerStyles} from './globalStyles';
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
-import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 
 export default function DetailScreen({navigation, route}){
@@ -12,13 +11,24 @@ export default function DetailScreen({navigation, route}){
   const item = route.params.item;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
-  const [itemValue, setItemValue] = useState(item.value.toString());
+  const [itemValue, setItemValue] = useState(item.value);
+  const [image, setImage] = useState(item.image);
+  useEffect(()=>{
+    const itemListenerId = itemModel.addListener(() => {
+      if(itemModel.image!=undefined)setImage(itemModel.image);
+      console.log(itemModel.image);
+    });
+
+    return () => {
+      itemModel.removeListener(itemListenerId);
+  };}, []);
   return (
     <View style={containerStyles.container}>
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
 
@@ -55,7 +65,18 @@ export default function DetailScreen({navigation, route}){
           :
           <Text>{itemValue}</Text> }
         </View>
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": item.groupId})}}>
+        <MaterialIcons name='photo-camera'size={32}/>
+      </TouchableOpacity>
       </View>
+      {image == undefined ? <View></View> : 
+        <View>
+          <Image
+            style={detailStyles.mainImage}
+            source={image}
+          />
+        </View>
+      }
       {item.payer==email ?
         <View>
           <Button title='Update item !' onPress={()=>{
@@ -73,6 +94,7 @@ export default function DetailScreen({navigation, route}){
           }}/>
           <Button title='Delete item !' onPress={()=>{
             itemModel.deleteItem(item);
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
         </View>
