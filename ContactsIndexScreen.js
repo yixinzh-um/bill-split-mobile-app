@@ -7,13 +7,11 @@ import { getAuth, signOut } from "firebase/auth";
 import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
 import { headerStyles, rowStyles, containerStyles, listStyles, detailStyles } from './globalStyles'
-
-const userModel = getUserModel();
 const auth = getAuth();
 
 export default function ContactsIndexScreen({navigation, route}){
   const email = route.params.email;
-  const userModel = getUserModel();
+  const userModel = getUserModel(email);
   const user = userModel.getCurrentUser();
   const [contact, setContact] = useState('');
   const [contacts, setContacts] = useState(user.contacts);

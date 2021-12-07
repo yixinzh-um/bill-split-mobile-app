@@ -1,35 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  Button, Text, TextInput, View, Image, TouchableOpacity
 } from 'react-native';
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+import { headerStyles, detailStyles, rowStyles, containerStyles} from './globalStyles';
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
-import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 
 export default function DetailScreen({navigation, route}){
   const email = route.params.email;
-  const item = route.params.item
+  const item = route.params.item;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
   const [itemValue, setItemValue] = useState(item.value);
+  const [image, setImage] = useState(item.image);
+  useEffect(()=>{
+    const itemListenerId = itemModel.addListener(() => {
+      if(itemModel.image!=undefined)setImage(itemModel.image);
+      console.log(itemModel.image);
+    });
+
+    return () => {
+      itemModel.removeListener(itemListenerId);
+  };}, []);
   return (
     <View style={containerStyles.container}>
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
-          <Text style={headerStyles.title}> Bills</Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="settings-outline" size={30} color="black"
-            onPress={()=>{
-            }}/>
+        <View style={{flex: 1}}>
+          <Text style={headerStyles.title}> Edit items</Text>
         </View>
       </View>
       <View style={rowStyles.row}>
@@ -61,7 +65,18 @@ export default function DetailScreen({navigation, route}){
           :
           <Text>{itemValue}</Text> }
         </View>
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": item.groupId})}}>
+        <MaterialIcons name='photo-camera'size={32}/>
+      </TouchableOpacity>
       </View>
+      {image == undefined ? <View></View> : 
+        <View>
+          <Image
+            style={detailStyles.mainImage}
+            source={image}
+          />
+        </View>
+      }
       {item.payer==email ?
         <View>
           <Button title='Update item !' onPress={()=>{
@@ -72,13 +87,14 @@ export default function DetailScreen({navigation, route}){
             }
             else if(itemName=="")alert("The item name can't be blank")
             else{
-              setItemValue(value);
+              setItemValue(value.toString());
               itemModel.updateItem(item, itemName, parseFloat(parseFloat(itemValue).toFixed(2)));
               navigation.goBack();
             }            
           }}/>
           <Button title='Delete item !' onPress={()=>{
             itemModel.deleteItem(item);
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
         </View>

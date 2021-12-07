@@ -75,7 +75,11 @@ const detailStyles = StyleSheet.create({
     padding: '2%',
     height: 30,
   },
-
+  mainImage: {
+    height: 400,
+    width: 300,
+    resizeMode: 'contain'
+  },
 });
 
 const buttonStyles = StyleSheet.create({

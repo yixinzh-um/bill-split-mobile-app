@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
-import { headerStyles, rowStyles, containerStyles} from './globalStyles';
+import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
+import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
@@ -10,14 +10,14 @@ export default function ItemScreen({navigation, route}){
   const memberModel = getMemberModel(group);
   const itemModel = getItemModel(group.groupId);
 
-  const [itemValue, setItemValue] = useState(0);
+  const [itemValue, setItemValue] = useState('0');
   const [itemName, setItemName] = useState("");
   const [payerEmail, setPayerEmail] = useState("");
-  const [itemList, setItemList] = useState([]);
-
+  const [image, setImage] = useState(undefined);
+  
   useEffect(()=>{
     const itemListenerId = itemModel.addListener(() => {
-      setItemList(itemModel.itemList);
+      setImage(itemModel.image);
     });
 
     return () => {
@@ -31,17 +31,12 @@ export default function ItemScreen({navigation, route}){
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={()=>{
+            itemModel.image = undefined;
             navigation.goBack();
           }}/>
 
-        <View style={{flex: 0.9}}>
-          <Text style={headerStyles.title}> Bills</Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Ionicons 
-            name="settings-outline" size={30} color="black"
-            onPress={()=>{
-            }}/>
+        <View style={{flex: 1}}>
+          <Text style={headerStyles.title}> Add Items</Text>
         </View>
       </View>
       <View style={rowStyles.row}>
@@ -64,7 +59,7 @@ export default function ItemScreen({navigation, route}){
             <TextInput 
               style={rowStyles.inputBox}
               value={itemValue}
-              onChangeText={(text)=>{setItemValue(text);}}
+              onChangeText={(text)=>{setItemValue(text)}}
             />
           </View>
       </View>
@@ -80,10 +75,16 @@ export default function ItemScreen({navigation, route}){
             />
         </View>
       </View>
-      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen'), {"item": item}}}>
+      {image==undefined ? <View></View> 
+        :
+        <Image
+          style={detailStyles.mainImage}
+          source={image}
+        />
+      }
+      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": group})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
-
       <Button style={rowStyles.buttonContainer}
         title='Add Item'
         icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
@@ -92,13 +93,13 @@ export default function ItemScreen({navigation, route}){
           const value = parseFloat(parseFloat(itemValue).toFixed(2));
           if(!(value>0)){
             alert("The item value should be a number larger than 0");
-            setItemValue(0);
+            setItemValue('0');
           }
-          else if(payerEmail.indexOf("@")<1)alert("Invalid Email");
-          else if(memberModel.members[payerEmail]==undefined)alert("The user is not in the group");
+          else if(payerEmail.indexOf("@")<1) alert("Invalid Email");
+          else if(memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
           else if(itemName=="")alert("The item name can't be blank")
           else {
-            setItemValue(value);
+            setItemValue(value.toString());
             itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
             navigation.goBack();
           }
