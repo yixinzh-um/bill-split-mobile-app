@@ -110,13 +110,14 @@ export default function BillSplitScreen({navigation, route}){
         }}
         />
       </View>
-      <Ionicons 
-          name="share-outline" size={24} color="#007DC9"
-          onPress={()=>{
-            printToFile();
-          }}
-          />
+      <View style={{alignItems: 'center', marginBottom: 30}}>
+        <Ionicons 
+            name="share-outline" size={30} color="#007DC9"
+            onPress={()=>{
+              printToFile();
+            }}
+            />
+      </View>
     </View>
     );
-    return html;
 }
