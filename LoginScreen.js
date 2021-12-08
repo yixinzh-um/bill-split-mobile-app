@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  StyleSheet, Button, Alert, Text, TextInput, View,
+  StyleSheet, Button, Alert, Text, TextInput, View, TouchableOpacity,
 } from 'react-native';
 import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -102,6 +102,13 @@ export default function LoginScreen({navigation}) {
               setPassword('');
           }}/>
         </View>
+        <View style={styles.guestContainer}>
+          <TouchableOpacity style={styles.guestButton}>
+            <Text style={styles.guestText}>
+              Guest
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -126,6 +133,7 @@ loginContainer: {
 },
 loginRow: {
   flexDirection: 'row',
+  paddingBottom: '5%',
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
@@ -145,7 +153,7 @@ loginInputContainer: {
   width: '100%'
 },
 loginInputBox: {
-  width: '100%',
+  width: '80%',
   borderColor: 'lightgray',
   borderWidth: 1,
   borderRadius: 6,
@@ -165,7 +173,7 @@ loginButtonRow: {
 
 sectionHeader: {
   width: '100%',
-  padding: '3%',
+  padding: '10%',
   justifyContent: 'center',
   alignItems: 'center'
 },
@@ -178,5 +186,25 @@ listContainer: {
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%', 
+},
+
+guestContainer: {
+  marginTop: '10%',
+  paddingTop: '10%',
+  width: '80%',
+  alignItems: 'center',
+  borderTopColor: '#E1E1E1',
+  borderTopWidth: 1,
+},
+
+guestButton: {
+  alignItems: 'center',
+  backgroundColor: '#E1E1E1',
+  borderRadius: 10,
+  padding: 10,
+},
+
+guestText: {
+  fontSize: 20
 },
 });
