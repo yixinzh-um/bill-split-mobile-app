@@ -47,16 +47,19 @@ export default function ContactsIndexScreen({navigation, route}){
           }}/>
       
       </View>
-      <View style={detailStyles.inputContainer}>
-        <TextInput style={detailStyles.inputBox}
-                    value={contact}
-                    onChangeText={(text)=>{setContact(text)}}
-          />
+      <View style={listStyles.addContainer}>
+        <View style={listStyles.inputContainer}>
+          <TextInput style={listStyles.inputBox}
+                      value={contact}
+                      onChangeText={(text)=>{setContact(text)}}
+            />
+        </View>
+        <Button 
+          title='Add a new contact' onPress={()=>{
+          userModel.addContact(contact);
+          setContact('');
+        }}/>
       </View>
-      <Button title='Add a new contact' onPress={()=>{
-        userModel.addContact(contact);
-        setContact('');
-      }}/>
       <View style={listStyles.userListContainer}>
           <FlatList
           data={contacts}
@@ -72,15 +75,6 @@ export default function ContactsIndexScreen({navigation, route}){
                 onPress={()=>{
                   userModel.removeContact(item);
                 }}/>
-              {/* <Text>
-                Purpose: {item.purpose}
-              </Text>
-              <Text>
-                Creator: {item.creator}
-              </Text> */}
-              {/* <Button title='Enter !' onPress={()=>{
-                navigation.navigate("BillSplitScreen", {email: email, group: item});
-              }}/> */}
             </View>
             );
           }}
