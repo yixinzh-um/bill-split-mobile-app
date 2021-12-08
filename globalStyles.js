@@ -1,4 +1,3 @@
-import { AutoFocus } from 'expo-camera/build/Camera.types';
 import { StyleSheet } from 'react-native';
 
 const headerStyles = StyleSheet.create({

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  FlatList, Button, Text, TextInput, View,
 } from 'react-native';
 import { getUserModel } from "./UserModel"
-import { getAuth, signOut } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
-import { useFocusEffect } from '@react-navigation/native';
-import { headerStyles, rowStyles, containerStyles, listStyles, detailStyles } from './globalStyles'
-const auth = getAuth();
+import { Ionicons } from '@expo/vector-icons'; 
+import { headerStyles, containerStyles, listStyles } from './globalStyles'
 
-export default function ContactsIndexScreen({navigation, route}){
+export default function ContactsIndexScreen({navigation, route}) {
   const email = route.params.email;
   const userModel = getUserModel(email);
   const user = userModel.getCurrentUser();

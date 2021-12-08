@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  FlatList, Button, Text, View
 } from 'react-native';
-import { getUserModel, resetUserModel } from "./UserModel"
+import { getUserModel } from "./UserModel"
 import { getGroupList} from "./GroupModel";
-import { getAuth, signOut } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
-import { headerStyles, rowStyles, containerStyles, listStyles } from './globalStyles';
+import { getAuth } from "firebase/auth";
+import { Ionicons } from '@expo/vector-icons'; 
+import { headerStyles, containerStyles, listStyles } from './globalStyles';
 
 const auth = getAuth();
 
-export default function HomeScreen({navigation, route}){
+export default function HomeScreen({navigation, route}) {
   const email = route.params.email;
   const userModel = getUserModel(email);
   const groupList = getGroupList(email);

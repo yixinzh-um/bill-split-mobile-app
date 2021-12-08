@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
+  FlatList, Button, Text, TextInput, View, TouchableOpacity
 } from 'react-native';
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+import { Ionicons } from '@expo/vector-icons'; 
 import { getItemModels, resetItemModels } from './ItemModel';
-import { getGroupList, resetGroupList } from './GroupModel';
+import { getGroupList } from './GroupModel';
 
-export default function SearchScreen({navigation, route}){
+export default function SearchScreen({navigation, route}) {
   const email = route.params.email;
   const groups = getGroupList(email).getGroupList();
   const itemModels = getItemModels(groups);

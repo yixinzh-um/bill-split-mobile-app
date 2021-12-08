@@ -4,7 +4,6 @@ import {
   doc, addDoc, setDoc, updateDoc, where, getDoc
   } from "firebase/firestore";
 
-import React, { useEffect, useState } from 'react';
 import { getDB } from "./FirebaseApp";
 
 const db = getDB();
@@ -24,7 +23,7 @@ class UserModel{
     this.initUser();
   }
 
-  async initUser(){
+  async initUser() {
     const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
     const docRef = doc(db, "UserInfo", this.email);
@@ -105,7 +104,7 @@ class UserModel{
 
 let userModel = undefined;
 export function getUserModel(email) {
-  if(!userModel){
+  if (!userModel) {
     userModel = new UserModel(email);
   }
   return userModel;

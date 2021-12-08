@@ -3,19 +3,22 @@ import {
   Button, Text, TextInput, View, Image, TouchableOpacity
 } from 'react-native';
 import { headerStyles, detailStyles, rowStyles, containerStyles} from './globalStyles';
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
 import { getItemModel } from './ItemModel';
 
-export default function DetailScreen({navigation, route}){
+export default function DetailScreen({navigation, route}) {
   const email = route.params.email;
   const item = route.params.item;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
   const [itemValue, setItemValue] = useState(item.value);
   const [image, setImage] = useState(item.image);
+
   useEffect(()=>{
     const itemListenerId = itemModel.addListener(() => {
-      if(itemModel.image!=undefined)setImage(itemModel.image);
+      if (itemModel.image!=undefined) {
+        setImage(itemModel.image);
+      }
       console.log(itemModel.image);
     });
 
@@ -81,14 +84,16 @@ export default function DetailScreen({navigation, route}){
         <View>
           <Button title='Update item !' onPress={()=>{
             const value = parseFloat(parseFloat(itemValue).toFixed(2));
-            if(!(value>0)){
+            if (!(value>0)) {
               alert("The item value should be a number larger than 0");
               setItemValue(0);
             }
-            else if(itemName=="")alert("The item name can't be blank")
+            else if (itemName=="")alert("The item name can't be blank")
             else{
               setItemValue(value.toString());
-              itemModel.updateItem(item, itemName, parseFloat(parseFloat(itemValue).toFixed(2)));
+              itemModel.updateItem(item, 
+                                   itemName, 
+                                   parseFloat(parseFloat(itemValue).toFixed(2)));
               navigation.goBack();
             }            
           }}/>

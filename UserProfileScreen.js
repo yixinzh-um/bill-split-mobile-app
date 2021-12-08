@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
+  StyleSheet, Text, TextInput, View, TouchableOpacity
 } from 'react-native';
 import { getAuth, signOut } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
 import { getUserModel, resetUserModel } from "./UserModel"
 
 const auth = getAuth();
 
-export default function UserProfileScreen({navigation, route}){
+export default function UserProfileScreen({navigation, route}) {
   const email = route.params.email;
   const userModel = getUserModel(email);
   const user = userModel.getCurrentUser();

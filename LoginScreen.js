@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert ,Text, TextInput, View,
+  StyleSheet, Button, Alert, Text, TextInput, View,
 } from 'react-native';
 import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -11,98 +11,98 @@ import { getUserModel } from './UserModel';
 
 const auth = getAuth();
 
-export default function LoginScreen({navigation}){
+export default function LoginScreen({navigation}) {
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
-      if(user)navigation.navigate('HomeScreen', {email: user.email});
+      if (user)navigation.navigate('HomeScreen', {email: user.email});
     })
   }, []);
 
   return (
     <View style={styles.container}>      
-    <View style={styles.loginContainer}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionHeaderText}>
-          Login:
-        </Text>
-      </View>
-      <View style={styles.loginRow}>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Email: </Text>
+      <View style={styles.loginContainer}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionHeaderText}>
+            Login:
+          </Text>
         </View>
-        <View style={styles.loginInputContainer}>
-          <TextInput 
-          style={styles.loginInputBox}
-          placeholder='enter email address' 
-          autoCapitalize='none'
-          spellCheck={false}
-          value={email}
-          onChangeText={(text)=>{setEmail(text)}}
-          />
+        <View style={styles.loginRow}>
+          <View style={styles.loginLabelContainer}>
+            <Text style={styles.loginLabelText}>Email: </Text>
+          </View>
+          <View style={styles.loginInputContainer}>
+            <TextInput 
+            style={styles.loginInputBox}
+            placeholder='enter email address' 
+            autoCapitalize='none'
+            spellCheck={false}
+            value={email}
+            onChangeText={(text)=>{setEmail(text)}}
+            />
+          </View>
         </View>
-      </View>
-  
-      <View style={styles.loginRow}>
-        <View style={styles.loginLabelContainer}>
-          <Text style={styles.loginLabelText}>Password: </Text>
+    
+        <View style={styles.loginRow}>
+          <View style={styles.loginLabelContainer}>
+            <Text style={styles.loginLabelText}>Password: </Text>
+          </View>
+          <View style={styles.loginInputContainer}>
+            <TextInput 
+            style={styles.loginInputBox}
+            placeholder='enter password' 
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text)=>{setPassword(text)}}
+            />
+          </View>
         </View>
-        <View style={styles.loginInputContainer}>
-          <TextInput 
-          style={styles.loginInputBox}
-          placeholder='enter password' 
-          secureTextEntry={true}
-          value={password}
-          onChangeText={(text)=>{setPassword(text)}}
-          />
-        </View>
-      </View>
 
-      <View style={styles.modeSwitchContainer}>
-        {mode === 'login' ?
-          <Text>New user? 
-          <Text 
-            onPress={()=>{setMode('signup')}} 
-            style={{color: 'blue'}}> Sign up </Text> 
-          instead!</Text>
-        :
-          <Text>Existing user? 
-          <Text 
-          onPress={()=>{setMode('login')}} 
-          style={{color: 'blue'}}> Log In </Text> 
-          instead!</Text>}
-      </View>
-  
-      <View style={styles.loginButtonRow}>
-        <Button
-          title={mode==='login'?'Log in':'Sign up'}
-          onPress={async ()=>{ 
-            if (mode === 'login') {
-              try {
-                await signInWithEmailAndPassword(auth, email, password);
-                console.log('logged in user', email);
-              } catch(error) {
-                console.log("Sign Up Error", error.message,[{ text: "OK" }]);
-                Alert.alert("Log in Error", error.message,[{ text: "OK" }]);
+        <View style={styles.modeSwitchContainer}>
+          {mode === 'login' ?
+            <Text>New user? 
+            <Text 
+              onPress={()=>{setMode('signup')}} 
+              style={{color: 'blue'}}> Sign up </Text> 
+            instead!</Text>
+          :
+            <Text>Existing user? 
+            <Text 
+            onPress={()=>{setMode('login')}} 
+            style={{color: 'blue'}}> Log In </Text> 
+            instead!</Text>}
+        </View>
+    
+        <View style={styles.loginButtonRow}>
+          <Button
+            title={mode==='login'?'Log in':'Sign up'}
+            onPress={async ()=>{ 
+              if (mode === 'login') {
+                try {
+                  await signInWithEmailAndPassword(auth, email, password);
+                  console.log('logged in user', email);
+                } catch(error) {
+                  console.log("Sign Up Error", error.message, [{ text: "OK" }]);
+                  Alert.alert("Log in Error", error.message, [{ text: "OK" }]);
+                }
+              } 
+              else {
+                try {
+                  await createUserWithEmailAndPassword(auth, email, password);
+                  await getUserModel(email);
+                  console.log('created user', email);
+                } catch(error) {
+                  console.log("Sign Up Error", error.message, [{ text: "OK" }]);
+                  Alert.alert("Sign Up Error", error.message, [{ text: "OK" }]);
+                }
               }
-            } 
-            else {
-              try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                await getUserModel(email);
-                console.log('created user', email);
-              } catch(error) {
-                console.log("Sign Up Error", error.message,[{ text: "OK" }]);
-                Alert.alert("Sign Up Error", error.message,[{ text: "OK" }]);
-              }
-            }
-            setEmail('');
-            setPassword('');
-        }}/>
+              setEmail('');
+              setPassword('');
+          }}/>
+        </View>
       </View>
-    </View>
     </View>
   );
 }

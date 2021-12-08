@@ -1,10 +1,9 @@
-import { initializeApp, getApps } from 'firebase/app';
 import { 
   collection,  
   query, orderBy, where, onSnapshot, writeBatch, getDocs,
   doc, addDoc, updateDoc, deleteDoc, setDoc, getDoc
 } from "firebase/firestore";
-import {getDB} from "./FirebaseApp";
+import { getDB } from "./FirebaseApp";
 
 const db = getDB();
 const MemberShip = collection(db, "MemberShip");
@@ -20,7 +19,7 @@ class MemberModel {
     this.initMemberModel();
   }
   
-  async initMemberModel(){ // Load all related user and their balance in this group
+  async initMemberModel() { // Load all related user and their balance in this group
     const members = query(MemberShip, where("groupId", "==", this.group.groupId));
     const querySnapshot = await getDocs(members);
     querySnapshot.forEach((doc) => {
@@ -36,8 +35,8 @@ class MemberModel {
         const data = doc.data();
         const payer = data["payer"];
         const value = data["value"];
-        for(const email in this.members){
-          if(email==payer)this.members[email] += value;
+        for(const email in this.members) {
+          if (email==payer)this.members[email] += value;
           else this.members[email] -= (value / (size - 1));
         }
       });
@@ -46,10 +45,10 @@ class MemberModel {
     this.notifyListener();
   }
 
-  getMemberList(){
+  getMemberList() {
     let key = 0;
     let ret = [];
-    for(const email in this.members){
+    for(const email in this.members) {
       ret.push({"email":email, "key": key++, "balance": this.members[email]});
     }
     return ret;
@@ -85,6 +84,6 @@ export function getMemberModel(group) {
   }
   return memberModel;
 }
-export function resetMemberModel(){
+export function resetMemberModel() {
     memberModel = undefined;
 }

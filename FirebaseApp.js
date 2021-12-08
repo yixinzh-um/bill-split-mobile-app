@@ -4,7 +4,7 @@ import { initializeFirestore} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import {LogBox } from 'react-native';
 let app;
-if (getApps().length == 0){
+if (getApps().length == 0) {
   app = initializeApp(firebaseConfig);
 } 
 const db = initializeFirestore(app, {
@@ -13,9 +13,9 @@ const db = initializeFirestore(app, {
 const storage = getStorage(app);
 
 LogBox.ignoreLogs([`AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage`]);
-export function getDB(){
+export function getDB() {
   return db;
 }
-export function getStore(){
+export function getStore() {
   return storage;
 }

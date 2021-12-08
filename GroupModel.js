@@ -1,11 +1,9 @@
 import { 
-  initializeFirestore, collection,  
+  collection,  
   onSnapshot, query, getDocs,
   doc, addDoc, setDoc, updateDoc, where, getDoc
 } from "firebase/firestore";
 
-import React, { useEffect, useState } from 'react';
-import { TouchableHighlightBase } from "react-native";
 import {getDB} from "./FirebaseApp";
 
 
@@ -15,20 +13,20 @@ let groupUserList;
 let groupList;
 
 class GroupUserList{
-  constructor(){
+  constructor() {
     this.users = {};
     this.subscribers = [];
   }
 
-  updateSubscribers(){
+  updateSubscribers() {
     for(let sub of this.subscribers)sub();
   }
 
-  addSubscribers(sub){
+  addSubscribers(sub) {
     this.subscribers.push(sub);
   }
 
-  async upload(email, name, purpose){
+  async upload(email, name, purpose) {
     const docRef = await addDoc(collection(db, "Group"), {
       "name": name,
       "purpose": purpose,
@@ -39,8 +37,8 @@ class GroupUserList{
       "email": email,
       "groupId": groupId,
     });
-    for(const userEmail in this.users){
-      if(userEmail==email)continue;
+    for(const userEmail in this.users) {
+      if (userEmail==email)continue;
       await addDoc(collection(db, "MemberShip"), {
         "email": userEmail,
         "groupId": groupId,
@@ -48,35 +46,35 @@ class GroupUserList{
     }
   }
 
-  getUserList(){
+  getUserList() {
     let key = 0;
     let ret = [];
-    for(const email in this.users){
+    for(const email in this.users) {
       ret.push({"email":email, "key": key++});
     }
     return ret;
   }
 
-  addUser(email){
+  addUser(email) {
     this.users[email] = {"email": email};
     this.updateSubscribers();
   }
 
-  deleteUser(email){
+  deleteUser(email) {
     delete this.users[email];
     this.updateSubscribers();
   }
 };
 
 class GroupList{
-  constructor(email){
+  constructor(email) {
     this.groups = {};
     this.listeners = [];
     this.email = email;
     this.initGroupList();
   }
 
-  async initGroupList(){ // init basic infomation about the group
+  async initGroupList() { // init basic infomation about the group
     const q = query(MemberShip, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
     onSnapshot(q, async (qSnap) => {
@@ -85,7 +83,7 @@ class GroupList{
         const groupId = doc.data().groupId;
         this.groups[groupId] = {};
       })
-      for(const groupId in this.groups){
+      for(const groupId in this.groups) {
         const groupRef = doc(db, "Group", groupId);
         this.groups[groupId] = (await getDoc(groupRef)).data();
         this.groups[groupId]["groupId"] = groupId;
@@ -97,10 +95,10 @@ class GroupList{
 
   }
 
-  getGroupList(){
+  getGroupList() {
     let key = 0;
     let ret = [];
-    for(const groupId in this.groups){
+    for(const groupId in this.groups) {
       const group = this.groups[groupId];
       group["key"] = key++;
       ret.push(group);
@@ -131,20 +129,20 @@ class GroupList{
   }
 };
 
-export function getGroupUserList(){
-  if(!groupUserList){
+export function getGroupUserList() {
+  if (!groupUserList) {
     groupUserList = new GroupUserList();
   }
   return groupUserList;
 };
 
-export function getGroupList(email){
-  if(!groupList){
+export function getGroupList(email) {
+  if (!groupList) {
     groupList = new GroupList(email);
   }
   return groupList;
 };
 
-export function resetGroupList(){
+export function resetGroupList() {
   groupList = undefined;
 }
