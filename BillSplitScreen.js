@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
 } from 'react-native';
+import * as Print from 'expo-print';
+import { shareAsync } from 'expo-sharing';
 import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
 import { getMemberModel, resetMemberModel } from './MemberModel';
 import { getItemModel, resetItemModel } from './ItemModel';
+import { getBillsExportHTML } from './exportTemplate';
 
 export default function BillSplitScreen({navigation, route}){
   const email = route.params.email;
@@ -14,6 +17,16 @@ export default function BillSplitScreen({navigation, route}){
   const itemModel = getItemModel(group.groupId);
   const [memberList, setMemberList] = useState([]);
   const [itemList, setItemList] = useState([]);
+
+  const printToFile = async () => {
+    // On iOS/android prints the given html. On web prints the HTML from the current page.
+    const { uri } = await Print.printToFileAsync({
+      html: getBillsExportHTML(group)
+    });
+    console.log('File has been saved to:', uri);
+    await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
+  }
+
 
   useEffect(()=>{
     const memberListenerId = memberModel.addListener(() => {
@@ -40,7 +53,7 @@ export default function BillSplitScreen({navigation, route}){
           }}/>
 
         <View style={{flex: 1}}>
-          <Text style={headerStyles.title}> Bills</Text>
+          <Text style={headerStyles.title}> {group.name} Bills</Text>
         </View>
       </View>
       <Text style={containerStyles.paragraph}>
@@ -91,7 +104,14 @@ export default function BillSplitScreen({navigation, route}){
         }}
         />
       </View>
-      
+      <View style={{alignItems: 'center', marginBottom: 30}}>
+        <Ionicons 
+            name="share-outline" size={30} color="#007DC9"
+            onPress={()=>{
+              printToFile();
+            }}
+            />
+      </View>
     </View>
     );
 }
