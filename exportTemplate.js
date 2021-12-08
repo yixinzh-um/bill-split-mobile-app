@@ -9,7 +9,7 @@ export function getBillsExportHTML(group) {
 
   let summaryTableBody = "";
   let detailTableBody = "";
-  for (member of memberList) {
+  for (let member of memberList) {
     let tr = `
       <tr>
         <td>${member.email} </td>
@@ -18,7 +18,7 @@ export function getBillsExportHTML(group) {
     `;
     summaryTableBody += tr;
   }
-  for (item of itemList) {
+  for (let item of itemList) {
     let tr = `
       <tr>
         <td>${item.name} </td>

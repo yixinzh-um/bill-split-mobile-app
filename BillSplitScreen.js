@@ -20,8 +20,9 @@ export default function BillSplitScreen({navigation, route}){
 
   const printToFile = async () => {
     // On iOS/android prints the given html. On web prints the HTML from the current page.
+    const html = getBillsExportHTML(group);
     const { uri } = await Print.printToFileAsync({
-      html: getBillsExportHTML(group)
+      html
     });
     console.log('File has been saved to:', uri);
     await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
