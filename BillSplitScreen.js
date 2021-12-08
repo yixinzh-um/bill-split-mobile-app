@@ -57,7 +57,7 @@ export default function BillSplitScreen({navigation, route}) {
           <Text style={headerStyles.title}> {group.name} Bills</Text>
         </View>
         <Ionicons
-          name="share-outline" size={30} color="#007DC9"
+          name="share-outline" size={30} color="black"
           onPress={()=>{
             printToFile();
           }}/>
