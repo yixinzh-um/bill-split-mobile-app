@@ -39,7 +39,7 @@ export default function HomeScreen({navigation, route}) {
         <Ionicons
           style={headerStyles.leftIcon}
           name="settings-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             navigation.navigate("UserProfileScreen", {email: email});
         }}/>
 
@@ -50,13 +50,13 @@ export default function HomeScreen({navigation, route}) {
         <Ionicons 
           style={headerStyles.rightIcon}
           name="search-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             navigation.navigate("SearchScreen", {email: email});
           }}/>
       
       </View>
 
-      <Button title='Create Group' onPress={()=>{
+      <Button title='Create Group' onPress={() => {
         navigation.navigate("CreateGroupScreen", {email: email});
       }}/>
 
@@ -75,7 +75,7 @@ export default function HomeScreen({navigation, route}) {
                 <Text>
                   Creator: {item.creator}
                 </Text>
-                <Button title='Enter !' onPress={()=>{
+                <Button title='Enter !' onPress={() => {
                   navigation.navigate("BillSplitScreen", {email: email, group: item});
                 }}/>
               </View>

@@ -24,7 +24,7 @@ class ItemModel {
     onSnapshot(q, async (qSnap) => {
       this.itemList = [];
       let key = 0;
-      qSnap.forEach(doc=>{
+      qSnap.forEach(doc => {
         const data = doc.data();
         data["key"] = key++;
         data["id"] = doc.id;
@@ -97,7 +97,7 @@ class ItemModel {
   }
 
   removeListener(listenerId) {
-    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    let idx = this.listeners.findIndex((elem) => elem.id === listenerId);
     this.listeners.splice(idx, 1);
   }
 

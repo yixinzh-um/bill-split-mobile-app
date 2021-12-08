@@ -29,7 +29,7 @@ export default function BillSplitScreen({navigation, route}) {
   }
 
 
-  useEffect(()=>{
+  useEffect(() => {
     const memberListenerId = memberModel.addListener(() => {
       setMemberList(memberModel.getMemberList());
     });
@@ -47,18 +47,18 @@ export default function BillSplitScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             resetMemberModel();
             resetItemModel();
             navigation.goBack();
           }}/>
 
         <View style={{flex: 1}}>
-          <Text style={headerStyles.title}> {group.name} Bills</Text>
+          <Text style={headerStyles.title}>{group.name} Bills</Text>
         </View>
         <Ionicons
           name="share-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             printToFile();
           }}/>
         
@@ -86,7 +86,7 @@ export default function BillSplitScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Item List
       </Text>
-      <Button title='Add item !' onPress={()=>{
+      <Button title='Add item !' onPress={() => {
         navigation.navigate("ItemScreen", {group: group});
       }}/>
       <View style={listStyles.userListContainer}>
@@ -94,7 +94,7 @@ export default function BillSplitScreen({navigation, route}) {
         data={itemList}
         renderItem={({item}) => {
           return (
-          <TouchableOpacity style={listStyles.groupItem} onPress={()=>{
+          <TouchableOpacity style={listStyles.groupItem} onPress={() => {
             navigation.navigate("DetailScreen", {email: email, item: item});
           }}>
             <Text>

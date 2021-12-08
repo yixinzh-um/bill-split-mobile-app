@@ -30,13 +30,13 @@ class MemberModel {
     onSnapshot(q, qSnap => {
       const size = Object.keys(this.members).length;
       console.log(size);
-      for(const email in this.members)this.members[email] = 0;
-      qSnap.forEach((doc)=>{
+      for (const email in this.members)this.members[email] = 0;
+      qSnap.forEach((doc) => {
         const data = doc.data();
         const payer = data["payer"];
         const value = data["value"];
-        for(const email in this.members) {
-          if (email==payer)this.members[email] += value;
+        for (const email in this.members) {
+          if (email == payer)this.members[email] += value;
           else this.members[email] -= (value / (size - 1));
         }
       });
@@ -48,7 +48,7 @@ class MemberModel {
   getMemberList() {
     let key = 0;
     let ret = [];
-    for(const email in this.members) {
+    for (const email in this.members) {
       ret.push({"email":email, "key": key++, "balance": this.members[email]});
     }
     return ret;
@@ -67,7 +67,7 @@ class MemberModel {
   }
 
   removeListener(listenerId) {
-    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    let idx = this.listeners.findIndex((elem) => elem.id === listenerId);
     this.listeners.splice(idx, 1);
   }
 

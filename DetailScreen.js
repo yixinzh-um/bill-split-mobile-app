@@ -14,7 +14,7 @@ export default function DetailScreen({navigation, route}) {
   const [itemValue, setItemValue] = useState(item.value.toString());
   const [image, setImage] = useState(item.image);
 
-  useEffect(()=>{
+  useEffect(() => {
     const itemListenerId = itemModel.addListener(() => {
       if (itemModel.image!=undefined) {
         setImage(itemModel.image);
@@ -30,7 +30,7 @@ export default function DetailScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             itemModel.image = undefined;
             navigation.goBack();
           }}/>
@@ -44,11 +44,11 @@ export default function DetailScreen({navigation, route}) {
           <Text style={rowStyles.labelText}>Item Name:</Text>
         </View>
         <View style={rowStyles.inputContainer}>
-          {item.payer==email ?
+          {item.payer == email ?
           <TextInput 
             style={rowStyles.inputBox}
             value={itemName}
-            onChangeText={(text)=>{setItemName(text);}}
+            onChangeText={(text) => {setItemName(text);}}
           />
           :
           <Text style={rowStyles.labelText}>{itemName}</Text> }
@@ -59,16 +59,16 @@ export default function DetailScreen({navigation, route}) {
           <Text style={rowStyles.labelText}>Item Value:</Text>
         </View>
         <View style={rowStyles.inputContainer}>
-          {item.payer==email ?
+          {item.payer == email ?
           <TextInput 
             style={rowStyles.inputBox}
             value={itemValue}
-            onChangeText={(text)=>{setItemValue(text);}}
+            onChangeText={(text) => {setItemValue(text);}}
           />
           :
           <Text style={rowStyles.labelText}>{itemValue}</Text> }
         </View>
-      <TouchableOpacity onPress={()=>{navigation.navigate('CameraScreen', {"group": item.groupId})}}>
+      <TouchableOpacity onPress={() => {navigation.navigate('CameraScreen', {"group": item.groupId})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
       </View>
@@ -80,15 +80,15 @@ export default function DetailScreen({navigation, route}) {
           />
         </View>
       }
-      {item.payer==email ?
+      {item.payer == email ?
         <View>
-          <Button title='Update item !' onPress={()=>{
+          <Button title='Update item !' onPress={() => {
             const value = parseFloat(parseFloat(itemValue).toFixed(2));
-            if (!(value>0)) {
+            if (!(value > 0)) {
               alert("The item value should be a number larger than 0");
               setItemValue('0');
             }
-            else if (itemName=="")alert("The item name can't be blank")
+            else if (itemName == "")alert("The item name can't be blank")
             else{
               setItemValue(value.toString());
               itemModel.updateItem(item, 
@@ -97,7 +97,7 @@ export default function DetailScreen({navigation, route}) {
               navigation.goBack();
             }            
           }}/>
-          <Button title='Delete item !' onPress={()=>{
+          <Button title='Delete item !' onPress={() => {
             itemModel.deleteItem(item);
             itemModel.image = undefined;
             navigation.goBack();

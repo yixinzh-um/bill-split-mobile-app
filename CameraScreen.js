@@ -17,7 +17,7 @@ export default function CameraScreen({navigation, route}) {
   }, []);
 
   if (hasPermission === null) {
-    return <View />;
+    return <View/>;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
@@ -34,7 +34,7 @@ export default function CameraScreen({navigation, route}) {
       />
       <TouchableOpacity 
         style={styles.cameraControls}
-        onPress={async ()=>{
+        onPress={async () => {
           let imageData = await theCamera.takePictureAsync({quality: 0.2});
           itemModel.updateImage(imageData);
           navigation.goBack();

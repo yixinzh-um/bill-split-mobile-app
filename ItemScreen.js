@@ -26,7 +26,7 @@ export default function ItemScreen({navigation, route}) {
     },
   ];
   console.log(memberModel.getMemberList());
-  for(let member of memberModel.getMemberList()) {
+  for (let member of memberModel.getMemberList()) {
     let content = {
       title: member.email,
       isSelected: false,
@@ -36,7 +36,7 @@ export default function ItemScreen({navigation, route}) {
     }
     bottomList.push(content);
   }
-  useEffect(()=>{
+  useEffect(() => {
     const itemListenerId = itemModel.addListener(() => {
       setImage(itemModel.image);
     });
@@ -51,7 +51,7 @@ export default function ItemScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             itemModel.image = undefined;
             navigation.goBack();
           }}/>
@@ -68,7 +68,7 @@ export default function ItemScreen({navigation, route}) {
           <TextInput 
             style={rowStyles.inputBox}
             value={itemName}
-            onChangeText={(text)=>{setItemName(text);}}
+            onChangeText={(text) => {setItemName(text);}}
             />
         </View>
       </View>
@@ -80,7 +80,7 @@ export default function ItemScreen({navigation, route}) {
             <TextInput 
               style={rowStyles.inputBox}
               value={itemValue}
-              onChangeText={(text)=>{setItemValue(text)}}
+              onChangeText={(text) => {setItemValue(text)}}
             />
           </View>
       </View>
@@ -90,7 +90,7 @@ export default function ItemScreen({navigation, route}) {
         </View>
         <Ionicons 
           name="add-circle-outline" size={24} color="#007DC9"
-          onPress={()=>{
+          onPress={() => {
             setIsVisible(true);
           }}
           />
@@ -98,7 +98,7 @@ export default function ItemScreen({navigation, route}) {
           <Text style={rowStyles.inputlabelText}>{payerEmail}</Text>
         </View>
       </View>
-      {image==undefined ? <View></View> 
+      {image == undefined ? <View></View> 
         :
         <Image
           style={detailStyles.mainImage}
@@ -106,22 +106,22 @@ export default function ItemScreen({navigation, route}) {
         />
       }
       <TouchableOpacity style={rowStyles.center}
-        onPress={()=>{navigation.navigate('CameraScreen', {"group": group})}}>
+        onPress={() => {navigation.navigate('CameraScreen', {"group": group})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
       <Button style={rowStyles.buttonContainer}
         title='Add Item'
         icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
         type="clear"
-        onPress={()=>{
+        onPress={() => {
           const value = parseFloat(parseFloat(itemValue).toFixed(2));
-          if (!(value>0)) {
+          if (!(value > 0)) {
             alert("The item value should be a number larger than 0");
             setItemValue('0');
           }
           else if (payerEmail.indexOf("@")<1) alert("Invalid Email");
           else if (memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
-          else if (itemName=="")alert("The item name can't be blank")
+          else if (itemName == "")alert("The item name can't be blank")
           else {
             setItemValue(value.toString());
             itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);

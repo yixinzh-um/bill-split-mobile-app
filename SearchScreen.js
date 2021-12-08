@@ -15,15 +15,15 @@ export default function SearchScreen({navigation, route}) {
   const [inputvalue, setInputValue] = useState('');
   const [keyword, setKeyword] = useState('');
 
-  useEffect(()=>{    
+  useEffect(() => {    
     const itemListenerIds = itemModels.map(item => item.addListener(
-        () => setItemList(itemList.concat(item.itemList))
+      () => setItemList(itemList.concat(item.itemList))
     ));
 
     return () => {
-        for (let i = 0; i < itemModels.length; i++) {
-            itemModels[i].removeListener(itemListenerIds[i]);
-        }
+      for (let i = 0; i < itemModels.length; i++) {
+          itemModels[i].removeListener(itemListenerIds[i]);
+      }
     };}, []);
 
   return (
@@ -31,7 +31,7 @@ export default function SearchScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             resetItemModels();
             navigation.goBack();
           }}/>
@@ -49,12 +49,12 @@ export default function SearchScreen({navigation, route}) {
           <TextInput 
             style={rowStyles.inputBox}
             value={inputvalue}
-            onChangeText={(text)=>{setInputValue(text)}}
+            onChangeText={(text) => {setInputValue(text)}}
             />
         </View>
         <Button style={rowStyles.buttonContainer}
           title='Search'
-          onPress={()=>{
+          onPress={() => {
               setKeyword(inputvalue);
           }}/>
       </View>
@@ -62,26 +62,26 @@ export default function SearchScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Results
       </Text>
-      {keyword!='' && (itemList.filter(item => item.name===keyword).length > 0 ?
+      {keyword!='' && (itemList.filter(item => item.name === keyword).length > 0 ?
         <View style={listStyles.userListContainer}>
-            <FlatList
-            data={itemList.filter(item => item.name===keyword)}
+          <FlatList
+            data={itemList.filter(item => item.name === keyword)}
             renderItem={({item}) => {
-            return (
-            <TouchableOpacity style={listStyles.groupItem} onPress={()=>{
-                navigation.navigate("DetailScreen", {email: email, item: item});
-            }}>
+              return (
+              <TouchableOpacity style={listStyles.groupItem} onPress={() => {
+                  navigation.navigate("DetailScreen", {email: email, item: item});
+              }}>
                 <Text>
-                Item Name: {item.name}
+                  Item Name: {item.name}
                 </Text>
                 <Text>
-                Item Value: {item.value}
+                  Item Value: {item.value}
                 </Text>
                 <Text>
-                Item Payer: {item.payer}
+                  Item Payer: {item.payer}
                 </Text>
-            </TouchableOpacity>
-            );
+              </TouchableOpacity>
+              );
             }}
             />
         </View>:

@@ -15,7 +15,7 @@ export default function LoginScreen({navigation}) {
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); 
-  useEffect(()=>{
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user)navigation.navigate('HomeScreen', {email: user.email});
     })
@@ -40,7 +40,7 @@ export default function LoginScreen({navigation}) {
             autoCapitalize='none'
             spellCheck={false}
             value={email}
-            onChangeText={(text)=>{setEmail(text)}}
+            onChangeText={(text) => {setEmail(text)}}
             />
           </View>
         </View>
@@ -55,7 +55,7 @@ export default function LoginScreen({navigation}) {
             placeholder='enter password' 
             secureTextEntry={true}
             value={password}
-            onChangeText={(text)=>{setPassword(text)}}
+            onChangeText={(text) => {setPassword(text)}}
             />
           </View>
         </View>
@@ -64,21 +64,21 @@ export default function LoginScreen({navigation}) {
           {mode === 'login' ?
             <Text>New user? 
             <Text 
-              onPress={()=>{setMode('signup')}} 
+              onPress={() => {setMode('signup')}} 
               style={{color: 'blue'}}> Sign up </Text> 
             instead!</Text>
           :
             <Text>Existing user? 
             <Text 
-            onPress={()=>{setMode('login')}} 
+            onPress={() => {setMode('login')}} 
             style={{color: 'blue'}}> Log In </Text> 
             instead!</Text>}
         </View>
     
         <View style={styles.loginButtonRow}>
           <Button
-            title={mode==='login'?'Log in':'Sign up'}
-            onPress={async ()=>{ 
+            title={mode === 'login'?'Log in':'Sign up'}
+            onPress={async () => { 
               if (mode === 'login') {
                 try {
                   await signInWithEmailAndPassword(auth, email, password);

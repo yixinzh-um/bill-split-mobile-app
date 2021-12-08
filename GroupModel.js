@@ -19,7 +19,9 @@ class GroupUserList{
   }
 
   updateSubscribers() {
-    for(let sub of this.subscribers)sub();
+    for (let sub of this.subscribers) {
+      sub();
+    }
   }
 
   addSubscribers(sub) {
@@ -37,8 +39,8 @@ class GroupUserList{
       "email": email,
       "groupId": groupId,
     });
-    for(const userEmail in this.users) {
-      if (userEmail==email)continue;
+    for (const userEmail in this.users) {
+      if (userEmail == email)continue;
       await addDoc(collection(db, "MemberShip"), {
         "email": userEmail,
         "groupId": groupId,
@@ -49,7 +51,7 @@ class GroupUserList{
   getUserList() {
     let key = 0;
     let ret = [];
-    for(const email in this.users) {
+    for (const email in this.users) {
       ret.push({"email":email, "key": key++});
     }
     return ret;
@@ -79,11 +81,11 @@ class GroupList{
     const querySnapShot = await getDocs(q);
     onSnapshot(q, async (qSnap) => {
       this.groups = {}
-      qSnap.forEach(doc=>{
+      qSnap.forEach(doc=> {
         const groupId = doc.data().groupId;
         this.groups[groupId] = {};
       })
-      for(const groupId in this.groups) {
+      for (const groupId in this.groups) {
         const groupRef = doc(db, "Group", groupId);
         this.groups[groupId] = (await getDoc(groupRef)).data();
         this.groups[groupId]["groupId"] = groupId;
@@ -98,7 +100,7 @@ class GroupList{
   getGroupList() {
     let key = 0;
     let ret = [];
-    for(const groupId in this.groups) {
+    for (const groupId in this.groups) {
       const group = this.groups[groupId];
       group["key"] = key++;
       ret.push(group);
@@ -118,7 +120,7 @@ class GroupList{
   }
 
   removeListener(listenerId) {
-    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    let idx = this.listeners.findIndex((elem) => elem.id === listenerId);
     this.listeners.splice(idx, 1);
   }
 

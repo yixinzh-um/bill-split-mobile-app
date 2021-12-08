@@ -29,7 +29,7 @@ export default function ContactsIndexScreen({navigation, route}) {
         <Ionicons
           style={headerStyles.leftIcon}
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             navigation.navigate("UserProfileScreen", {email: email});
           }}/>
 
@@ -42,11 +42,11 @@ export default function ContactsIndexScreen({navigation, route}) {
         <View style={listStyles.inputContainer}>
           <TextInput style={listStyles.inputBox}
                       value={contact}
-                      onChangeText={(text)=>{setContact(text)}}
+                      onChangeText={(text) => {setContact(text)}}
             />
         </View>
         <Button 
-          title='Add a new contact' onPress={()=>{
+          title='Add a new contact' onPress={() => {
           userModel.addContact(contact);
           setContact('');
         }}/>
@@ -64,7 +64,7 @@ export default function ContactsIndexScreen({navigation, route}) {
               <Ionicons 
                 style={headerStyles.rightIcon}
                 name="trash-outline" size={25} color="black"
-                onPress={()=>{
+                onPress={() => {
                   userModel.removeContact(item);
                 }}/>
             </View>

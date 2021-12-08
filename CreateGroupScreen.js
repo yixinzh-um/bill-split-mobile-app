@@ -30,7 +30,7 @@ export default function CreateGroupScreen({navigation, route}) {
 
   useEffect(() => {
     console.log('useEffect');
-    groupUserList.addSubscribers(()=>{setUserList(groupUserList.getUserList());});
+    groupUserList.addSubscribers(() => {setUserList(groupUserList.getUserList());});
     const listenerId =  userModel.addListener(async () => {
       let newUser = await userModel.getCurrentUser();
       let bottomListContents = Array.from(bottomListMenu);
@@ -57,7 +57,7 @@ export default function CreateGroupScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             navigation.goBack();
           }}/>
         <View style={{flex: 0.9}}>
@@ -84,7 +84,7 @@ export default function CreateGroupScreen({navigation, route}) {
           <TextInput 
             style={rowStyles.inputBox}
             value={groupName}
-            onChangeText={(text)=>{setGroupName(text);}}
+            onChangeText={(text) => {setGroupName(text);}}
             />
         </View>
       </View>
@@ -96,7 +96,7 @@ export default function CreateGroupScreen({navigation, route}) {
             <TextInput 
               style={rowStyles.inputBox}
               value={purpose}
-              onChangeText={(text)=>{setPurpose(text);}}
+              onChangeText={(text) => {setPurpose(text);}}
             />
           </View>
       </View>
@@ -106,7 +106,7 @@ export default function CreateGroupScreen({navigation, route}) {
         </View>
         <Ionicons 
         name="add-circle-outline" size={24} color="#007DC9"
-        onPress={()=>{
+        onPress={() => {
           setIsVisible(true);
         }}
         />
@@ -116,7 +116,7 @@ export default function CreateGroupScreen({navigation, route}) {
           <TextInput 
             style={listStyles.inputBox}
             value={userEmail}
-            onChangeText={(text)=>{setUserEmail(text);}}
+            onChangeText={(text) => {setUserEmail(text);}}
             />
         </View>
         
@@ -124,7 +124,7 @@ export default function CreateGroupScreen({navigation, route}) {
           title='Add a new contact'
           icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
           type="clear"
-          onPress={()=>{
+          onPress={() => {
             if (userEmail.indexOf("@")<1) {
               alert("Invalid Email");
             } else {
@@ -148,7 +148,7 @@ export default function CreateGroupScreen({navigation, route}) {
               title='Delete user'
               icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
               type="clear"
-              onPress={()=>{
+              onPress={() => {
                 groupUserList.deleteUser(item.email);
               }}/>
           </View>

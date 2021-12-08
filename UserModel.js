@@ -27,7 +27,7 @@ class UserModel{
     const q = query(userInfo, where("email", "==", this.email));
     const querySnapShot = await getDocs(q);
     const docRef = doc(db, "UserInfo", this.email);
-    if (querySnapShot.size==0) {
+    if (querySnapShot.size == 0) {
       let userContents = {email: this.email, 
                           name: this.email.split('@')[0], 
                           contacts: []};
@@ -60,7 +60,7 @@ class UserModel{
   async removeContact(contact) {
     const docRef = doc(db, "UserInfo", this.email);
     let contacts = Array.from(this.user.contacts);
-    let idx = contacts.findIndex((elem)=>elem===contact); 
+    let idx = contacts.findIndex((elem) => elem === contact); 
     contacts.splice(idx, 1);
     await updateDoc(docRef, {contacts: contacts});
     this.notifyListener();
@@ -79,7 +79,7 @@ class UserModel{
   }
 
   removeListener(listenerId) {
-    let idx = this.listeners.findIndex((elem)=>elem.id===listenerId);
+    let idx = this.listeners.findIndex((elem) => elem.id === listenerId);
     this.listeners.splice(idx, 1);
   }
 

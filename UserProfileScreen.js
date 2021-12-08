@@ -32,7 +32,7 @@ export default function UserProfileScreen({navigation, route}) {
         <Ionicons 
           style={headerStyles.leftIcon}
           name="arrow-back-outline" size={30} color="black"
-          onPress={()=>{
+          onPress={() => {
             navigation.goBack();
           }}/>
 
@@ -43,7 +43,7 @@ export default function UserProfileScreen({navigation, route}) {
           <Ionicons 
             style={headerStyles.rightIcon}
             name="checkmark-outline" size={30} color="black"
-            onPress={()=>{
+            onPress={() => {
               setMode("show");
               userModel.updateUserName(name);
             }}/>
@@ -66,7 +66,7 @@ export default function UserProfileScreen({navigation, route}) {
               </View>
               <Ionicons 
                 name="create-outline" size={25} color="black"
-                onPress={()=>{
+                onPress={() => {
                   setMode("edit");
                 }}/>
             </View>      
@@ -74,7 +74,7 @@ export default function UserProfileScreen({navigation, route}) {
             <View style={detailStyles.inputContainer}>
               <TextInput style={detailStyles.inputBox}
                          value={name}
-                         onChangeText={(text)=>{setName(text);}}
+                         onChangeText={(text) => {setName(text);}}
                 />
             </View>
             }
@@ -98,7 +98,7 @@ export default function UserProfileScreen({navigation, route}) {
           <View style={detailStyles.valueContainer}>
             <Ionicons 
               name="people-circle-outline" size={30} color="#006DCD"
-              onPress={()=>{
+              onPress={() => {
                 navigation.navigate("ContactsIndexScreen", {email: email});
               }}/>
           </View>
