@@ -40,10 +40,10 @@ const formStyles = StyleSheet.create({
 const detailStyles = StyleSheet.create({
   row: {
     marginVertical: '5%',
-    height: '20%',
+    height: '30%',
   },
   labelContainer: {
-    padding: "5%",
+    margin: "5%",
   },
   labelText: {
     fontSize: 25,
