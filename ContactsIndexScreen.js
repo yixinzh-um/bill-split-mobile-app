@@ -36,12 +36,6 @@ export default function ContactsIndexScreen({navigation, route}) {
         <View style={headerStyles.titleContainer}> 
           <Text style={headerStyles.title}>Contacts</Text>
         </View>
-        
-        <Ionicons 
-          style={headerStyles.rightIcon}
-          name="search-outline" size={30} color="black"
-          onPress={()=>{
-          }}/>
       
       </View>
       <View style={listStyles.addContainer}>
@@ -60,6 +54,7 @@ export default function ContactsIndexScreen({navigation, route}) {
       <View style={listStyles.userListContainer}>
           <FlatList
           data={contacts}
+          keyExtractor={(item, index) => item}
           renderItem={({item}) => {
             return (
             <View style={listStyles.groupItem}>
