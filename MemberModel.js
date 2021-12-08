@@ -36,10 +36,16 @@ class MemberModel {
         const payer = data["payer"];
         const value = data["value"];
         for (const email in this.members) {
-          if (email == payer)this.members[email] += value;
-          else this.members[email] -= (value / (size - 1));
+          if (email == payer) {
+            this.members[email] += value;
+          } else {
+            this.members[email] -= (value / (size - 1));
+          }
         }
       });
+      for (const email in this.members) {
+        this.members[email] = Math.round(this.members[email] * 100) / 100;
+      }
       this.notifyListener();
     });
     this.notifyListener();
