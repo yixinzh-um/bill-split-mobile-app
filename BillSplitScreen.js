@@ -56,6 +56,12 @@ export default function BillSplitScreen({navigation, route}) {
         <View style={{flex: 1}}>
           <Text style={headerStyles.title}> {group.name} Bills</Text>
         </View>
+        <Ionicons
+          name="share-outline" size={30} color="#007DC9"
+          onPress={()=>{
+            printToFile();
+          }}/>
+        
       </View>
       <Text style={containerStyles.paragraph}>
         Welcome to group {group.name}
@@ -104,14 +110,6 @@ export default function BillSplitScreen({navigation, route}) {
           );
         }}
         />
-      </View>
-      <View style={{alignItems: 'center', marginBottom: 30}}>
-        <Ionicons 
-            name="share-outline" size={30} color="#007DC9"
-            onPress={()=>{
-              printToFile();
-            }}
-            />
       </View>
     </View>
     );
