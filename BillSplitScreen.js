@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import { headerStyles, containerStyles, listStyles} from './globalStyles';
+import { headerStyles, containerStyles, listStyles, rowStyles} from './globalStyles';
 import { Ionicons } from '@expo/vector-icons'; 
 import { getMemberModel, resetMemberModel } from './MemberModel';
 import { getItemModel, resetItemModel } from './ItemModel';
@@ -97,15 +97,30 @@ export default function BillSplitScreen({navigation, route}) {
           <TouchableOpacity style={listStyles.groupItem} onPress={() => {
             navigation.navigate("DetailScreen", {email: email, item: item});
           }}>
-            <Text>
-              Item Name: {item.name}
-            </Text>
-            <Text>
-              Item Value: {item.value}
-            </Text>
-            <Text>
-              Item Payer: {item.payer}
-            </Text>
+            <View style={[rowStyles.row, {paddingVertical: 0}]}>
+              <Text>
+                Name:
+              </Text>
+              <Text>
+                {item.name}
+              </Text>
+            </View>
+            <View style={[rowStyles.row, {paddingVertical: 0}]}>
+              <Text>
+                Value:
+              </Text>
+              <Text>
+                {item.value}
+              </Text>
+            </View>
+            <View style={[rowStyles.row, {paddingVertical: 0}]}>
+              <Text >
+                Payer:
+              </Text>
+              <Text>
+                {item.payer}
+              </Text>
+            </View>
           </TouchableOpacity>
           );
         }}
