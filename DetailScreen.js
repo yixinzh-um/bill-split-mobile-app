@@ -68,9 +68,13 @@ export default function DetailScreen({navigation, route}) {
           :
           <Text style={rowStyles.labelText}>{itemValue}</Text> }
         </View>
-      <TouchableOpacity onPress={() => {navigation.navigate('CameraScreen', {"group": item.groupId})}}>
-        <MaterialIcons name='photo-camera'size={32}/>
-      </TouchableOpacity>
+      {item.payer == email ?
+        <TouchableOpacity onPress={() => {navigation.navigate('CameraScreen', {"group": item.groupId})}}>
+          <MaterialIcons name='photo-camera'size={32}/>
+        </TouchableOpacity>
+        :
+        <View></View>
+      }
       </View>
       {image === undefined ? <View></View> : 
         <View>
