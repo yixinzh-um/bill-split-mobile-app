@@ -6,7 +6,7 @@ import { Ionicons, MaterialIcons  } from '@expo/vector-icons';
 import { getMemberModel } from './MemberModel';
 import { getItemModel } from './ItemModel';
 
-export default function ItemScreen({navigation, route}){
+export default function ItemScreen({navigation, route}) {
   const group = route.params.group;
   const memberModel = getMemberModel(group);
   const itemModel = getItemModel(group.groupId);
@@ -26,7 +26,7 @@ export default function ItemScreen({navigation, route}){
     },
   ];
   console.log(memberModel.getMemberList());
-  for(let member of memberModel.getMemberList()){
+  for(let member of memberModel.getMemberList()) {
     let content = {
       title: member.email,
       isSelected: false,
@@ -115,13 +115,13 @@ export default function ItemScreen({navigation, route}){
         type="clear"
         onPress={()=>{
           const value = parseFloat(parseFloat(itemValue).toFixed(2));
-          if(!(value>0)){
+          if (!(value>0)) {
             alert("The item value should be a number larger than 0");
             setItemValue('0');
           }
-          else if(payerEmail.indexOf("@")<1) alert("Invalid Email");
-          else if(memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
-          else if(itemName=="")alert("The item name can't be blank")
+          else if (payerEmail.indexOf("@")<1) alert("Invalid Email");
+          else if (memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
+          else if (itemName=="")alert("The item name can't be blank")
           else {
             setItemValue(value.toString());
             itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);

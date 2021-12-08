@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  FlatList, Button, Text, TextInput, View,
 } from 'react-native';
 import { BottomSheet, ListItem } from 'react-native-elements';
 import { getGroupUserList } from "./GroupModel";
-import { getAuth } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
+import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 import { getUserModel } from './UserModel';
 
-export default function CreateGroupScreen({navigation, route}){
+export default function CreateGroupScreen({navigation, route}) {
   const email = route.params.email;
   const userModel = getUserModel();
   const [groupName, setGroupName] = useState("");

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View,
+  FlatList, Button, Text, TextInput, View,
 } from 'react-native';
 import { getUserModel } from "./UserModel"
-import { getAuth, signOut } from "firebase/auth";
-import { Ionicons, MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'; 
-import { useFocusEffect } from '@react-navigation/native';
-import { headerStyles, rowStyles, containerStyles, listStyles, detailStyles } from './globalStyles'
-const auth = getAuth();
+import { Ionicons } from '@expo/vector-icons'; 
+import { headerStyles, containerStyles, listStyles } from './globalStyles'
 
-export default function ContactsIndexScreen({navigation, route}){
+export default function ContactsIndexScreen({navigation, route}) {
   const email = route.params.email;
   const userModel = getUserModel(email);
   const user = userModel.getCurrentUser();
@@ -47,16 +44,19 @@ export default function ContactsIndexScreen({navigation, route}){
           }}/>
       
       </View>
-      <View style={detailStyles.inputContainer}>
-        <TextInput style={detailStyles.inputBox}
-                    value={contact}
-                    onChangeText={(text)=>{setContact(text)}}
-          />
+      <View style={listStyles.addContainer}>
+        <View style={listStyles.inputContainer}>
+          <TextInput style={listStyles.inputBox}
+                      value={contact}
+                      onChangeText={(text)=>{setContact(text)}}
+            />
+        </View>
+        <Button 
+          title='Add a new contact' onPress={()=>{
+          userModel.addContact(contact);
+          setContact('');
+        }}/>
       </View>
-      <Button title='Add a new contact' onPress={()=>{
-        userModel.addContact(contact);
-        setContact('');
-      }}/>
       <View style={listStyles.userListContainer}>
           <FlatList
           data={contacts}
@@ -72,15 +72,6 @@ export default function ContactsIndexScreen({navigation, route}){
                 onPress={()=>{
                   userModel.removeContact(item);
                 }}/>
-              {/* <Text>
-                Purpose: {item.purpose}
-              </Text>
-              <Text>
-                Creator: {item.creator}
-              </Text> */}
-              {/* <Button title='Enter !' onPress={()=>{
-                navigation.navigate("BillSplitScreen", {email: email, group: item});
-              }}/> */}
             </View>
             );
           }}

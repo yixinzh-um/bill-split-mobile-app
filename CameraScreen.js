@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image, 
-  TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { getItemModel } from './ItemModel';
 
@@ -10,7 +9,7 @@ export default function CameraScreen({navigation, route}) {
   const itemModel = getItemModel(groupId);
 
   useEffect(() => {
-    async function getPermissions(){
+    async function getPermissions() {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     }

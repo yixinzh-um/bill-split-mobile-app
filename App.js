@@ -15,10 +15,10 @@ import ContactsIndexScreen from "./ContactsIndexScreen";
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component{
-  constructor(props){
+  constructor(props) {
     super(props);
   }
-  render(){
+  render() {
     return (
       <NavigationContainer>
         <Stack.Navigator>

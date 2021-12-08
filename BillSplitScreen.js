@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Modal, StyleSheet, Button, Alert,Text, TextInput, View, TouchableOpacity
+  FlatList, Button, Text, View, TouchableOpacity
 } from 'react-native';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import { headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
-import { Ionicons, MaterialIcons, AntDesign  } from '@expo/vector-icons'; 
+import { headerStyles, containerStyles, listStyles} from './globalStyles';
+import { Ionicons } from '@expo/vector-icons'; 
 import { getMemberModel, resetMemberModel } from './MemberModel';
 import { getItemModel, resetItemModel } from './ItemModel';
 import { getBillsExportHTML } from './exportTemplate';
 
-export default function BillSplitScreen({navigation, route}){
+export default function BillSplitScreen({navigation, route}) {
   const email = route.params.email;
   const group = route.params.group;
   const memberModel = getMemberModel(group);

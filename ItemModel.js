@@ -1,6 +1,5 @@
-import { initializeApp, getApps } from 'firebase/app';
 import { 
-  initializeFirestore, collection,  
+  collection,  
   query, orderBy, where, onSnapshot, getDoc,
   doc, addDoc, updateDoc, deleteDoc, setDoc
 } from "firebase/firestore";
@@ -20,7 +19,7 @@ class ItemModel {
     this.initItemModel();
   }
 
-  async initItemModel(){
+  async initItemModel() {
     const q = query(Items, where("groupId", "==", this.groupId));
     onSnapshot(q, async (qSnap) => {
       this.itemList = [];
@@ -36,9 +35,9 @@ class ItemModel {
     this.notifyListener();
   }
 
-  async uploadImage(payer){
+  async uploadImage(payer) {
     let downloadURL;
-    if(this.image){
+    if (this.image) {
       const response = await fetch(this.image.uri);
       const imageBlob = await response.blob();
       const timeStamp = new Date();
@@ -60,11 +59,11 @@ class ItemModel {
       "groupId": this.groupId
     };
     const url = await this.uploadImage(item.payer);
-    if(url)item["image"]=url;
+    if (url)item["image"]=url;
     addDoc(Items, item);
   }
 
-  async updateItem(item, itemName, itemValue){
+  async updateItem(item, itemName, itemValue) {
     const id = item.id;
     const docRef = doc(db, "Items", id);
     const data = (await getDoc(docRef)).data();
@@ -72,16 +71,16 @@ class ItemModel {
     data["value"] = itemValue;
     const url = await this.uploadImage(item.payer);
     console.log(url);
-    if(url)data["image"]=url;
+    if (url)data["image"]=url;
     setDoc(docRef, data);
   }
 
-  async deleteItem(item){
+  async deleteItem(item) {
     const id = item.id;
     deleteDoc(doc(db, "Items", id));
   }
 
-  async updateImage(image){
+  async updateImage(image) {
     this.image = image;
     this.notifyListener();
   }
@@ -118,7 +117,7 @@ export function getItemModel(groupId) {
   return itemModel;
 }
 
-export function resetItemModel(){
+export function resetItemModel() {
   itemModel = undefined;
 }
 
@@ -131,6 +130,6 @@ export function getItemModels(groups) {
   return itemModels;
 }
 
-export function resetItemModels(){
+export function resetItemModels() {
   itemModels = undefined;
 }

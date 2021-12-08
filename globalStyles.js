@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const headerStyles = StyleSheet.create({
   header: {
-    flex: 0.2,
+    height: '15%',
     flexDirection: 'row', 
     alignItems: 'center',
     borderBottomColor: '#E1E1E1',
@@ -36,10 +36,10 @@ const headerStyles = StyleSheet.create({
 const detailStyles = StyleSheet.create({
   row: {
     marginVertical: '5%',
-    height: '20%',
+    height: '30%',
   },
   labelContainer: {
-    padding: "5%",
+    margin: "5%",
   },
   labelText: {
     fontSize: 25,
@@ -170,6 +170,23 @@ const listStyles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%', 
   },
+  inputBox: {
+    width: '60%',
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    borderRadius: 6,
+    fontSize: 20,
+    height: 30,
+    alignItems: 'center',
+  },
+  inputContainer: {
+    flex: 0.6,
+    alignItems: 'center',
+    marginTop: '10%',
+  },
+  addContainer: {
+    flex: 0.2
+  }
 });
 
 
