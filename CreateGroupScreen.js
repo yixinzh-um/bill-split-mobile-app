@@ -78,7 +78,7 @@ export default function CreateGroupScreen({navigation, route}) {
       </View>
       <View style={rowStyles.row}>
         <View style={rowStyles.labelContainer}>
-          <Text style={rowStyles.labelText}>Group Name:</Text>
+          <Text style={rowStyles.labelText}>Name:</Text>
         </View>
         <View style={rowStyles.inputContainer}>
           <TextInput 
@@ -102,15 +102,24 @@ export default function CreateGroupScreen({navigation, route}) {
       </View>
       <View style={rowStyles.row}>
         <View style={rowStyles.labelContainer}>
-          <Text style={rowStyles.labelText}>Memembers:</Text>
+          <Text style={rowStyles.labelText}>Members:</Text>
         </View>
-        <View style={rowStyles.inputContainer}>
+        <Ionicons 
+        name="add-circle-outline" size={24} color="#007DC9"
+        onPress={()=>{
+          setIsVisible(true);
+        }}
+        />
+      </View>
+      <View style={listStyles.addContainer}>
+        <View style={listStyles.inputContainer}>
           <TextInput 
-            style={rowStyles.inputBox}
+            style={listStyles.inputBox}
             value={userEmail}
             onChangeText={(text)=>{setUserEmail(text);}}
             />
         </View>
+        
         <Button style={rowStyles.buttonContainer}
           title='Add a new contact'
           icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
@@ -125,12 +134,7 @@ export default function CreateGroupScreen({navigation, route}) {
             }
           }}/>
       </View>
-      <Ionicons 
-        name="add-circle-outline" size={24} color="#007DC9"
-        onPress={()=>{
-          setIsVisible(true);
-        }}
-        />
+
       <View style={listStyles.userListContainer}>
         <FlatList
         data={userList}

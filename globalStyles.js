@@ -101,10 +101,10 @@ const rowStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    padding: 10,
+    padding: 20,
   },
   labelContainer: {
-    flex: 0.2,
+    width: '40%',
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 10,
@@ -124,7 +124,7 @@ const rowStyles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   inputBox: {
-    width: '80%',
+    width: '100%',
     borderColor: 'lightgray',
     borderWidth: 1,
     borderRadius: 6,
@@ -185,7 +185,7 @@ const listStyles = StyleSheet.create({
     marginTop: '10%',
   },
   addContainer: {
-    flex: 0.2
+    flex: 0.4
   }
 });
 
