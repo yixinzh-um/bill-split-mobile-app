@@ -105,7 +105,7 @@ export default function UserProfileScreen({navigation, route}) {
         </View>
       
         <View style={styles.signOutContainer}>
-          <Button title="Summary" onPress={()=>navigation.navigate('SummaryScreen')}/>
+          <Button title="Summary" onPress={()=>navigation.navigate("SummaryScreen", { email: email})}/>
         </View>
 
       <View style={styles.signOutContainer}>

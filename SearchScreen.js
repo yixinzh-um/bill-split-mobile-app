@@ -55,17 +55,17 @@ export default function SearchScreen({navigation, route}) {
         <Button style={rowStyles.buttonContainer}
           title='Search'
           onPress={() => {
-              setKeyword(inputvalue);
+            setKeyword(inputvalue.toLowerCase());
           }}/>
       </View>
  
       <Text style={containerStyles.paragraph}>
         Results
       </Text>
-      {keyword!='' && (itemList.filter(item => item.name.includes(keyword)).length > 0 ?
+      {keyword!='' && (itemList.filter(item => item.name.toLowerCase().includes(keyword)).length > 0 ?
         <View style={listStyles.userListContainer}>
           <FlatList
-            data={itemList.filter(item => item.name.includes(keyword))}
+            data={itemList.filter(item => item.name.toLowerCase().includes(keyword))}
             renderItem={({item}) => {
               return (
               <TouchableOpacity style={listStyles.groupItem} onPress={() => {
