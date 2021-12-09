@@ -6,12 +6,13 @@ import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
 } from "firebase/auth";
-import { getDB } from "./FirebaseApp";
 import { getUserModel } from './UserModel';
+// import { getNetworkStateAsync } from 'expo-network';
 
 const auth = getAuth();
 
 export default function LoginScreen({navigation}) {
+  // const [connected, setConnected] = useState(true);
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); 
@@ -20,6 +21,16 @@ export default function LoginScreen({navigation}) {
       if (user)navigation.navigate('HomeScreen', {email: user.email});
     })
   }, []);
+  /*useEffect(async () => {
+    const connected = await getNetworkStateAsync();
+    if (connected.isConnected) {
+      onAuthStateChanged(auth, (user) => {
+        if (user)navigation.navigate('HomeScreen', {email: user.email});
+      })
+    } else {
+      setConnected(false);
+    }
+  }, []);*/
 
   return (
     <View style={styles.container}>      

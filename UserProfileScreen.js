@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  StyleSheet, Text, TextInput, View, TouchableOpacity
+  StyleSheet, Text, TextInput, View, TouchableOpacity, Button
 } from 'react-native';
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons'; 
@@ -102,6 +102,10 @@ export default function UserProfileScreen({navigation, route}) {
                 navigation.navigate("ContactsIndexScreen", {email: email});
               }}/>
           </View>
+        </View>
+      
+        <View style={styles.signOutContainer}>
+          <Button title="Summary" onPress={()=>navigation.navigate('SummaryScreen')}/>
         </View>
 
       <View style={styles.signOutContainer}>
