@@ -1,34 +1,44 @@
 import React from 'react';
+import { Ionicons } from '@expo/vector-icons'; 
+import { headerStyles, listStyles, containerStyles } from './globalStyles';
 
 import {
-  SafeAreaView,
-  ScrollView,
   View,
   Text,
   Dimensions,
-  StyleSheet
 } from 'react-native';
 
 import {
-  LineChart
+  BarChart
 } from 'react-native-chart-kit';
 
-const MyLineChart = () => {
-    return (
-      <>
-        <Text style={styles.header}>Line Chart</Text>
-        <LineChart
+export default function SummaryScreen({navigation}) {
+  return (
+    <View style={containerStyles.container}>
+      <View style={headerStyles.header}>
+        <Ionicons
+          name="arrow-back-outline" size={30} color="black"
+          onPress={() => {
+            navigation.goBack();
+        }}/>
+
+        <View style={headerStyles.titleContainer}> 
+          <Text style={headerStyles.title}>Transaction Summary</Text>
+        </View>
+      </View>
+      <View style={listStyles.userListContainer}>
+        <BarChart
           data={{
             labels: ['January', 'February', 'March', 'April', 'May', 'June'],
             datasets: [
               {
                 data: [20, 45, 28, 80, 99, 43],
-                strokeWidth: 2,
               },
             ],
           }}
-          width={Dimensions.get('window').width - 16}
+          width={Dimensions.get('window').width - 30}
           height={220}
+          yAxisLabel={''}
           chartConfig={{
             backgroundColor: '#1cc910',
             backgroundGradientFrom: '#eff3ff',
@@ -44,37 +54,7 @@ const MyLineChart = () => {
             borderRadius: 16,
           }}
         />
-      </>
-    );
-};
-
-export default function SummaryScreen() {
-    return (
-        <SafeAreaView style={{flex: 1}}>
-        <ScrollView>
-          <View style={styles.container}>
-            <View>
-              <MyLineChart />
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-      );
+      </View>
+    </View>
+  );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'white',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      padding: 10,
-    },
-    header: {
-      textAlign: 'center',
-      fontSize: 18,
-      padding: 16,
-      marginTop: 16,
-    },
-});
