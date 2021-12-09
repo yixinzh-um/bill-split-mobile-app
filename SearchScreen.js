@@ -62,10 +62,10 @@ export default function SearchScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Results
       </Text>
-      {keyword!='' && (itemList.filter(item => item.name === keyword).length > 0 ?
+      {keyword!='' && (itemList.filter(item => item.name.includes(keyword)).length > 0 ?
         <View style={listStyles.userListContainer}>
           <FlatList
-            data={itemList.filter(item => item.name === keyword)}
+            data={itemList.filter(item => item.name.includes(keyword))}
             renderItem={({item}) => {
               return (
               <TouchableOpacity style={listStyles.groupItem} onPress={() => {
