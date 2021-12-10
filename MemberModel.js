@@ -39,7 +39,7 @@ class MemberModel {
           if (email == payer) {
             this.members[email] += value;
           } else {
-            this.members[email] -= (value / (size - 1));
+            this.members[email] -= value / size; 
           }
         }
       });
