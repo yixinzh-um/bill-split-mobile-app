@@ -16,6 +16,7 @@ export default function ItemScreen({navigation, route}) {
   const [payerEmail, setPayerEmail] = useState("");
   const [image, setImage] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
+  const [memberList, setMemberList] = useState([])
   const bottomList = [
     {
       title: 'Settings',
@@ -25,7 +26,7 @@ export default function ItemScreen({navigation, route}) {
       hasIcon: true,
     },
   ];
-  for (let member of memberModel.getMemberList()) {
+  for (let member of memberList) {
     let content = {
       title: member.email,
       isSelected: false,
@@ -36,11 +37,15 @@ export default function ItemScreen({navigation, route}) {
     bottomList.push(content);
   }
   useEffect(() => {
+    const memberListenerId = memberModel.addListener(() => {
+      setMemberList(memberModel.getMemberList())
+    });
     const itemListenerId = itemModel.addListener(() => {
       setImage(itemModel.image);
     });
 
     return () => {
+      memberModel.removeListener(memberListenerId);
       itemModel.removeListener(itemListenerId);
   };}, []);
 

@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getMemberModel, resetMemberModel } from './MemberModel';
 import { getItemModel, resetItemModel } from './ItemModel';
 import { getBillsExportHTML } from './exportTemplate';
+import { ButtonStyles } from './globalStyles'
 
 export default function BillSplitScreen({navigation, route}) {
   const email = route.params.email;
@@ -66,23 +67,16 @@ export default function BillSplitScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Welcome to group {group.name}
       </Text>
-      <View style={listStyles.userListContainer}>
-        <FlatList
-        data={memberList}
-        renderItem={({item}) => {
-          return (
-          <View style={listStyles.groupItem}>
-            <Text>
-              {item.email}
-            </Text>
-            <Text>
-              Balance: {item.balance}
-            </Text>
-          </View>
-          );
-        }}
-        />
-      </View>
+      <TouchableOpacity style={ButtonStyles.button}
+        onPress = {() => {
+          navigation.navigate("BalanceScreen", {group: group,
+                                                memberList: memberList});
+        }}>
+        <Text style={ButtonStyles.text}>
+          Balance
+        </Text>
+      </TouchableOpacity>
+
       <Text style={containerStyles.paragraph}>
         Item List
       </Text>

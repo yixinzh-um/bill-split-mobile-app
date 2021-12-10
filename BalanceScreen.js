@@ -2,29 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { 
   StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList
 } from 'react-native';
-import { getAuth, signOut } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons'; 
 import { headerStyles, listStyles} from './globalStyles'
-import { getMemberModel, resetMemberModel } from './MemberModel';
-
-const auth = getAuth();
 
 export default function BalanceScreen({navigation, route}) {
-  // const email = route.params.email;
-  const group = route.params.group;
-  const memberModel = getMemberModel(group);
-  const [memberList, setMemberList] = useState([]);
-  console.log(memberList);
-
-  useEffect(() => {
-    const memberListenerId = memberModel.addListener(() => {
-      setMemberList(memberModel.getMemberList());
-    });
-
-    return () => {
-      memberModel.removeListener(memberListenerId);
-  };}, []);
-  
+  const { group, memberList } = route.params;
   return (
     <View style={styles.container}>
       <View style={headerStyles.header}>
