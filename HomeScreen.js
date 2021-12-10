@@ -44,7 +44,7 @@ export default function HomeScreen({navigation, route}) {
         }}/>
 
         <View style={headerStyles.titleContainer}> 
-          <Text style={headerStyles.title}>{userName}'s Groups</Text>
+          <Text style={headerStyles.title}>Groups</Text>
         </View>
         
         <Ionicons 
