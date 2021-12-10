@@ -57,7 +57,7 @@ class ItemModel {
       "value": itemValue, 
       "payer": payerEmail, 
       "groupId": this.groupId,
-      "date": (new Date()).toLocaleDateString()
+      "date": (new Date()).toLocaleDateString('en-US')
     };
     const url = await this.uploadImage(item.payer);
     if (url)item["image"]=url;

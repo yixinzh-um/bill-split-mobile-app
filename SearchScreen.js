@@ -55,7 +55,7 @@ export default function SearchScreen({navigation, route}) {
         <Button style={rowStyles.buttonContainer}
           title='Search'
           onPress={() => {
-            setKeyword(inputvalue.toLowerCase());
+            setKeyword(inputvalue.trim().toLowerCase());
           }}/>
       </View>
  

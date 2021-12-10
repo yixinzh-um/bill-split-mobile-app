@@ -59,7 +59,7 @@ export default function SummaryScreen({navigation, route}) {
     const itemListenerIds = itemModels.map(itemModel => itemModel.addListener(
       () => {
         for (const item of itemModel.itemList) {
-          const week = moment(item.date, "YYYY/MM/DD").startOf('isoweek').format('MM/DD/YYYY');
+          const week = moment(item.date, "MM/DD/YYYY").startOf('isoweek').format('MM/DD/YYYY');
           if(weeks.includes(week)){
             if (item.payer === email) {
               setPayByUser(oldMap => update(oldMap, {[week]: {$set: oldMap.get(week) + item.value}}))
