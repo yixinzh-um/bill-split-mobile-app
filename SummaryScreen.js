@@ -16,7 +16,7 @@ const MyBarChart = ({title, labels, data}) => {
       <Text style={containerStyles.paragraph}>{title}</Text>
       <BarChart
         data={{
-          labels: labels.map(i => `Week ${i}`),
+          labels: labels.map(i => `${i}`),
           datasets: [
             {
               data: data,
