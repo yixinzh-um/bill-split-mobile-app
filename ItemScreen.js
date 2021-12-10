@@ -25,7 +25,6 @@ export default function ItemScreen({navigation, route}) {
       hasIcon: true,
     },
   ];
-  console.log(memberModel.getMemberList());
   for (let member of memberModel.getMemberList()) {
     let content = {
       title: member.email,

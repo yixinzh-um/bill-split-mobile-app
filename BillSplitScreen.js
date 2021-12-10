@@ -54,7 +54,7 @@ export default function BillSplitScreen({navigation, route}) {
           }}/>
 
         <View style={{flex: 1}}>
-          <Text style={headerStyles.title}>{group.name} Bills</Text>
+          <Text style={headerStyles.title}>Bills</Text>
         </View>
         <Ionicons
           name="share-outline" size={30} color="black"

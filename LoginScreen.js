@@ -26,7 +26,7 @@ export default function LoginScreen({navigation}) {
       <View style={styles.loginContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionHeaderText}>
-            Login:
+            Sprucebook
           </Text>
         </View>
         <View style={styles.loginRow}>
