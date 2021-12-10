@@ -13,6 +13,7 @@ import CameraScreen from './CameraScreen';
 import SearchScreen from './SearchScreen';
 import ContactsIndexScreen from "./ContactsIndexScreen";
 import SummaryScreen from './SummaryScreen';
+import BalanceScreen from './BalanceScreen';
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component{
@@ -34,6 +35,7 @@ class App extends React.Component{
           <Stack.Screen name="SearchScreen" component={SearchScreen} options={{headerShown: false}}/>
           <Stack.Screen name="ContactsIndexScreen" component={ContactsIndexScreen} options={{headerShown: false}}/>
           <Stack.Screen name="SummaryScreen" component={SummaryScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="BalanceScreen" component={BalanceScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )

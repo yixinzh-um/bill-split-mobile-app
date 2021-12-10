@@ -189,5 +189,27 @@ const listStyles = StyleSheet.create({
   }
 });
 
+const ButtonStyles = StyleSheet.create({
+  buttonContainer: {
+    marginTop: '10%',
+    paddingTop: '10%',
+    width: '80%',
+    alignItems: 'center',
+    borderTopColor: '#E1E1E1',
+    borderTopWidth: 1,
+  },
 
-export {headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles};
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#E1E1E1',
+    borderRadius: 10,
+    padding: 10,
+  },
+
+  text: {
+    fontSize: 20
+  },
+});
+
+
+export {headerStyles, detailStyles, buttonStyles, rowStyles, containerStyles, listStyles, ButtonStyles};

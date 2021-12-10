@@ -29,7 +29,6 @@ export default function CreateGroupScreen({navigation, route}) {
   ];
 
   useEffect(() => {
-    console.log('useEffect');
     groupUserList.addSubscribers(() => {setUserList(groupUserList.getUserList());});
     const listenerId =  userModel.addListener(async () => {
       let newUser = await userModel.getCurrentUser();
@@ -45,8 +44,6 @@ export default function CreateGroupScreen({navigation, route}) {
         bottomListContents.push(contactItem);
       }
       setBottomList(bottomListContents);
-      console.log(newUser.contacts);
-      console.log(bottomListContents);
     });
     return(() => {
       userModel.removeListener(listenerId);

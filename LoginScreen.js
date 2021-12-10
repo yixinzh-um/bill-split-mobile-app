@@ -6,6 +6,9 @@ import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
 } from "firebase/auth";
+import { ButtonStyles } from './globalStyles'
+
+import { getDB } from "./FirebaseApp";
 import { getUserModel } from './UserModel';
 // import { getNetworkStateAsync } from 'expo-network';
 
@@ -113,9 +116,9 @@ export default function LoginScreen({navigation}) {
               setPassword('');
           }}/>
         </View>
-        <View style={styles.guestContainer}>
-          <TouchableOpacity style={styles.guestButton}>
-            <Text style={styles.guestText}>
+        <View style={ButtonStyles.buttonContainer}>
+          <TouchableOpacity style={ButtonStyles.button}>
+            <Text style={ButtonStyles.text}>
               Guest
             </Text>
           </TouchableOpacity>
