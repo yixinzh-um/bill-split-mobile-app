@@ -61,7 +61,7 @@ export default function SummaryScreen({navigation, route}) {
         for (const item of itemModel.itemList) {
           const week = moment(item.date, "MM/DD/YYYY").startOf('isoweek').format('MM/DD/YYYY');
           if(weeks.includes(week)){
-            if (item.payer == email) {
+            if (item.payer === email) {
               setPayByUser(oldMap => update(oldMap, {[week]: {$set: oldMap.get(week) + item.value}}))
             } else {
               setPayByOthers(oldMap => update(oldMap, {[week]: {$set: oldMap.get(week) + item.value}}));
