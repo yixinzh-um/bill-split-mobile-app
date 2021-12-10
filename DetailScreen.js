@@ -12,7 +12,7 @@ export default function DetailScreen({navigation, route}) {
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
   const [itemValue, setItemValue] = useState(item.value.toString());
-  const [image, setImage] = useState(item.image);
+  const [image, setImage] = useState({uri: item.image});
 
   useEffect(() => {
     const itemListenerId = itemModel.addListener(() => {

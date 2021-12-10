@@ -5,16 +5,10 @@ import update from 'immutability-helper';
 import { headerStyles, listStyles, containerStyles } from './globalStyles';
 import { getGroupList } from './GroupModel';
 import { getItemModels, resetItemModels } from './ItemModel';
-
 import {
-  View,
-  Text,
-  Dimensions,
+  View, Text, Dimensions, StyleSheet
 } from 'react-native';
-
-import {
-  BarChart
-} from 'react-native-chart-kit';
+import { BarChart } from 'react-native-chart-kit';
 
 const MyBarChart = ({title, labels, data}) => {
   return (
@@ -22,7 +16,7 @@ const MyBarChart = ({title, labels, data}) => {
       <Text style={containerStyles.paragraph}>{title}</Text>
       <BarChart
         data={{
-          labels: labels,
+          labels: labels.map(i => `Week ${i}`),
           datasets: [
             {
               data: data,
@@ -67,7 +61,7 @@ export default function SummaryScreen({navigation, route}) {
         for (const item of itemModel.itemList) {
           const week = moment(item.date, "MM/DD/YYYY").startOf('isoweek').format('MM/DD/YYYY');
           if(weeks.includes(week)){
-            if (item.payer == email) {
+            if (item.payer === email) {
               setPayByUser(oldMap => update(oldMap, {[week]: {$set: oldMap.get(week) + item.value}}))
             } else {
               setPayByOthers(oldMap => update(oldMap, {[week]: {$set: oldMap.get(week) + item.value}}));
@@ -97,10 +91,20 @@ export default function SummaryScreen({navigation, route}) {
           <Text style={headerStyles.title}>Transaction Summary</Text>
         </View>
       </View>
-      <View style={listStyles.userListContainer}>
+      <View style={styles.container}>
+        <Text style={containerStyles.paragraph}>Transactions during the past 4 weeks</Text>
         <MyBarChart title="Payed by Me" data={Array.from(payByUser.values())} labels={weeks}/>
         <MyBarChart title="Payed by Others" data={Array.from(payByOthers.values())} labels={weeks}/>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+});
