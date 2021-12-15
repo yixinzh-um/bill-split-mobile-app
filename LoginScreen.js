@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  StyleSheet, Button, Alert, Text, TextInput, View, TouchableOpacity,
+  StyleSheet, Alert, Text, TextInput, View, TouchableOpacity,
 } from 'react-native';
+import { Button, Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
@@ -48,14 +50,14 @@ export default function LoginScreen({navigation}) {
             <Text style={styles.loginLabelText}>Email: </Text>
           </View>
           <View style={styles.loginInputContainer}>
-            <TextInput 
-            style={styles.loginInputBox}
-            placeholder='enter email address' 
-            autoCapitalize='none'
-            spellCheck={false}
-            value={email}
-            onChangeText={(text) => {setEmail(text)}}
-            />
+            <Input
+              style={styles.loginInputBox}
+              placeholder='enter email address'
+              autoCapitalize='none'
+              spellCheck={false}
+              value={email}
+              onChangeText={(text) => {setEmail(text)}}
+              />
           </View>
         </View>
     
@@ -64,33 +66,19 @@ export default function LoginScreen({navigation}) {
             <Text style={styles.loginLabelText}>Password: </Text>
           </View>
           <View style={styles.loginInputContainer}>
-            <TextInput 
-            style={styles.loginInputBox}
-            placeholder='enter password' 
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => {setPassword(text)}}
-            />
+            <Input
+              style={styles.loginInputBox}
+              placeholder='enter password'
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => {setPassword(text)}}
+              />
           </View>
-        </View>
-
-        <View style={styles.modeSwitchContainer}>
-          {mode === 'login' ?
-            <Text>New user? 
-            <Text 
-              onPress={() => {setMode('signup')}} 
-              style={{color: 'blue'}}> Sign up </Text> 
-            instead!</Text>
-          :
-            <Text>Existing user? 
-            <Text 
-            onPress={() => {setMode('login')}} 
-            style={{color: 'blue'}}> Log In </Text> 
-            instead!</Text>}
         </View>
     
         <View style={styles.loginButtonRow}>
           <Button
+            buttonStyle={{backgroundColor: '#F29559'}}
             title={mode === 'login'?'Log in':'Sign up'}
             onPress={async () => { 
               if (mode === 'login') {
@@ -116,12 +104,26 @@ export default function LoginScreen({navigation}) {
               setPassword('');
           }}/>
         </View>
+
+        <View style={styles.modeSwitchContainer}>
+          {mode === 'login' ?
+            <Text>New user?
+            <Text
+              onPress={() => {setMode('signup')}}
+              style={{color: '#E66713'}}> Sign up </Text>
+            instead!</Text>
+          :
+            <Text>Existing user?
+            <Text
+            onPress={() => {setMode('login')}}
+            style={{color: '#E66713'}}> Log In </Text>
+            instead!</Text>}
+        </View>
         <View style={ButtonStyles.buttonContainer}>
-          <TouchableOpacity style={ButtonStyles.button}>
-            <Text style={ButtonStyles.text}>
-              Guest
-            </Text>
-          </TouchableOpacity>
+          <Button
+            title='Guest'
+            buttonStyle={{backgroundColor:'#303633'}}
+          />
         </View>
       </View>
     </View>
@@ -132,7 +134,7 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
 container: {
   flex: 1,
-  backgroundColor: '#fff',
+  backgroundColor: '#ffffff',
   alignItems: 'center',
   justifyContent: 'center',
 },
@@ -142,12 +144,13 @@ loginContainer: {
   justifyContent: 'flex-end',
   alignItems: 'center',
   width: '100%',
-  paddingTop: '30%',
-  paddingBottom: '10%'
+  paddingTop: '50%',
+  // paddingBottom: '10%'
 },
 loginRow: {
   flexDirection: 'row',
   paddingBottom: '5%',
+  paddingHorizontal: '10%',
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
@@ -155,15 +158,15 @@ loginRow: {
 loginLabelContainer: {
   flex: 0.4,
   justifyContent: 'center',
-  alignItems: 'flex-end'
+  alignItems: 'flex-start'
 },
 loginLabelText: {
   fontSize: 18
 },
 loginInputContainer: {
-  flex: 0.6,
+  flex: 1,
   justifyContent: 'center',
-  alignItems: 'flex-start',
+  alignItems: 'flex-end',
   width: '100%'
 },
 loginInputBox: {
@@ -172,9 +175,10 @@ loginInputBox: {
   borderWidth: 1,
   borderRadius: 6,
   fontSize: 18,
-  padding: '2%'
+  padding: '5%'
 },
 modeSwitchContainer:{
+  marginTop: '10%',
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%'
@@ -192,7 +196,8 @@ sectionHeader: {
   alignItems: 'center'
 },
 sectionHeaderText: {
-  fontSize: 36
+  fontSize: 36,
+  fontWeight: 'bold',
 },
 listContainer: {
   flex: 0.7, 
@@ -203,7 +208,7 @@ listContainer: {
 },
 
 guestContainer: {
-  marginTop: '10%',
+  // marginTop: '10%',
   paddingTop: '10%',
   width: '80%',
   alignItems: 'center',

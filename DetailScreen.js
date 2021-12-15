@@ -39,7 +39,7 @@ export default function DetailScreen({navigation, route}) {
           <Text style={headerStyles.title}> Edit items</Text>
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Item Name:</Text>
         </View>
@@ -54,7 +54,7 @@ export default function DetailScreen({navigation, route}) {
           <Text style={rowStyles.labelText}>{itemName}</Text> }
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Item Value:</Text>
         </View>
@@ -107,7 +107,7 @@ export default function DetailScreen({navigation, route}) {
             navigation.goBack();
           }}/>
         </View>
-        :  <View style={rowStyles.row}>
+        :  <View style={rowStyles.rowContainer}>
              <View style={rowStyles.labelContainer}>
               <Text style={rowStyles.labelText}>Item Payer:</Text>
             </View>

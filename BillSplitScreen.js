@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Button, Text, View, TouchableOpacity
+  FlatList, Text, View, TouchableOpacity
 } from 'react-native';
+import { Button, Avatar } from 'react-native-elements';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { headerStyles, containerStyles, listStyles, rowStyles} from './globalStyles';
@@ -80,9 +81,7 @@ export default function BillSplitScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Item List
       </Text>
-      <Button title='Add item !' onPress={() => {
-        navigation.navigate("ItemScreen", {group: group});
-      }}/>
+
       <View style={listStyles.userListContainer}>
         <FlatList
         data={itemList}
@@ -91,35 +90,43 @@ export default function BillSplitScreen({navigation, route}) {
           <TouchableOpacity style={listStyles.groupItem} onPress={() => {
             navigation.navigate("DetailScreen", {email: email, item: item});
           }}>
-            <View style={[rowStyles.row, {paddingVertical: 0}]}>
-              <Text>
-                Name:
-              </Text>
-              <Text>
-                {item.name}
-              </Text>
+            <Avatar
+              title={item.name}
+              backgroundColor='#888DA7'
+              avatarStyle={{borderWidth:5, borderColor: 'white'}}
+              titleStyle={{fontSize: 15}}
+              size={70}
+              />
+            <View stye={rowStyles.rowContainer}>
+              <View style={[rowStyles.rowContent, {paddingVertical: 0}]}>
+                <Text>
+                  Value:
+                </Text>
+                <Text>
+                  {item.value}
+                </Text>
+              </View>
+              <View style={[rowStyles.rowContent, {paddingVertical: 0}]}>
+                <Text >
+                  Payer:
+                </Text>
+                <Text>
+                  {item.payer}
+                </Text>
+              </View>
             </View>
-            <View style={[rowStyles.row, {paddingVertical: 0}]}>
-              <Text>
-                Value:
-              </Text>
-              <Text>
-                {item.value}
-              </Text>
-            </View>
-            <View style={[rowStyles.row, {paddingVertical: 0}]}>
-              <Text >
-                Payer:
-              </Text>
-              <Text>
-                {item.payer}
-              </Text>
-            </View>
+
           </TouchableOpacity>
           );
         }}
         />
       </View>
+      <Button
+        title='Add item'
+        buttonStyle={{backgroundColor: '#F29559'}}
+        onPress={() => {
+        navigation.navigate("ItemScreen", {group: group});
+      }}/>
     </View>
     );
 }

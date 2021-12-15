@@ -29,7 +29,6 @@ const headerStyles = StyleSheet.create({
   rightIcon: {
     position: 'absolute',
     right: 0,
-    // justifyContent: 'flex-end',
   }
 });
 
@@ -39,6 +38,7 @@ const detailStyles = StyleSheet.create({
     height: '30%',
   },
   labelContainer: {
+    justifyContent: 'flex-end',
     margin: "5%",
   },
   labelText: {
@@ -82,7 +82,6 @@ const buttonStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#84C6FF',
     width: 100,
     height: 40,
     borderRadius:10,
@@ -96,12 +95,15 @@ const buttonStyles = StyleSheet.create({
 });
 
 const rowStyles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
+  rowContainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
     padding: 20,
+  },
+  rowContent: {
+    flexDirection: 'row',
+    margin: 10
   },
   labelContainer: {
     width: '40%',
@@ -141,7 +143,7 @@ const containerStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#ffffff',
     padding: '3%',
   },
   paragraph: {
@@ -154,21 +156,38 @@ const containerStyles = StyleSheet.create({
 
 const listStyles = StyleSheet.create({
   groupItem: {
+    flexDirection: 'row',
     alignItems:'center',
-    borderWidth: 2,
     borderRadius: 20,
     overflow: 'hidden',
-    borderColor: 'lightgray',
     flex: 1,
-    padding: '3%',
-    marginBottom: '5%',
-    width: '80%',
+    paddingVertical: '3%',
+    marginTop: '5%',
+    width: '100%',
     alignSelf: 'center',
+    backgroundColor: '#DFE8EA',
+    borderBottomWidth: 1,
+    padding: 10,
+  },
+
+  balanceItem: {
+    flexDirection: 'row',
+    alignItems:'center',
+    overflow: 'hidden',
+    flex: 1,
+    paddingVertical: '3%',
+    marginTop: '5%',
+    width: '100%',
+    alignSelf: 'center',
+    backgroundColor: '#DFE8EA',
+    padding: 10,
+    flexDirection: 'column',
+    backgroundColor: '#E4E7E6',
   },
   userListContainer: {
-    flex: 1, 
+    flex: 0.9,
     justifyContent: 'center',
-    width: '100%', 
+    width: '100%',
   },
   inputBox: {
     width: '60%',
@@ -186,12 +205,15 @@ const listStyles = StyleSheet.create({
   },
   addContainer: {
     flex: 0.4
+  },
+  button: {
+    justifyContent: 'flex-end',
   }
 });
 
 const ButtonStyles = StyleSheet.create({
   buttonContainer: {
-    marginTop: '10%',
+    marginTop: '2%',
     paddingTop: '10%',
     width: '80%',
     alignItems: 'center',

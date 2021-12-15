@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
-import { BottomSheet, ListItem } from 'react-native-elements';
+import { BottomSheet, ListItem, Input } from 'react-native-elements';
 import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
@@ -64,31 +64,31 @@ export default function ItemScreen({navigation, route}) {
           <Text style={headerStyles.title}> Add Items</Text>
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Item Name:</Text>
         </View>
         <View style={rowStyles.inputContainer}>
-          <TextInput 
+          <Input
             style={rowStyles.inputBox}
             value={itemName}
             onChangeText={(text) => {setItemName(text);}}
             />
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContent}>
           <View style={rowStyles.labelContainer}>
             <Text style={rowStyles.labelText}>Item Value:</Text>
           </View>
           <View style={rowStyles.inputContainer}>
-            <TextInput 
+            <Input
               style={rowStyles.inputBox}
               value={itemValue}
               onChangeText={(text) => {setItemValue(text)}}
             />
           </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Payer Email:</Text>
         </View>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Button, Text, View
+  FlatList, Text, View, TouchableOpacity
 } from 'react-native';
-import { getUserModel } from "./UserModel"
+import { Button, Avatar } from 'react-native-elements';
+import { getUserModel } from "./UserModel";
 import { getGroupList} from "./GroupModel";
 import { getAuth } from "firebase/auth";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { headerStyles, containerStyles, listStyles } from './globalStyles';
 
 const auth = getAuth();
@@ -56,32 +57,49 @@ export default function HomeScreen({navigation, route}) {
       
       </View>
 
-      <Button title='Create Group' onPress={() => {
-        navigation.navigate("CreateGroupScreen", {email: email});
-      }}/>
-
       <View style={listStyles.userListContainer}>
         <FlatList
           data={groups}
           renderItem={({item}) => {
             return (
-              <View style={listStyles.groupItem}>
-                <Text>
-                  Name: {item.name} 
-                </Text>
-                <Text>
-                  Purpose: {item.purpose}
-                </Text>
-                <Text>
-                  Creator: {item.creator}
-                </Text>
-                <Button title='Enter !' onPress={() => {
+              <TouchableOpacity
+                style={listStyles.groupItem}
+                onPress={() => {
                   navigation.navigate("BillSplitScreen", {email: email, group: item});
-                }}/>
-              </View>
+                }}
+                >
+
+                <Avatar
+                  rounded
+                  title={item.name}
+                  backgroundColor='#888DA7'
+                  avatarStyle={{borderWidth:5, borderColor: 'white'}}
+                  titleStyle={{fontSize: 15}}
+                  size={70}
+                  />
+
+                <View style={listStyles.groupItemContent}>
+                  <Text>
+                    Creator: {item.creator}
+                  </Text>
+                </View>
+                <Ionicons
+                  style={headerStyles.rightIcon}
+                  name="chevron-forward-outline" size={30} color="#303633"
+                />
+              </TouchableOpacity>
             );
         }}
       />
+      </View>
+
+      <View style={listStyles.button}>
+        <Button title='Create Group'
+          style={listStyles.button}
+          buttonStyle={{backgroundColor: '#F29559'}}
+          onPress={() => {
+            navigation.navigate("CreateGroupScreen", {email: email});
+          }}/>
       </View>
     </View>
     );

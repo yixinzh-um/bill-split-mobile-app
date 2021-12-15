@@ -41,7 +41,7 @@ export default function SearchScreen({navigation, route}) {
         </View>
       </View>
 
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Keyword:</Text>
         </View>

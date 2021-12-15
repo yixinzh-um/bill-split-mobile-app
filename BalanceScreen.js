@@ -24,7 +24,7 @@ export default function BalanceScreen({navigation, route}) {
         data={memberList}
         renderItem={({item}) => {
           return (
-          <View style={listStyles.groupItem}>
+          <View style={listStyles.balanceItem}>
             <Text>
               {item.email}
             </Text>

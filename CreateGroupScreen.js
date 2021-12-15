@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Button, Text, TextInput, View,
 } from 'react-native';
-import { BottomSheet, ListItem } from 'react-native-elements';
+import { BottomSheet, ListItem, Input } from 'react-native-elements';
 import { getGroupUserList } from "./GroupModel";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
 import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
@@ -73,31 +73,31 @@ export default function CreateGroupScreen({navigation, route}) {
             }}/>
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Name:</Text>
         </View>
         <View style={rowStyles.inputContainer}>
-          <TextInput 
+          <Input
             style={rowStyles.inputBox}
             value={groupName}
             onChangeText={(text) => {setGroupName(text);}}
             />
         </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContent}>
           <View style={rowStyles.labelContainer}>
             <Text style={rowStyles.labelText}>Purpose:</Text>
           </View>
           <View style={rowStyles.inputContainer}>
-            <TextInput 
+            <Input
               style={rowStyles.inputBox}
               value={purpose}
               onChangeText={(text) => {setPurpose(text);}}
             />
           </View>
       </View>
-      <View style={rowStyles.row}>
+      <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Members:</Text>
         </View>
