@@ -21,6 +21,10 @@ const headerStyles = StyleSheet.create({
     paddingRight: 10,
     textAlign: 'center',
   },
+  subtitle: {
+    fontSize: 20,
+    textAlign: 'center',
+  },
   leftIcon: {
     zIndex: 1,
     position: 'absolute',
