@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { 
   FlatList, Text, View, TouchableOpacity
 } from 'react-native';
@@ -8,6 +8,16 @@ import { getGroupList} from "./GroupModel";
 import { getAuth } from "firebase/auth";
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { headerStyles, containerStyles, listStyles } from './globalStyles';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const auth = getAuth();
 
@@ -17,6 +27,10 @@ export default function HomeScreen({navigation, route}) {
   const groupList = getGroupList(email);
   const [groups, setGroups] = useState([]);
   const [userName, setUserName] = useState("");
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const notificationListener = useRef();
+  const responseListener = useRef();
 
   useEffect(() => {
     const userListenerId = userModel.addListener(async () => {
@@ -28,9 +42,21 @@ export default function HomeScreen({navigation, route}) {
       () => {setGroups(groupList.getGroupList());}
     );
 
+    registerForPushNotificationsAsync().then(token => {console.log(token); setExpoPushToken(token)});
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
     return () => {
       userModel.removeListener(userListenerId);
       groupList.removeListener(groupListenerId);
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
 
@@ -52,7 +78,7 @@ export default function HomeScreen({navigation, route}) {
           style={headerStyles.rightIcon}
           name="search-outline" size={30} color="black"
           onPress={() => {
-            navigation.navigate("SearchScreen", {email: email});
+            navigation.navigate("SearchScreen", {email: email, expoPushToken: expoPushToken});
           }}/>
       
       </View>
@@ -65,7 +91,7 @@ export default function HomeScreen({navigation, route}) {
               <TouchableOpacity
                 style={listStyles.groupItem}
                 onPress={() => {
-                  navigation.navigate("BillSplitScreen", {email: email, group: item});
+                  navigation.navigate("BillSplitScreen", {email: email, group: item, expoPushToken: expoPushToken});
                 }}
                 >
 
@@ -104,4 +130,35 @@ export default function HomeScreen({navigation, route}) {
       </View>
     </View>
     );
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
 }

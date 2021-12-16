@@ -15,6 +15,7 @@ import { ButtonStyles } from './globalStyles'
 export default function BillSplitScreen({navigation, route}) {
   const email = route.params.email;
   const group = route.params.group;
+  const expoPushToken = route.params.expoPushToken;
   const memberModel = getMemberModel(group);
   const itemModel = getItemModel(group.groupId);
   const [memberList, setMemberList] = useState([]);
@@ -88,7 +89,7 @@ export default function BillSplitScreen({navigation, route}) {
         renderItem={({item}) => {
           return (
           <TouchableOpacity style={listStyles.groupItem} onPress={() => {
-            navigation.navigate("DetailScreen", {email: email, item: item});
+            navigation.navigate("DetailScreen", {email: email, item: item, expoPushToken: expoPushToken});
           }}>
             <Avatar
               title={item.name}
