@@ -85,18 +85,6 @@ export default function CreateGroupScreen({navigation, route}) {
             />
         </View>
       </View>
-      <View style={rowStyles.rowContent}>
-          <View style={rowStyles.labelContainer}>
-            <Text style={rowStyles.labelText}>Purpose:</Text>
-          </View>
-          <View style={rowStyles.inputContainer}>
-            <Input
-              style={rowStyles.inputBox}
-              value={purpose}
-              onChangeText={(text) => {setPurpose(text);}}
-            />
-          </View>
-      </View>
       <View style={rowStyles.rowContainer}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Members:</Text>
