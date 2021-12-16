@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Button, Text, TextInput, View, TouchableOpacity
+  FlatList, Text, TextInput, View, TouchableOpacity
 } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
 import { Ionicons } from '@expo/vector-icons'; 
 import { getItemModels, resetItemModels } from './ItemModel';
@@ -41,18 +42,17 @@ export default function SearchScreen({navigation, route}) {
         </View>
       </View>
 
-      <View style={rowStyles.rowContainer}>
-        <View style={rowStyles.labelContainer}>
-          <Text style={rowStyles.labelText}>Keyword:</Text>
-        </View>
-        <View style={rowStyles.inputContainer}>
-          <TextInput 
+      <View style={[rowStyles.rowContainer, {flex: 0.2}]}>
+        <View style={[rowStyles.inputContainer,{flex: 1}]}>
+          <Input
             style={rowStyles.inputBox}
             value={inputvalue}
+            placeholder={'keyword'}
             onChangeText={(text) => {setInputValue(text)}}
             />
         </View>
-        <Button style={rowStyles.buttonContainer}
+        <Button
+          buttonStyle={{backgroundColor: '#F29559'}}
           title='Search'
           onPress={() => {
             setKeyword(inputvalue.trim().toLowerCase());

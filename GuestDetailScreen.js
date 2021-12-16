@@ -73,26 +73,30 @@ export default function DetailScreen({navigation, route}) {
         </View>
       }
       <View>
-        <Button title='Update item !' onPress={() => {
-          const value = parseFloat(parseFloat(itemValue).toFixed(2));
-          if (!(value > 0)) {
-            alert("The item value should be a number larger than 0");
-            setItemValue('0');
-          }
-          else if (itemName == "")alert("The item name can't be blank")
-          else{
-            setItemValue(value.toString());
-            guestModel.updateItem(item.key, 
-                                  itemName, 
-                                  parseFloat(parseFloat(itemValue).toFixed(2)));
-            navigation.goBack();
-          }            
-        }}/>
-        <Button title='Delete item !' onPress={() => {
-          guestModel.deleteItem(item.key);
-          guestModel.image = undefined;
-          navigation.goBack();
-        }}/>
+        <Button
+          title='Update item !'
+          onPress={() => {
+            const value = parseFloat(parseFloat(itemValue).toFixed(2));
+            if (!(value > 0)) {
+              alert("The item value should be a number larger than 0");
+              setItemValue('0');
+            }
+            else if (itemName == "")alert("The item name can't be blank")
+            else{
+              setItemValue(value.toString());
+              guestModel.updateItem(item.key,
+                                    itemName,
+                                    parseFloat(parseFloat(itemValue).toFixed(2)));
+              navigation.goBack();
+            }
+          }}/>
+          <Button
+            title='Delete item !'
+            onPress={() => {
+              guestModel.deleteItem(item.key);
+              guestModel.image = undefined;
+              navigation.goBack();
+          }}/>
       </View>
     </View>
     );

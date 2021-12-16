@@ -39,7 +39,7 @@ export default function HomeScreen({navigation, route}) {
       <View style={headerStyles.header}>
         <Ionicons
           style={headerStyles.leftIcon}
-          name="settings-outline" size={30} color="black"
+          name="person-circle-outline" size={33} color="black"
           onPress={() => {
             navigation.navigate("UserProfileScreen", {email: email});
         }}/>
@@ -48,7 +48,7 @@ export default function HomeScreen({navigation, route}) {
           <Text style={headerStyles.title}>Groups</Text>
         </View>
         
-        <Ionicons 
+        <Ionicons
           style={headerStyles.rightIcon}
           name="search-outline" size={30} color="black"
           onPress={() => {
@@ -94,7 +94,8 @@ export default function HomeScreen({navigation, route}) {
       </View>
 
       <View style={listStyles.button}>
-        <Button title='Create Group'
+        <Button
+          title='Create Group'
           style={listStyles.button}
           buttonStyle={{backgroundColor: '#F29559'}}
           onPress={() => {

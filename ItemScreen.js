@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
-import { BottomSheet, ListItem, Input } from 'react-native-elements';
+import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { BottomSheet, ListItem, Input, Button } from 'react-native-elements';
 import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getMemberModel } from './MemberModel';
@@ -63,6 +63,26 @@ export default function ItemScreen({navigation, route}) {
         <View style={{flex: 1}}>
           <Text style={headerStyles.title}> Add Items</Text>
         </View>
+        <View style={{flex: 0.1}}>
+          <Ionicons
+            name="checkmark-outline" size={30} color="black"
+            type="clear"
+            onPress={() => {
+              const value = parseFloat(parseFloat(itemValue).toFixed(2));
+              if (!(value > 0)) {
+                alert("The item value should be a number larger than 0");
+                setItemValue('0');
+              }
+              else if (payerEmail.indexOf("@")<1) alert("Invalid Email");
+              else if (memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
+              else if (itemName == "")alert("The item name can't be blank")
+              else {
+                setItemValue(value.toString());
+                itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
+                navigation.goBack();
+              }
+            }}/>
+        </View>
       </View>
       <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
@@ -88,11 +108,11 @@ export default function ItemScreen({navigation, route}) {
             />
           </View>
       </View>
-      <View style={rowStyles.rowContainer}>
+      <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Payer Email:</Text>
         </View>
-        <Ionicons 
+        <Ionicons
           name="add-circle-outline" size={24} color="#007DC9"
           onPress={() => {
             setIsVisible(true);
@@ -113,25 +133,6 @@ export default function ItemScreen({navigation, route}) {
         onPress={() => {navigation.navigate('CameraScreen', {"group": group})}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
-      <Button style={rowStyles.buttonContainer}
-        title='Add Item'
-        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
-        type="clear"
-        onPress={() => {
-          const value = parseFloat(parseFloat(itemValue).toFixed(2));
-          if (!(value > 0)) {
-            alert("The item value should be a number larger than 0");
-            setItemValue('0');
-          }
-          else if (payerEmail.indexOf("@")<1) alert("Invalid Email");
-          else if (memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
-          else if (itemName == "")alert("The item name can't be blank")
-          else {
-            setItemValue(value.toString());
-            itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
-            navigation.goBack();
-          }
-        }}/>
       <BottomSheet
         isVisible={isVisible}
         containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}

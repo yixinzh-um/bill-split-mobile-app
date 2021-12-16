@@ -80,7 +80,8 @@ export default function SummaryScreen({navigation, route}) {
   return (
     <View style={containerStyles.container}>
       <View style={headerStyles.header}>
-        <Ionicons style={headerStyles.leftIcon}
+        <Ionicons
+          style={headerStyles.leftIcon}
           name="arrow-back-outline" size={30} color="black"
           onPress={() => {
             resetItemModels();

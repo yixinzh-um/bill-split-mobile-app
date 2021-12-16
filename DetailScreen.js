@@ -86,7 +86,9 @@ export default function DetailScreen({navigation, route}) {
       }
       {item.payer == email ?
         <View>
-          <Button title='Update item !' onPress={() => {
+          <Button
+            title='Update item !'
+            onPress={() => {
             const value = parseFloat(parseFloat(itemValue).toFixed(2));
             if (!(value > 0)) {
               alert("The item value should be a number larger than 0");
@@ -101,10 +103,12 @@ export default function DetailScreen({navigation, route}) {
               navigation.goBack();
             }            
           }}/>
-          <Button title='Delete item !' onPress={() => {
-            itemModel.deleteItem(item);
-            itemModel.image = undefined;
-            navigation.goBack();
+          <Button
+            title='Delete item !'
+            onPress={() => {
+              itemModel.deleteItem(item);
+              itemModel.image = undefined;
+              navigation.goBack();
           }}/>
         </View>
         :  <View style={rowStyles.rowContainer}>

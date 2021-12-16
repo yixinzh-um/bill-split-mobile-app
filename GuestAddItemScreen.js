@@ -84,7 +84,7 @@ export default function GuestAddItemScreen({navigation, route}) {
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Payer Name:</Text>
         </View>
-        <Ionicons 
+        <Ionicons
           name="add-circle-outline" size={24} color="#007DC9"
           onPress={() => {
             setIsVisible(true);
@@ -105,7 +105,8 @@ export default function GuestAddItemScreen({navigation, route}) {
         onPress={() => {navigation.navigate('GuestCameraScreen')}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
-      <Button style={rowStyles.buttonContainer}
+      <Button
+        style={rowStyles.buttonContainer}
         title='Add Item'
         icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
         type="clear"

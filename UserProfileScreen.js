@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  StyleSheet, Text, TextInput, View, TouchableOpacity, Button
+  StyleSheet, Text, TextInput, View, TouchableOpacity
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons'; 
 import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
@@ -29,7 +30,7 @@ export default function UserProfileScreen({navigation, route}) {
   return (
     <View style={styles.container}>
       <View style={headerStyles.header}>
-        <Ionicons 
+        <Ionicons
           style={headerStyles.leftIcon}
           name="arrow-back-outline" size={30} color="black"
           onPress={() => {
@@ -40,7 +41,7 @@ export default function UserProfileScreen({navigation, route}) {
           <Text style={headerStyles.title}>Profile</Text>
         </View>
         {mode == "edit" ? 
-          <Ionicons 
+          <Ionicons
             style={headerStyles.rightIcon}
             name="checkmark-outline" size={30} color="black"
             onPress={() => {
@@ -64,7 +65,7 @@ export default function UserProfileScreen({navigation, route}) {
               <View style={detailStyles.valueContainer}>
                 <Text style={detailStyles.valueText}>{name}</Text>
               </View>
-              <Ionicons 
+              <Ionicons
                 name="create-outline" size={25} color="black"
                 onPress={() => {
                   setMode("edit");
@@ -96,7 +97,7 @@ export default function UserProfileScreen({navigation, route}) {
             <Text style={detailStyles.labelText}>Contacts:</Text>
           </View>
           <View style={detailStyles.valueContainer}>
-            <Ionicons 
+            <Ionicons
               name="people-circle-outline" size={30} color="#006DCD"
               onPress={() => {
                 navigation.navigate("ContactsIndexScreen", {email: email});
@@ -105,7 +106,11 @@ export default function UserProfileScreen({navigation, route}) {
         </View>
       
         <View style={styles.signOutContainer}>
-          <Button title="Summary" onPress={()=>navigation.navigate("SummaryScreen", { email: email})}/>
+          <Button
+            buttonStyle={{backgroundColor: '#F29559'}}
+            title="Summary"
+            onPress={()=>navigation.navigate("SummaryScreen", { email: email})}
+            />
         </View>
 
       <View style={styles.signOutContainer}>

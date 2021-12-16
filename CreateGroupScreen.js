@@ -61,7 +61,7 @@ export default function CreateGroupScreen({navigation, route}) {
           <Text style={headerStyles.title}>Create group</Text>
         </View>
         <View style={{flex: 0.1}}>
-          <Ionicons 
+          <Ionicons
             name="checkmark-outline" size={30} color="black"
             onPress={() => {
               if (groupName == "") {
@@ -85,11 +85,11 @@ export default function CreateGroupScreen({navigation, route}) {
             />
         </View>
       </View>
-      <View style={rowStyles.rowContainer}>
+      <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Members:</Text>
         </View>
-        <Ionicons 
+        <Ionicons
         name="add-circle-outline" size={24} color="#007DC9"
         onPress={() => {
           setIsVisible(true);
@@ -105,7 +105,8 @@ export default function CreateGroupScreen({navigation, route}) {
             />
         </View>
         
-        <Button style={rowStyles.buttonContainer}
+        <Button
+          style={rowStyles.buttonContainer}
           title='Add a new contact'
           icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
           type="clear"
@@ -129,13 +130,12 @@ export default function CreateGroupScreen({navigation, route}) {
             <Text>
               {item.email}
             </Text>
-            <Button
-              title='Delete user'
-              icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
-              type="clear"
-              onPress={() => {
-                groupUserList.deleteUser(item.email);
-              }}/>
+            <Ionicons
+                style={headerStyles.rightIcon}
+                name="trash-outline" size={25} color="black"
+                onPress={() => {
+                  groupUserList.deleteUser(item.email);
+                }}/>
           </View>
           );
         }}

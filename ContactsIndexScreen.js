@@ -46,10 +46,11 @@ export default function ContactsIndexScreen({navigation, route}) {
         }}/>
       <View style={listStyles.addContainer}>
         <View style={listStyles.inputContainer}>
-          <Input style={listStyles.inputBox}
-                 placeholder={'New Contact Email'}
-                 value={contact}
-                 onChangeText={(text) => {setContact(text)}}
+          <Input
+            style={listStyles.inputBox}
+            placeholder={'New Contact Email'}
+            value={contact}
+            onChangeText={(text) => {setContact(text)}}
             />
         </View>
       </View>
@@ -63,7 +64,7 @@ export default function ContactsIndexScreen({navigation, route}) {
               <Text>
                 {item} 
               </Text>
-              <Ionicons 
+              <Ionicons
                 style={headerStyles.rightIcon}
                 name="trash-outline" size={25} color="black"
                 onPress={() => {
