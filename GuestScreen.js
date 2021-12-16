@@ -118,7 +118,7 @@ export default function HomeScreen({navigation, route}) {
         renderItem={({item}) => {
           return (
           <TouchableOpacity style={listStyles.groupItem} onPress={() => {
-            navigation.navigate("DetailScreen", {email: email, item: item});
+            navigation.navigate("GuestDetailScreen", {item: item});
           }}>
             <Avatar
               title={item.name}

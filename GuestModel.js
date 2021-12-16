@@ -1,4 +1,5 @@
 let guestModel;
+let itemKey = 0;
 class GuestModel{
   constructor(){
     this.itemList = [];
@@ -8,13 +9,7 @@ class GuestModel{
   }
 
   getItemList() {
-    let key = 0;
-    let ret = [];
-    for (const item of this.itemList) {
-      item["key"] = key++;
-      ret.push(item);
-    }
-    return ret;
+    return this.itemList;
   }
 
   getUserList() {
@@ -42,13 +37,33 @@ class GuestModel{
       "name": itemName, 
       "value": itemValue, 
       "payer": payerName, 
-      "image": this.image
+      "image": this.image,
+      "key": itemKey++
     };
     this.itemList.push(item);
     this.users[payerName] += itemValue;
     const length = this.getUserList().length;
     for(const user in this.users)this.users[user] -= (itemValue / length);
     this.image = undefined;
+    this.notifyListener();
+  }
+
+  updateItem(key, itemName, itemValue){
+    console.log(this.itemList);
+    console.log(key);
+    const idx = this.itemList.findIndex(ele=>(ele.key==key));
+    this.itemList[idx].name = itemName;
+    this.itemList[idx].value = itemValue;
+    if(this.image){
+      this.itemList[idx].image = this.image;
+      this.image = undefined;
+    }
+    this.notifyListener();
+  }
+
+  deleteItem(key){
+    const idx = this.itemList.findIndex(ele=>(ele.key==key));
+    this.itemList.splice(idx, 1);
     this.notifyListener();
   }
 
@@ -88,4 +103,5 @@ export function getGuestModel(){
 
 export function resetGuestModel(){
   guestModel = undefined;
+  itemKey = 0;
 }
