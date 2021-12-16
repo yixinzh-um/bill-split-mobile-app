@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Button, Image } from 'react-native';
-import { BottomSheet, ListItem, Input } from 'react-native-elements';
+import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { BottomSheet, ListItem, Input, Button } from 'react-native-elements';
 import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
 import { getGuestModel} from "./GuestModel";
@@ -108,7 +108,6 @@ export default function GuestAddItemScreen({navigation, route}) {
       <Button
         style={rowStyles.buttonContainer}
         title='Add Item'
-        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
         type="clear"
         onPress={() => {
           const value = parseFloat(parseFloat(itemValue).toFixed(2));

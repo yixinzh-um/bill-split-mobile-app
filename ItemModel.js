@@ -76,10 +76,6 @@ class ItemModel {
     setDoc(docRef, data);
   }
 
-  addItem(){
-    
-  }
-
   async deleteItem(item) {
     const id = item.id;
     deleteDoc(doc(db, "Items", id));
