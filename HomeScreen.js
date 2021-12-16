@@ -57,7 +57,7 @@ export default function HomeScreen({navigation, route}) {
       
       </View>
 
-      <View style={listStyles.userListContainer}>
+      <View style={[listStyles.userListContainer, listStyles.shaodow]}>
         <FlatList
           data={groups}
           renderItem={({item}) => {

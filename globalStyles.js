@@ -170,7 +170,6 @@ const listStyles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#DFE8EA',
-    borderBottomWidth: 1,
     padding: 10,
   },
 
@@ -192,6 +191,12 @@ const listStyles = StyleSheet.create({
     flex: 0.9,
     justifyContent: 'center',
     width: '100%',
+  },
+  shaodow: {
+    shadowColor: 'grey',
+    shadowOffset: {width: 10,height: 10},
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
   },
   inputBox: {
     width: '60%',

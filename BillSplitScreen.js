@@ -82,7 +82,7 @@ export default function BillSplitScreen({navigation, route}) {
         Item List
       </Text>
 
-      <View style={listStyles.userListContainer}>
+      <View style={[listStyles.userListContainer, listStyles.shaodow]}>
         <FlatList
         data={itemList}
         renderItem={({item}) => {
