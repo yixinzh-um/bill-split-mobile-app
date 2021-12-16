@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Button, Text, TextInput, View,
+  FlatList, Text, TextInput, View,
 } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import { getUserModel } from "./UserModel"
 import { Ionicons } from '@expo/vector-icons'; 
-import { headerStyles, containerStyles, listStyles } from './globalStyles'
+import { headerStyles, containerStyles, listStyles, rowStyles } from './globalStyles'
 
 export default function ContactsIndexScreen({navigation, route}) {
   const email = route.params.email;
@@ -36,20 +37,21 @@ export default function ContactsIndexScreen({navigation, route}) {
         <View style={headerStyles.titleContainer}> 
           <Text style={headerStyles.title}>Contacts</Text>
         </View>
-      
       </View>
-      <View style={listStyles.addContainer}>
-        <View style={listStyles.inputContainer}>
-          <TextInput style={listStyles.inputBox}
-                      value={contact}
-                      onChangeText={(text) => {setContact(text)}}
-            />
-        </View>
-        <Button 
+      <Button
+          buttonStyle={{backgroundColor: '#F29559'}}
           title='Add a new contact' onPress={() => {
           userModel.addContact(contact);
           setContact('');
         }}/>
+      <View style={listStyles.addContainer}>
+        <View style={listStyles.inputContainer}>
+          <Input style={listStyles.inputBox}
+                 placeholder={'New Contact Email'}
+                 value={contact}
+                 onChangeText={(text) => {setContact(text)}}
+            />
+        </View>
       </View>
       <View style={listStyles.userListContainer}>
           <FlatList
