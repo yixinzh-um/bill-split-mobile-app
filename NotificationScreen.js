@@ -87,13 +87,14 @@ export default function NotificationScreen({navigation, route}) {
 
       <Button
         title='Schedule notification'
-        onPress={() => {
+        onPress={async () => {
           let message = [];
           for (const key in debt) {
             if (debt[key][1] !== 0)
               message.push(`${debt[key][0]}: ${debt[key][1]}`);
           }
           message = message.join('\n');
+          await Notifications.cancelAllScheduledNotificationsAsync();
           Notifications.scheduleNotificationAsync({
             content: {
               title: "Your bills in these groups aren't balanced",
