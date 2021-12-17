@@ -98,7 +98,7 @@ export default function UserProfileScreen({navigation, route}) {
           </View>
           <View style={detailStyles.valueContainer}>
             <Ionicons
-              name="people-circle-outline" size={30} color="#006DCD"
+              name="people-circle-outline" size={30} color="#E66713"
               onPress={() => {
                 navigation.navigate("ContactsIndexScreen", {email: email});
               }}/>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   row: {
-    flex: 0.5,
+    flex: 0.6,
     width: '100%',
   },
   signOutContainer: {

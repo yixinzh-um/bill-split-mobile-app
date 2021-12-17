@@ -60,7 +60,7 @@ export default function ContactsIndexScreen({navigation, route}) {
           keyExtractor={(item, index) => item}
           renderItem={({item}) => {
             return (
-            <View style={listStyles.groupItem}>
+            <View style={[listStyles.balanceItem, {justifyContent: 'center'}]}>
               <Text>
                 {item} 
               </Text>

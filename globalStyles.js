@@ -94,7 +94,7 @@ const buttonStyles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 20,
-    color: '#006DCD'
+    color: '#303633'
   },
 });
 
