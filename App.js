@@ -18,7 +18,6 @@ import GuestScreen from "./GuestScreen";
 import GuestAddItemScreen from "./GuestAddItemScreen";
 import GuestCameraScreen from "./GuestCameraScreen";
 import GuestDetailScreen from "./GuestDetailScreen";
-import NotificationScreen from './NotificationScreen';
 const Stack = createNativeStackNavigator();
 
 class App extends React.Component{
@@ -45,7 +44,6 @@ class App extends React.Component{
           <Stack.Screen name="GuestAddItemScreen" component={GuestAddItemScreen} options={{headerShown: false}}/>
           <Stack.Screen name="GuestCameraScreen" component={GuestCameraScreen} options={{headerShown: false}}/>
           <Stack.Screen name="GuestDetailScreen" component={GuestDetailScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="NotificationScreen" component={NotificationScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
