@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   FlatList, Text, View, TouchableOpacity, TextInput
 } from 'react-native';
-import { Button, Avatar } from 'react-native-elements';
+import { Button, Avatar, Input } from 'react-native-elements';
 import { getGuestModel, resetGuestModel} from "./GuestModel";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { headerStyles, containerStyles, listStyles, ButtonStyles, rowStyles } from './globalStyles';
@@ -12,7 +12,7 @@ export default function HomeScreen({navigation, route}) {
   const [userList, setUserList] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [userName, setUserName] = useState("")
-  const [userBalance, setUserBalance] = useState(0);
+  const [userBalance, setUserBalance] = useState("0");
 
 
   useEffect(() => {
@@ -37,19 +37,21 @@ export default function HomeScreen({navigation, route}) {
           <Text style={headerStyles.title}>Guest Mode</Text>
         </View>
       </View>
-      <Text style={headerStyles.subtitle}>User List</Text>
-      <View style={rowStyles.rowContent}>
+      <Text style={headerStyles.subtitle}>Member List</Text>
+      <View style={{flexDirection: 'row'}}>
         <View style={listStyles.inputContainer}>
-          <Text>User name: </Text>
-          <TextInput 
+          <View>
+            <Text>Member name: </Text>
+          </View>
+          <Input
             style={listStyles.inputBox}
             value={userName}
             onChangeText={(text) => {setUserName(text);}}
             />
         </View>
         <View style={listStyles.inputContainer}>
-          <Text>User balance: </Text>
-            <TextInput 
+          <Text>Member balance: </Text>
+            <Input
               style={listStyles.inputBox}
               value={userBalance}
               onChangeText={(text) => {setUserBalance(text);}}
@@ -58,11 +60,12 @@ export default function HomeScreen({navigation, route}) {
       </View>
       <Button
         title='Add a new user'
-        icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
         type="clear"
+        buttonStyle={{backgroundColor: '#7EA2AA'}}
+        titleStyle={{color: 'white'}}
         onPress={() => {
           const balance = parseFloat(parseFloat(userBalance).toFixed(2));
-          if (balance<0) {
+          if (balance < 0) {
             alert("The user balance should be a number larger than 0");
             setUserBalance(0);
           }
@@ -98,11 +101,12 @@ export default function HomeScreen({navigation, route}) {
                 </Text>
               </View>
             </View>
-            <Button
-              title='Delete user'
-              icon={<MaterialIcons name="delete" size={24} color="darkgrey"/>}
-              type="clear"
-              onPress={() => {guestModel.deleteUser(item.name);}}/>
+            <Ionicons
+              style={headerStyles.rightIcon}
+              name="trash-outline" size={30} color="black"
+              onPress={() => {
+                guestModel.deleteUser(item.name);
+              }}/>
           </View>
           );
         }}
@@ -152,9 +156,17 @@ export default function HomeScreen({navigation, route}) {
       </View>
       <Button
         title='Add item'
+        icon={
+          <Ionicons
+            name="add-circle-outline"
+            size={25}
+            color="white"
+          />
+        }
+        iconRight
         buttonStyle={{backgroundColor: '#F29559'}}
         onPress={() => {
-        navigation.navigate("GuestAddItemScreen");
+          navigation.navigate("GuestAddItemScreen");
       }}/>
     </View>
     );

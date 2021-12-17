@@ -28,6 +28,7 @@ export default function GuestAddItemScreen({navigation, route}) {
       isSelected: false,
       onPress: () => {
         setPayerName(member.name);
+        console.log(payerName);
       }
     }
     bottomList.push(content);
@@ -55,6 +56,25 @@ export default function GuestAddItemScreen({navigation, route}) {
         <View style={{flex: 1}}>
           <Text style={headerStyles.title}> Add Items</Text>
         </View>
+
+        <View style={{flex: 0.1}}>
+          <Ionicons
+            name="checkmark-outline" size={30} color="black"
+            type="clear"
+            onPress={() => {
+              const value = parseFloat(parseFloat(itemValue).toFixed(2));
+              if (!(value > 0)) {
+                alert("The item value should be a number larger than 0");
+                setItemValue('0');
+              }
+              else if (itemName == "")alert("The item name can't be blank")
+              else {
+                setItemValue(value.toString());
+                guestModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerName);
+                navigation.goBack();
+              }
+            }}/>
+        </View>
       </View>
       <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
@@ -80,7 +100,7 @@ export default function GuestAddItemScreen({navigation, route}) {
             />
           </View>
       </View>
-      <View style={rowStyles.rowContainer}>
+      <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
           <Text style={rowStyles.labelText}>Payer Name:</Text>
         </View>
@@ -91,7 +111,7 @@ export default function GuestAddItemScreen({navigation, route}) {
           }}
           />
         <View style={rowStyles.inputContainer}>
-          <Text style={rowStyles.inputlabelText}>{payerName}</Text>
+          <Text style={{fontSize: 18}}>{payerName}</Text>
         </View>
       </View>
       {image == undefined ? <View></View> 
