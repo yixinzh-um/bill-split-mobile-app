@@ -38,7 +38,7 @@ export default function GuestCameraScreen({navigation, route}) {
           guestModel.updateImage(image);
           navigation.goBack();
         }}>
-        <Text style={styles.snapText}>Snap!</Text>
+        <Text style={styles.snapText}>Snap</Text>
       </TouchableOpacity>
     </View>
   );

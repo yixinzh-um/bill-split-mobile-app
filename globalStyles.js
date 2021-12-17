@@ -192,7 +192,7 @@ const listStyles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
   },
-  shaodow: {
+  shadow: {
     shadowColor: 'grey',
     shadowOffset: {width: 10,height: 10},
     shadowOpacity: 0.5,

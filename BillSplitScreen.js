@@ -68,21 +68,22 @@ export default function BillSplitScreen({navigation, route}) {
       <Text style={containerStyles.paragraph}>
         Welcome to group {group.name}
       </Text>
-      <TouchableOpacity style={ButtonStyles.button}
+
+      <Button 
+        title={'Balance'}
+        containerStyle={listStyles.shadow}
+        buttonStyle={{backgroundColor: '#888DA7'}}
         onPress = {() => {
           navigation.navigate("BalanceScreen", {group: group,
                                                 memberList: memberList});
-        }}>
-        <Text style={ButtonStyles.text}>
-          Balance
-        </Text>
-      </TouchableOpacity>
+      }}/>
+      
 
       <Text style={containerStyles.paragraph}>
         Item List
       </Text>
 
-      <View style={[listStyles.userListContainer, listStyles.shaodow]}>
+      <View style={[listStyles.userListContainer, listStyles.shadow]}>
         <FlatList
         data={itemList}
         renderItem={({item}) => {
@@ -115,6 +116,10 @@ export default function BillSplitScreen({navigation, route}) {
                 </Text>
               </View>
             </View>
+            <Ionicons
+              style={headerStyles.rightIcon}
+              name="chevron-forward-outline" size={30} color="#303633"
+            />
 
           </TouchableOpacity>
           );
@@ -124,6 +129,14 @@ export default function BillSplitScreen({navigation, route}) {
       <Button
         title='Add item'
         buttonStyle={{backgroundColor: '#F29559'}}
+        icon={
+          <Ionicons
+            name="add-circle-outline"
+            size={25}
+            color="white"
+          />
+        }
+        iconRight
         onPress={() => {
         navigation.navigate("ItemScreen", {group: group});
       }}/>

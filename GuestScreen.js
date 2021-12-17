@@ -116,7 +116,7 @@ export default function HomeScreen({navigation, route}) {
         Item List
       </Text>
 
-      <View style={listStyles.userListContainer}>
+      <View style={[listStyles.userListContainer, listStyles.shadow]}>
         <FlatList
         data={itemList}
         renderItem={({item}) => {
@@ -149,6 +149,10 @@ export default function HomeScreen({navigation, route}) {
                 </Text>
               </View>
             </View>
+            <Ionicons
+              style={headerStyles.rightIcon}
+              name="chevron-forward-outline" size={30} color="#303633"
+            />
           </TouchableOpacity>
           );
         }}

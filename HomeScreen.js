@@ -57,7 +57,7 @@ export default function HomeScreen({navigation, route}) {
       
       </View>
 
-      <View style={[listStyles.userListContainer, listStyles.shaodow]}>
+      <View style={[listStyles.userListContainer, listStyles.shadow]}>
         <FlatList
           data={groups}
           renderItem={({item}) => {
@@ -97,6 +97,14 @@ export default function HomeScreen({navigation, route}) {
         <Button
           title='Create Group'
           style={listStyles.button}
+          icon={
+            <Ionicons
+              name="add-circle-outline"
+              size={25}
+              color="white"
+            />
+          }
+          iconRight
           buttonStyle={{backgroundColor: '#F29559'}}
           onPress={() => {
             navigation.navigate("CreateGroupScreen", {email: email});

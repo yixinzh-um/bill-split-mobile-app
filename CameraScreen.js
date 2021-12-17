@@ -39,7 +39,7 @@ export default function CameraScreen({navigation, route}) {
           itemModel.updateImage(imageData);
           navigation.goBack();
         }}>
-        <Text style={styles.snapText}>Snap!</Text>
+        <Text style={styles.snapText}>Snap</Text>
       </TouchableOpacity>
     </View>
   );
