@@ -113,6 +113,14 @@ export default function UserProfileScreen({navigation, route}) {
             />
         </View>
 
+        <View style={styles.signOutContainer}>
+          <Button
+            buttonStyle={{backgroundColor: '#F29559'}}
+            title="Schedule Notifications"
+            onPress={()=>navigation.navigate("NotificationScreen", { email: email})}
+            />
+        </View>
+
       <View style={styles.signOutContainer}>
         <TouchableOpacity 
           style={buttonStyles.container}
