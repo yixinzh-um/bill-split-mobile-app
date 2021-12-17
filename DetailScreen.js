@@ -9,7 +9,6 @@ import { getItemModel } from './ItemModel';
 export default function DetailScreen({navigation, route}) {
   const email = route.params.email;
   const item = route.params.item;
-  const expoPushToken = route.params.expoPushToken;
   const itemModel = getItemModel(item.groupId);
   const [itemName, setItemName] = useState(item.name);
   const [itemValue, setItemValue] = useState(item.value.toString());
@@ -107,13 +106,6 @@ export default function DetailScreen({navigation, route}) {
           <Button
             title='Delete item !'
             onPress={() => {
-              const message = {
-                to: expoPushToken,
-                sound: 'default',
-                title: 'Your group has made a payment!',
-                body: `Item ${itemName} has been payed`
-              };
-              sendPushNotification(message);
               itemModel.deleteItem(item);
               itemModel.image = undefined;
               navigation.goBack();
@@ -130,16 +122,4 @@ export default function DetailScreen({navigation, route}) {
       }
     </View>
     );
-}
-
-async function sendPushNotification(message) {
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
 }
