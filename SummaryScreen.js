@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
 import moment from "moment";
 import update from 'immutability-helper';
@@ -49,6 +49,7 @@ export default function SummaryScreen({navigation, route}) {
   const email = route.params.email;
   const groups = getGroupList(email).getGroupList();
   const itemModels = getItemModels(groups);
+  const [, forceUpdate] = useState();
   const weeks = [3, 2, 1, 0].map(i => moment().subtract(i, "weeks").
   startOf('isoweek').format('MM/DD/YYYY'));
   const [payByUser, setPayByUser] = useState(new Map(weeks.map(i => [i, 0])));   
@@ -75,7 +76,7 @@ export default function SummaryScreen({navigation, route}) {
       for (let i = 0; i < itemModels.length; i++) {
           itemModels[i].removeListener(itemListenerIds[i]);
       }
-    };}, []);
+    }}, []);
 
   return (
     <View style={containerStyles.container}>

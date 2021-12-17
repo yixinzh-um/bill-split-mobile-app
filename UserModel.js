@@ -19,6 +19,7 @@ class UserModel{
       email: '',
       name: '',
       contacts: [],
+      acceptNotification: false
     }
     this.initUser();
   }
@@ -30,7 +31,7 @@ class UserModel{
     if (querySnapShot.size == 0) {
       let userContents = {email: this.email, 
                           name: this.email.split('@')[0], 
-                          contacts: []};
+                          contacts: [], acceptNotification: false};
       await setDoc(docRef, userContents);
       this.user = userContents;
     }
@@ -43,6 +44,11 @@ class UserModel{
     });
   }
 
+  async updateNotification(accept) {
+    const docRef = doc(db, "UserInfo", this.email);
+    await updateDoc(docRef, {acceptNotification: accept});
+    this.notifyListener();
+  }
 
   async updateUserName(name) {
     const docRef = doc(db, "UserInfo", this.email);

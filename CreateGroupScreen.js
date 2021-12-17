@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  FlatList, Button, Text, TextInput, View,
+  FlatList, Text, TextInput, View,
 } from 'react-native';
-import { BottomSheet, ListItem, Input } from 'react-native-elements';
+import { BottomSheet, ListItem, Input, Button} from 'react-native-elements';
 import { getGroupUserList } from "./GroupModel";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
 import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
@@ -98,27 +98,27 @@ export default function CreateGroupScreen({navigation, route}) {
       </View>
       <View style={listStyles.addContainer}>
         <View style={listStyles.inputContainer}>
-          <TextInput 
-            style={listStyles.inputBox}
+          <Input 
+            style={rowStyles.inputBox}
             value={userEmail}
             onChangeText={(text) => {setUserEmail(text);}}
             />
         </View>
-        
-        <Button
-          style={rowStyles.buttonContainer}
-          title='Add a new contact'
-          icon={<MaterialIcons name="Add" size={24} color="darkgrey"/>}
-          type="clear"
-          onPress={() => {
-            if (userEmail.indexOf("@")<1) {
-              alert("Invalid Email");
-            } else {
-              groupUserList.addUser(userEmail);
-              userModel.addContact(userEmail);
-              setUserEmail('');
-            }
-          }}/>
+        <View style={listStyles.button}>
+          <Button
+            title='Add a new contact'
+            style={listStyles.button}
+            buttonStyle={{backgroundColor: '#F29559'}}
+            onPress={() => {
+              if (userEmail.indexOf("@")<1) {
+                alert("Invalid Email");
+              } else {
+                groupUserList.addUser(userEmail);
+                userModel.addContact(userEmail);
+                setUserEmail('');
+              }
+            }}/>
+        </View>
       </View>
 
       <View style={listStyles.userListContainer}>

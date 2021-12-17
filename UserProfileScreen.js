@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  StyleSheet, Text, TextInput, View, TouchableOpacity
+  StyleSheet, Text, TextInput, View, TouchableOpacity, Switch
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons'; 
-import { headerStyles, detailStyles, buttonStyles} from './globalStyles'
-import { getUserModel, resetUserModel } from "./UserModel"
+import { headerStyles, detailStyles, buttonStyles, rowStyles} from './globalStyles';
+import { getUserModel, resetUserModel } from "./UserModel";
+import * as Notifications from 'expo-notifications';
 
 const auth = getAuth();
 
@@ -16,6 +17,7 @@ export default function UserProfileScreen({navigation, route}) {
   const user = userModel.getCurrentUser();
   const [mode, setMode] = useState('show');
   const [name, setName] = useState(user.name);
+  const [accept, setAccept] = useState(user.accpetNotification);
 
   useEffect(() => {
     const listenerId =  userModel.addListener(() => {
@@ -104,20 +106,30 @@ export default function UserProfileScreen({navigation, route}) {
               }}/>
           </View>
         </View>
+
+        <View style={styles.signOutContainer}>
+          <View style={rowStyles.rowContent}>
+            <View style={rowStyles.labelContainer}>
+              <Text style={rowStyles.labelText}>Receive monthly debt notifications:</Text>
+            </View>
+            <View style={rowStyles.inputContainer}>
+              <Switch  
+                value={accept}
+                onValueChange={(value) => { 
+                  setAccept(value);
+                  if (!value) 
+                    Notifications.cancelAllScheduledNotificationsAsync();
+                  userModel.updateNotification(value);
+                }}/>
+            </View>
+          </View>
+        </View>
       
         <View style={styles.signOutContainer}>
           <Button
             buttonStyle={{backgroundColor: '#F29559'}}
             title="Summary"
             onPress={()=>navigation.navigate("SummaryScreen", { email: email})}
-            />
-        </View>
-
-        <View style={styles.signOutContainer}>
-          <Button
-            buttonStyle={{backgroundColor: '#F29559'}}
-            title="Schedule Notifications"
-            onPress={()=>navigation.navigate("NotificationScreen", { email: email})}
             />
         </View>
 
