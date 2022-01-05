@@ -8,10 +8,10 @@ import { getAuth, onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
 } from "firebase/auth";
-import { ButtonStyles } from './globalStyles'
+import { ButtonStyles } from '../components/globalStyles'
 
-import { getDB } from "./FirebaseApp";
-import { getUserModel } from './UserModel';
+import { getDB } from "../components/FirebaseApp";
+import { getUserModel } from '../models/UserModel';
 
 const auth = getAuth();
 

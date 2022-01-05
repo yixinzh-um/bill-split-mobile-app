@@ -3,9 +3,9 @@ import {
   FlatList, Text, View, TouchableOpacity, TextInput
 } from 'react-native';
 import { Button, Avatar, Input } from 'react-native-elements';
-import { getGuestModel, resetGuestModel} from "./GuestModel";
+import { getGuestModel, resetGuestModel} from '../models/GuestModel';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { headerStyles, containerStyles, listStyles, ButtonStyles, rowStyles } from './globalStyles';
+import { headerStyles, containerStyles, listStyles, ButtonStyles, rowStyles } from '../components/globalStyles';
 
 export default function HomeScreen({navigation, route}) {
   const guestModel = getGuestModel();

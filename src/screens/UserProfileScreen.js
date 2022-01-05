@@ -5,8 +5,9 @@ import {
 import { Button } from 'react-native-elements';
 import { getAuth, signOut } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons'; 
-import { headerStyles, detailStyles, buttonStyles, rowStyles} from './globalStyles';
-import { getUserModel, resetUserModel } from "./UserModel";
+import { headerStyles, detailStyles, buttonStyles, rowStyles} from '../components/globalStyles';
+import { getUserModel, resetUserModel } from '../models/UserModel';
+import { getGroupList, resetGroupList } from '../models/GroupModel';
 import * as Notifications from 'expo-notifications';
 
 const auth = getAuth();
@@ -140,6 +141,7 @@ export default function UserProfileScreen({navigation, route}) {
             signOut(auth);
             console.log("sign out");
             resetUserModel();
+            resetGroupList();
             navigation.reset({
               index: 0,
               routes: [{ name: 'LoginScreen' }],

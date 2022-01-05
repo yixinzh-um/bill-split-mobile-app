@@ -1,5 +1,5 @@
 import {initializeApp, getApps } from "firebase/app";
-import firebaseConfig from "./Secrets";
+import firebaseConfig from "../../Secrets";
 import { initializeFirestore} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import {LogBox } from 'react-native';

@@ -3,9 +3,9 @@ import {
   FlatList, Text, TextInput, View,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
-import { getUserModel } from "./UserModel"
+import { getUserModel } from '../models/UserModel';
 import { Ionicons } from '@expo/vector-icons'; 
-import { headerStyles, containerStyles, listStyles, rowStyles } from './globalStyles'
+import { headerStyles, containerStyles, listStyles, rowStyles } from '../components/globalStyles'
 
 export default function ContactsIndexScreen({navigation, route}) {
   const email = route.params.email;

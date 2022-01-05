@@ -4,7 +4,7 @@ import {
   doc, addDoc, setDoc, updateDoc, where, getDoc
   } from "firebase/firestore";
 
-import { getDB } from "./FirebaseApp";
+import { getDB } from "../components/FirebaseApp";
 
 const db = getDB();
 const userInfo = collection(db, "UserInfo");

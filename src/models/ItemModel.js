@@ -3,7 +3,7 @@ import {
   query, orderBy, where, onSnapshot, getDoc,
   doc, addDoc, updateDoc, deleteDoc, setDoc
 } from "firebase/firestore";
-import { getDB, getStore } from "./FirebaseApp";
+import { getDB, getStore } from "../components/FirebaseApp";
 import {ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const db = getDB();

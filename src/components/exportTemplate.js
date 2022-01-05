@@ -1,5 +1,5 @@
-import { getMemberModel } from './MemberModel';
-import { getItemModel } from './ItemModel';
+import { getMemberModel } from '../models/MemberModel';
+import { getItemModel } from '../models/ItemModel';
 
 export function getBillsExportHTML(group) {
   const memberModel = getMemberModel(group);

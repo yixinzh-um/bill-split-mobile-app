@@ -3,10 +3,10 @@ import {
   FlatList, Text, TextInput, View,
 } from 'react-native';
 import { BottomSheet, ListItem, Input, Button} from 'react-native-elements';
-import { getGroupUserList } from "./GroupModel";
+import { getGroupUserList } from '../models/GroupModel';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'; 
-import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
-import { getUserModel } from './UserModel';
+import { headerStyles, rowStyles, containerStyles, listStyles} from '../components/globalStyles';
+import { getUserModel } from '../models/UserModel';
 
 export default function CreateGroupScreen({navigation, route}) {
   const email = route.params.email;

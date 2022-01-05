@@ -5,14 +5,12 @@ import {
 import { Button, Avatar } from 'react-native-elements';
 import update from 'immutability-helper';
 import * as Notifications from 'expo-notifications';
-import { getItemModels, resetItemModels } from './ItemModel';
-import { getUserModel } from "./UserModel";
-import { getGroupList} from "./GroupModel";
-import { getAuth } from "firebase/auth";
+import { getItemModels, resetItemModels } from '../models/ItemModel';
+import { getUserModel } from '../models/UserModel';
+import { getGroupList} from '../models/GroupModel';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { headerStyles, containerStyles, listStyles } from './globalStyles';
+import { headerStyles, containerStyles, listStyles } from '../components/globalStyles';
 
-const auth = getAuth();
 
 export default function HomeScreen({navigation, route}) {
   const email = route.params.email;

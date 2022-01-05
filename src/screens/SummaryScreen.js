@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Ionicons } from '@expo/vector-icons'; 
 import moment from "moment";
 import update from 'immutability-helper';
-import { headerStyles, listStyles, containerStyles } from './globalStyles';
-import { getGroupList } from './GroupModel';
-import { getItemModels, resetItemModels } from './ItemModel';
+import { headerStyles, listStyles, containerStyles } from '../components/globalStyles';
+import { getGroupList } from '../models/GroupModel';
+import { getItemModels, resetItemModels } from '../models/ItemModel';
 import {
   View, Text, Dimensions, StyleSheet
 } from 'react-native';

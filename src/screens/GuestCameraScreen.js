@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
-import { getGuestModel} from "./GuestModel";
+import { getGuestModel} from '../models/GuestModel';
 
 export default function GuestCameraScreen({navigation, route}) {
   const [hasPermission, setHasPermission] = useState(null);

@@ -5,12 +5,12 @@ import {
 import { Button, Avatar } from 'react-native-elements';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import { headerStyles, containerStyles, listStyles, rowStyles} from './globalStyles';
+import { headerStyles, containerStyles, listStyles, rowStyles} from '../components/globalStyles';
 import { Ionicons } from '@expo/vector-icons'; 
-import { getMemberModel, resetMemberModel } from './MemberModel';
-import { getItemModel, resetItemModel } from './ItemModel';
-import { getBillsExportHTML } from './exportTemplate';
-import { ButtonStyles } from './globalStyles'
+import { getMemberModel, resetMemberModel } from '../models/MemberModel';
+import { getItemModel, resetItemModel } from '../models/ItemModel';
+import { getBillsExportHTML } from '../components/exportTemplate';
+import { ButtonStyles } from '../components/globalStyles'
 
 export default function BillSplitScreen({navigation, route}) {
   const email = route.params.email;

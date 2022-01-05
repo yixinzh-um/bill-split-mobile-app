@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, TextInput, View, TouchableOpacity, FlatList
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
-import { headerStyles, listStyles} from './globalStyles'
+import { headerStyles, listStyles} from '../components/globalStyles'
 
 export default function BalanceScreen({navigation, route}) {
   const { group, memberList } = route.params;

@@ -3,10 +3,10 @@ import {
   FlatList, Text, View, TouchableOpacity
 } from 'react-native';
 import { Button, Input, Avatar } from 'react-native-elements';
-import { headerStyles, rowStyles, containerStyles, listStyles} from './globalStyles';
+import { headerStyles, rowStyles, containerStyles, listStyles} from '../components/globalStyles';
 import { Ionicons } from '@expo/vector-icons'; 
-import { getItemModels, resetItemModels } from './ItemModel';
-import { getGroupList } from './GroupModel';
+import { getItemModels, resetItemModels } from '../models/ItemModel';
+import { getGroupList } from '../models/GroupModel';
 
 export default function SearchScreen({navigation, route}) {
   const email = route.params.email;

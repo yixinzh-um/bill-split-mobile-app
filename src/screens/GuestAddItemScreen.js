@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import { BottomSheet, ListItem, Input, Button } from 'react-native-elements';
-import { headerStyles, rowStyles, containerStyles, detailStyles } from './globalStyles';
+import { headerStyles, rowStyles, containerStyles, detailStyles } from '../components/globalStyles';
 import { Ionicons, MaterialIcons  } from '@expo/vector-icons'; 
-import { getMemberModel } from './MemberModel';
-import { getItemModel } from './ItemModel';
+import { getGuestModel} from '../models/GuestModel';
+export default function GuestAddItemScreen({navigation, route}) {
 
-export default function ItemScreen({navigation, route}) {
-  const group = route.params.group;
-  const memberModel = getMemberModel(group);
-  const itemModel = getItemModel(group.groupId);
-
+  const guestModel = getGuestModel();
   const [itemValue, setItemValue] = useState('0');
   const [itemName, setItemName] = useState("");
-  const [payerEmail, setPayerEmail] = useState("");
+  const [payerName, setPayerName] = useState("");
   const [image, setImage] = useState(undefined);
   const [isVisible, setIsVisible] = useState(false);
-  const [memberList, setMemberList] = useState([])
+  const [userList, setUserList] = useState(guestModel.getUserList());
   const bottomList = [
     {
       title: 'Settings',
@@ -26,27 +22,24 @@ export default function ItemScreen({navigation, route}) {
       hasIcon: true,
     },
   ];
-  for (let member of memberList) {
+  for (let member of userList) {
     let content = {
-      title: member.email,
+      title: member.name,
       isSelected: false,
       onPress: () => {
-        setPayerEmail(member.email);
+        setPayerName(member.name);
+        console.log(payerName);
       }
     }
     bottomList.push(content);
   }
   useEffect(() => {
-    const memberListenerId = memberModel.addListener(() => {
-      setMemberList(memberModel.getMemberList())
+    const guestListenerId = guestModel.addListener(() => {
+      setUserList(guestModel.getUserList());
+      setImage(guestModel.image);
     });
-    const itemListenerId = itemModel.addListener(() => {
-      setImage(itemModel.image);
-    });
-
     return () => {
-      memberModel.removeListener(memberListenerId);
-      itemModel.removeListener(itemListenerId);
+      guestModel.removeListener(guestListenerId);
   };}, []);
 
 
@@ -56,13 +49,14 @@ export default function ItemScreen({navigation, route}) {
         <Ionicons
           name="arrow-back-outline" size={30} color="black"
           onPress={() => {
-            itemModel.image = undefined;
+            guestModel.image = undefined;
             navigation.goBack();
           }}/>
 
         <View style={{flex: 1}}>
           <Text style={headerStyles.title}> Add Items</Text>
         </View>
+
         <View style={{flex: 0.1}}>
           <Ionicons
             name="checkmark-outline" size={30} color="black"
@@ -73,12 +67,10 @@ export default function ItemScreen({navigation, route}) {
                 alert("The item value should be a number larger than 0");
                 setItemValue('0');
               }
-              else if (payerEmail.indexOf("@")<1) alert("Invalid Email");
-              else if (memberModel.members[payerEmail]==undefined) alert("The user is not in the group");
               else if (itemName == "")alert("The item name can't be blank")
               else {
                 setItemValue(value.toString());
-                itemModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerEmail);
+                guestModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerName);
                 navigation.goBack();
               }
             }}/>
@@ -110,7 +102,7 @@ export default function ItemScreen({navigation, route}) {
       </View>
       <View style={rowStyles.rowContent}>
         <View style={rowStyles.labelContainer}>
-          <Text style={rowStyles.labelText}>Payer Email:</Text>
+          <Text style={rowStyles.labelText}>Payer Name:</Text>
         </View>
         <Ionicons
           name="add-circle-outline" size={24} color="#007DC9"
@@ -119,7 +111,7 @@ export default function ItemScreen({navigation, route}) {
           }}
           />
         <View style={rowStyles.inputContainer}>
-          <Text style={rowStyles.inputlabelText}>{payerEmail}</Text>
+          <Text style={{fontSize: 18}}>{payerName}</Text>
         </View>
       </View>
       {image == undefined ? <View></View> 
@@ -130,9 +122,27 @@ export default function ItemScreen({navigation, route}) {
         />
       }
       <TouchableOpacity style={rowStyles.center}
-        onPress={() => {navigation.navigate('CameraScreen', {"group": group})}}>
+        onPress={() => {navigation.navigate('GuestCameraScreen')}}>
         <MaterialIcons name='photo-camera'size={32}/>
       </TouchableOpacity>
+      <Button
+        style={rowStyles.buttonContainer}
+        title='Add Item'
+        type="clear"
+        onPress={() => {
+          const value = parseFloat(parseFloat(itemValue).toFixed(2));
+          if (!(value > 0)) {
+            alert("The item value should be a number larger than 0");
+            setItemValue('0');
+          }
+          else if (guestModel.users[payerName]==undefined)alert("The user is not in the group");
+          else if (itemName == "")alert("The item name can't be blank")
+          else {
+            setItemValue(value.toString());
+            guestModel.addItem(itemName, parseFloat(parseFloat(itemValue).toFixed(2)), payerName);
+            navigation.goBack();
+          }
+        }}/>
       <BottomSheet
         isVisible={isVisible}
         containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}

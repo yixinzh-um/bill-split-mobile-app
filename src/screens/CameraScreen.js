@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
-import { getItemModel } from './ItemModel';
+import { getItemModel } from '../models/ItemModel';
 
 export default function CameraScreen({navigation, route}) {
   const [hasPermission, setHasPermission] = useState(null);
