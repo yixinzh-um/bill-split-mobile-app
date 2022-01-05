@@ -1,6 +1,7 @@
 # SpruceBook
 ## bill-split-mobile-app
 
+This is built by React Native and Expo Frameworks.
 
 **Target Audience and Needs**
 
